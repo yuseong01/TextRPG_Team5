@@ -14,24 +14,34 @@ namespace week3
 
             ConsoleKey key;
             int selectedIndex = 0;
+            bool firstDraw = true;
+            int menuStartRow = 0;
+            int separatorBottomRow = 0;
+            string separator = "====================================================================================================";
+            int separatorPadding = Math.Max(0, (Console.WindowWidth - separator.Length) / 2);
 
             while (true)
             {
-                Console.Clear();
-                AsciiArt.DarkZEB();
+                if (firstDraw)
+                {
+                    Console.Clear();
+                    ZebUI.DarkZEB();
 
-                for (int i = 0; i < 5; i++) Console.WriteLine();
+                    for (int i = 0; i < 5; i++) Console.WriteLine();
 
-                string separator = "====================================================================================================";
-                int separatorPadding = Math.Max(0, (Console.WindowWidth - separator.Length) / 2);
-                Console.SetCursorPosition(separatorPadding, Console.CursorTop);
-                Console.WriteLine(separator);
+                    Console.SetCursorPosition(separatorPadding, Console.CursorTop);
+                    Console.WriteLine(separator);
 
-                int menuStartRow = Console.CursorTop + 1;
-                int separatorBottomRow = menuStartRow + menuItems.Length * 2 + 1;
-                Console.SetCursorPosition(separatorPadding, separatorBottomRow);
-                Console.WriteLine(separator);
+                    menuStartRow = Console.CursorTop + 1;
+                    separatorBottomRow = menuStartRow + menuItems.Length * 2 + 1;
 
+                    Console.SetCursorPosition(separatorPadding, separatorBottomRow);
+                    Console.WriteLine(separator);
+
+                    firstDraw = false;
+                }
+
+                // 메뉴 출력만 업데이트
                 for (int i = 0; i < menuItems.Length; i++)
                 {
                     int row = menuStartRow + i * 2;
@@ -62,7 +72,8 @@ namespace week3
                 else if (key == ConsoleKey.Enter)
                 {
                     Console.Clear();
-                    MenuUI.SelectMenuUI(selectedIndex, player, statUI);
+                    StartMenuUI.SelectMenuUI(selectedIndex, player, statUI);
+                    firstDraw = true; // 메뉴로 돌아왔을 때 다시 전체 그림
                 }
             }
         }

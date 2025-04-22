@@ -4,7 +4,7 @@ class Program
 {
     public static void Main(string[] args)
     {
-        Player player = new Player("수민", "학생", 100f, 10f, 5f, 80, 0, 2000);
+        Player player = new Player("수민", "학생");
         PlayerStatUI statUI = new PlayerStatUI(); 
 
         GameIntroUI intro = new GameIntroUI(player, statUI); // 전달

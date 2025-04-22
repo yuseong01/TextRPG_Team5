@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace week3
 {
-    public static class AsciiArt
+    public static class ZebUI
     {
         public static void WelcomeZEB()
         {

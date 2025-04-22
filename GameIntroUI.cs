@@ -13,7 +13,7 @@
 
         public void FirstIntro() 
         {
-            AsciiArt.WelcomeZEB();
+            ZebUI.WelcomeZEB();
         }
         public void GameIntro()
         {

@@ -1,6 +1,6 @@
 ﻿namespace week3
 {
-    public class MenuUI
+    public class StartMenuUI
     {
         public static void SelectMenuUI(int index, Player player, PlayerStatUI statUI)
         {
