@@ -24,7 +24,7 @@
             if (index < 0 || index >= shop.ShopItems.Count)
             {
                 Console.WriteLine("존재하지 않는 아이템입니다.");
-                return;
+                return; 
             }
 
             Item selected = shop.ShopItems[index];

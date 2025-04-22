@@ -11,12 +11,9 @@
             this.statUI = statUI;
         }
 
-        public void FirstIntro() 
+        public void ShowGameIntroUI() 
         {
             ZebUI.WelcomeZEB();
-        }
-        public void GameIntro()
-        {
             SelectMenuUI.ShowMenu(player, statUI);
         }
     }
