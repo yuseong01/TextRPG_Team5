@@ -6,6 +6,10 @@ namespace week3
 {
     public class GameIntroUI
     {
+        //GameIntroUI intro = new GameIntroUI();
+        //intro.FirstIntro();
+        //intro.GameIntro(); 
+        //Console.ReadLine(); // 화면 유지 << 이거 전부 Main 에다가 넣으시면 됩니다.
         public void FirstIntro()
         {
             Console.Clear();
