@@ -2,7 +2,7 @@
 
 namespace week3
 {
-    public static class SelectMenu
+    public static class SelectMenuUI
     {
         public static void ShowMenu(Player player, PlayerStatUI statUI)
         {

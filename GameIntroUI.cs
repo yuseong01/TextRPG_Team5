@@ -17,7 +17,7 @@
         }
         public void GameIntro()
         {
-            SelectMenu.ShowMenu(player, statUI);
+            SelectMenuUI.ShowMenu(player, statUI);
         }
     }
 }
