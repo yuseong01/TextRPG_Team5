@@ -15,6 +15,9 @@
 
         public int ZebCoin { get; private set; }
         public int Gold { get; private set; }
+        
+        //인벤토리
+        private Inventory inventory = new Inventory();
 
         // 생성자에서 이름과 직업만 설정
         public Player(string name, string job)
