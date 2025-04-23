@@ -27,15 +27,17 @@ namespace week3
 
 
         // 생성자 (Constructor)
-        public Monster(string name, MonsterType type , string question, string CorrectAnswer, int maxHealth= 100, int attackPower = 10 ) //수정중
+        public Monster(string name, MonsterType type , string question, string correctAnswer, int maxHealth= 100, int attackPower = 10, int defense = 5, int expReward = 20 ) //수정중
         {
             Name = name;
             Type = type;
             Question = question;
             MaxHealth = maxHealth;
+            CurrentHealth = maxHealth;
             AttackPower = attackPower;
-            Defense = Defense;
-            CorrectAnswer = CorrectAnswer; 
+            Defense = defense;
+            ExperienceReward = expReward;
+            CorrectAnswer = correctAnswer; 
         }
 
         // 몬스터 서브클래스
@@ -44,14 +46,14 @@ namespace week3
         public class NormalMonster : Monster
         {
             public NormalMonster(string question, string correctAnswer)
-                :base("노말 몬스터", MonsterType.Normal, question, correctAnswer) { }
+                :base("노말 몬스터", MonsterType.Normal, question, correctAnswer, maxHealth: 80, attackPower: 8, defense: 3, expReward: 15) { }
         }
 
         // 하드 몬스터 (수정중)
         public class HardMonster : Monster
         {
             public HardMonster(string question, string correctAnswer)
-                :base("하드 몬스터", MonsterType.Hard, question, correctAnswer) { }
+                :base("하드 몬스터", MonsterType.Hard, question, correctAnswer, maxHealth: 150, attackPower: 15, defense: 8, expReward: 30) { }
         }        
     }
 }
