@@ -3,17 +3,15 @@
     public  class GameManager
     {
         Player player;
-        PlayerStatUI statUI;
-        GameIntroUI intro;
+        UIManager _uiManager;
         public GameManager() 
         {
             player = new Player("수민", "학생");
-            statUI = new PlayerStatUI();
-            intro = new GameIntroUI(player, statUI);
+            _uiManager = new UIManager();
         }
         public void GameStart() 
         {
-            intro.ShowGameIntroUI();
+            _uiManager.ShowGameIntroUI();
             Console.ReadLine(); // 화면 유지
         }
     }
