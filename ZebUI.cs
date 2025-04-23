@@ -95,7 +95,7 @@ namespace week3
             int noiseHeight = 70;
             int asciiStartY = (noiseHeight - specialAscii.Length) / 8;
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 4; i++)
             {
                 Console.SetCursorPosition(0, 0);
 
@@ -122,7 +122,7 @@ namespace week3
                     }
                 }
 
-                Thread.Sleep(20);
+                Thread.Sleep(50);
                 Console.Clear();
                 Thread.Sleep(300);
             }
