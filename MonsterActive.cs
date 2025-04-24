@@ -14,10 +14,10 @@ namespace week3
     {
         protected Monster monster; // 연결된 몬스터 객체
         protected bool lastAnswerCorrect; // 마지막 정답 여부 기록
-        
+
         private Timer timer; // 타이머 객체 (Timer timer을 할 경우 C#에서는 여러 종류의 Timer가 존재하고 있기 때문에 컴파일 에러가 발생한다.)
         private bool timeOver = false; // 시간 초과 여부
-        
+
         public MonsterActive(Monster monster)
         {
             this.monster = monster;
@@ -70,10 +70,7 @@ namespace week3
             timer.Stop(); // 타이머 중지
 
             // 시간 초과 여부 확인
-            if (timeOver)
-            {
-                input = ""; // 빈 문자열로 처리
-            }
+            if (timeOver) input = "";// 빈 문자열로 처리
 
             // 정답 판별
             lastAnswerCorrect = (input == monster.CorrectAnswer);
@@ -81,7 +78,19 @@ namespace week3
             if (lastAnswerCorrect)
             {
                 Console.WriteLine("정답입니다! 몬스터를 물리쳤습니다.");
-                Player.GainExperience(monster.ExperienceReward); // 플레이어에서 메서드 생성 해줘야함 [개인 골드] 임시파일 생성
+                int zebReward = new Random().Next(10, 31);
+                player.AddZebCoin(zebReward);
+
+                int goldReward = new Random().Next(100, 301);
+                player.AddGold(goldReward);
+
+                if (new Random().Next(0, 100) <= 30)
+                {
+                    string[] commonItems = { };
+                    string randomItem = commonItems[new Random().Next(commonItems.Length)];
+                    player.AddItem(randomItem);
+                }
+                //Player.GainExperience(monster.ExperienceReward); // 플레이어에서 메서드 생성 해줘야함 [개인 골드] 임시파일 생성
             }
             else
             {
@@ -92,18 +101,13 @@ namespace week3
                 {
                     case MonsterType.Normal:
                         Console.WriteLine("노말 몬스터의 기본 공격!");
-                        Player.TakeDamage(monster.AttackPower);
-                        break;
-                    case MonsterType.Hard:
-                        Console.WriteLine("하드 몬스터의 강한 정신 공격!");
-                        Player.TakeDamage(monster.AttackPower * 2);
+                        player.TakeDamage(monster.AttackPower);
                         break;
 
-                        if (!lastAnswerCorrect)
-                        {
-                            Console.WriteLine("> 정신력이 10 감소했습니다! (하드몬 특수효과");
-                            Player.ReduceMentalHealth(10);
-                        }
+                    case MonsterType.Hard:
+                        Console.WriteLine("하드 몬스터의 강한 정신 공격!");
+                        player.TakeDamage(monster.AttackPower * 2);
+                        player.ReduceSpirit(10); // ReducementalHealth -> ReduceSpirit으로 변경
                         break;
 
                     default:
@@ -118,13 +122,9 @@ namespace week3
         // 일반 몬스터 전용
         public class NormalMonsterActive : MonsterActive
         {
-            public NormalMonsterActive(Monster monster) : base(monster) { }
-            public void AttackPlayer(Player player)
-            {
-                base.AttackPlayer(player);
-                // 추가 효과가 있다면 여기 구현
-            }
+            public NormalMonsterActive(Monster monster) : base(monster) { }  
         }
+
 
         // 하드 몬스터 전용
         public class HardMonsterActive : MonsterActive
@@ -133,10 +133,15 @@ namespace week3
             public new void AttackPlayer(Player player)
             {
                 base.AttackPlayer(player);
-                if(!lastAnswerCorrect)
+                if (!lastAnswerCorrect)
                 {
-                    Console.WriteLine("정신력이 깎입니다! (하드몬 특수효과)");
-                    // 플레이어 체력 깎는 코드
+                    base.AttackPlayer(player);        
+                    if (!lastAnswerCorrect)
+                    {
+                        Console.WriteLine("정신력이 깎입니다! (하드몬 특수효과");
+                        player.ReduceSpirit(1);
+                    }
+                    // 플레이어 정신력 깎는 코드
                 }
             }
         }

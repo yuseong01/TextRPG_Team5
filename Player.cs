@@ -31,5 +31,43 @@
             ZebCoin = 0;
             Gold = 2000;
         }
+
+
+        // 보상 시스템 추가
+
+        public void AddZebCoin(int amount)
+        {
+            ZebCoin += amount;
+            Console.WriteLine($"[시스템] {Name}의 ZebCoin이 {amount} 증가! (현재 : {ZebCoin})");
+        }
+
+        public void AddGold(int amount)
+        {
+            Gold += amount;
+            Console.WriteLine($"[시스템] {Name}의 Gold가 {amount} 증가! (현재: {Gold})");
+        }
+
+        // 아이템 보상 시스템 추가 
+        // itemName CS1503 오류 (타입 불일치) 로 인한 주석처리 -> Inventory 클래스가 Item 객체를 요구하도록 설계되었으나 문자열 전달
+        public void AddItem(string itemName)
+        {
+            //inventory.AddItem(itemName);
+            //Console.WriteLine($"[획득] {itemName}을(를) 얻었습니다!");
+        }
+
+        // 몬스터 데미지
+
+        public void TakeDamage(float damage)
+        {
+            float reducedDamage = damage - Def;
+            HP -= Math.Max(1, reducedDamage); //최소 1 데미지
+            Console.WriteLine($"[전투] {Name}이(가) {Math.Max(1, reducedDamage)} 데미지 입음 (HP: {HP})");
+        }
+
+        public void ReduceSpirit(float amount)
+        {
+            Spirit -= amount;
+            Console.WriteLine($"[전투] {Name}의 정신력 - {amount} (현재: {Spirit})");
+        }
     }
 }
