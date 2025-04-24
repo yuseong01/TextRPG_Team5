@@ -7,8 +7,9 @@ namespace week3
     public class BossMonster_Skill
     {
         public string Name { get; set; }
+        public int Damage { get; set; }
         public BossSkillType Type { get; set; }
-        public List<string> HintDialogue { get; set; } = new List<string>(); // 랜덤 대사를 위한 리스트화
+        public List<string> HintDialogue { get; set; } = new List<string>();
         public List<string> MainDialogue { get; set; } = new List<string>();
         public List<string> SuccessDialogue { get; set; } = new List<string>();
         public List<string> FailDialogue { get; set; } = new List<string>();
@@ -18,7 +19,7 @@ namespace week3
         Normal,
         Skill
     }
-    public class BossMonster_Data // 보스 몬스터 구조체
+    public class BossMonster_Data
     {
         public string Name { get; set; }
         public int Atk { get; set; }
@@ -52,8 +53,9 @@ namespace week3
         public bool IsBossDead { get; set; }
 
         public bool IsNextSkill { get; set; }
-        public BossMonster_Skill? NextSkillHint { get; set; }
+        public BossMonster_Skill? NextSkill { get; set; }
         public List<BossMonster_Skill> Skills { get; set; } = new List<BossMonster_Skill>();
+        public BossMonster_Data() { }
         public BossMonster_Data(string name, int atk, int def, int hp, int spi, int crt, int eva, int pointreward) // 보스 몬스터 생성자
         {
             Name = name;
@@ -67,7 +69,11 @@ namespace week3
             Evasion = eva;
             PointReward = pointreward;
         }
-        public BossMonster_Data(BossMonster_Data original) // 데이터 복사용 생성자
+        public BossMonster_Data(BossMonster_Data original) 
+        {
+            CopyFrom(original);
+        }
+        public void CopyFrom(BossMonster_Data original) // 데이터 복사용 생성자
         {
             Name = original.Name;
             Atk = original.Atk;
@@ -81,7 +87,7 @@ namespace week3
             PointReward = original.PointReward;
             IsBossDead = original.IsBossDead;
             IsNextSkill = original.IsNextSkill;
-            NextSkillHint = original.NextSkillHint;
+            NextSkill = original.NextSkill;
             Skills = new List<BossMonster_Skill>(original.Skills);
         }
 
@@ -99,7 +105,7 @@ namespace week3
             var zoom = BossMonsterData["한효승 매니저"];
 
             // 기본공격 1
-            var normalAtk1 = new BossMonster_Skill { Name = "존재 검사", Type = BossSkillType.Normal };
+            var normalAtk1 = new BossMonster_Skill { Name = "존재 검사", Damage = 10, Type = BossSkillType.Normal };
             normalAtk1.HintDialogue.Add("매니저의 눈이 좌우로 빠르게 움직이며 입술이 일그러진다.");
             normalAtk1.MainDialogue.AddRange(new[]
             {
