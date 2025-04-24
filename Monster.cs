@@ -38,19 +38,19 @@ namespace week3
             ExperienceReward = expReward;
             CorrectAnswer = correctAnswer; 
         }
-   
-        // 일반 몬스터
-        public class NormalMonster : Monster
-        {
-            public NormalMonster(string question, string correctAnswer)
-                :base("노말 몬스터", MonsterType.Normal, question, correctAnswer, maxHealth: 80, attackPower: 8, defense: 3, expReward: 15) { }
-        }
 
-        // 미믹 몬스터 
-        public class HardMonster : Monster
-        {
-            public HardMonster(string question, string correctAnswer)
-                :base("하드 몬스터", MonsterType.Hard, question, correctAnswer, maxHealth: 150, attackPower: 15, defense: 8, expReward: 30) { }
-        }        
+        //// 일반 몬스터
+        //public class NormalMonster : Monster
+        //{
+        //    public NormalMonster(string question, string correctAnswer)
+        //        : base("노말 몬스터", MonsterType.Normal, question, correctAnswer, maxHealth: 80, attackPower: 8, defense: 3, expReward: 15) { }
+        //}
+
+        //// 미믹 몬스터 
+        //public class HardMonster : Monster
+        //{
+        //    public HardMonster(string question, string correctAnswer)
+        //        : base("하드 몬스터", MonsterType.Hard, question, correctAnswer, maxHealth: 150, attackPower: 15, defense: 8, expReward: 30) { }
+        //}
     }
 }
