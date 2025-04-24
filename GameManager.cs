@@ -1,4 +1,6 @@
-﻿namespace week3
+﻿using static week3.UIManager;
+
+namespace week3
 {
     public  class GameManager
     {
