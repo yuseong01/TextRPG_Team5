@@ -9,9 +9,11 @@ using week3;
 using Timer = System.Timers.Timer;
 namespace week3
 {
+
     // 몬스터의 전투 행동을 관리하는 클래스
     class MonsterActive
     {
+
         protected Monster monster; 
         protected bool lastAnswerCorrect; 
 
@@ -103,7 +105,7 @@ namespace week3
                         player.TakeDamage(monster.AttackPower);
                         break;
 
-                    case MonsterType.Hard:
+                    case MonsterType.Mimic:
                         Console.WriteLine("하드 몬스터의 강한 정신 공격!");
                         player.TakeDamage(monster.AttackPower * 2);
                         player.ReduceSpirit(10);
