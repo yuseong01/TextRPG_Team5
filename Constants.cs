@@ -74,5 +74,31 @@ public static class Constants
         "                                                                             ",
         "                                                                             "
     };
-    
+
+    public static readonly List<string[]> INTRO_STORY_PAGES = new List<string[]>
+    {
+        new string[] { " ", ". . .", " " },
+        new string[] { " ", ". . . ?", " " },
+        new string[] { "'누구지...?'", " ", "진동 소리에 잠에서 깨어 일어났다..." },
+        new string[] { "창문 틈 사이로 내리쬐는 햇빛과,", " ", "지저귀는 새소리가 귀를 뚫고 들려왔다.", " ", "아침인가...?" },
+        new string[] { "눈이 반쯤 감긴 상태로", " ", "휴대전화를 찾으려 손을 더듬거렸다..." },
+        new string[] { " ", ". . . ?!!!!", " " },
+        new string[] { "매니저님의 부재중 전화 한 건이", " ", "최근목록에 표시되었다.." },
+        new string[] { "'아 참! 9시까지 ZEP에 접속해야하는데..'", " ", "급히 몸을 일으키고", " ", "어제 깜빡하고 잠에 들어", " ", "미처 꺼두질 못한 컴퓨터를 확인했다.." }
+    };
+
+    public static readonly string[] TEAM_INTRO = new string[]
+    {
+        "===========================[5조 팀 프로젝트 TextRPG]===========================",
+        " ",
+        "팀원 1 : 장 유 성 / GitHub 관리 및 Map 구현 Sub",
+        " ",
+        "팀원 2 : 조 은 서 / Monster 및 전투 담당",
+        " ",
+        "팀원 3 : 김 수 민 / UI 및 사운드, 연출 담당",
+        " ",
+        "팀원 4 : 안 홍 현 / Monster 및 전투 담당",
+        " ",
+        "팀원 5 : 유 채 영 / Map 구현 Main"
+    };
 }
