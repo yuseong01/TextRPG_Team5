@@ -5,7 +5,7 @@ namespace week3
     public class SoundManager
     {
         // ========================================
-        // 🔊 타자기 사운드용 재생 콘터럴러
+        // 🔊 타자기 사운드용 재생 컨트롤러
         // ========================================
         private IWavePlayer? typingPlayer;
         private AudioFileReader? typingAudio;
@@ -197,7 +197,7 @@ namespace week3
         }
 
         // ========================================
-        // 🔁 배경음 루프 재생 콘터럴 (intro, noise, etc.)
+        // 🔁 배경음 루프 재생 컨트롤러 (intro, noise, etc.)
         // ========================================
         private IWavePlayer? loopPlayer;
         private WaveStream? loopAudio;

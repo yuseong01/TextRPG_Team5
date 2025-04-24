@@ -50,9 +50,10 @@ namespace week3
                 ShowEnterPrompt();
                 while (Console.KeyAvailable) Console.ReadKey(true);
             }
-
+            _soundManager.StopCurrentLoop(); //임시로 horror.wav 2번 재생 방지
             _soundManager.StopBirdSound();
         }
+
 
         //다음으로 넘어가는 문구
         private void ShowEnterPrompt()

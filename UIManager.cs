@@ -1,9 +1,15 @@
 ﻿using week3;
+using System;
+using System.Threading;
+using System.Linq;
+
 namespace week3
 {
     public class UIManager
     {
         private SoundManager _soundManager = new SoundManager();
+        private Thread? flickerThread;
+        private bool isFlickering = false;
 
         // ========================================
         // 🎬 게임 인트로 UI 컨트롤러
@@ -24,7 +30,7 @@ namespace week3
             Console.SetBufferSize(120, 40);
             Console.SetWindowSize(120, 40);
             Console.CursorVisible = false;
-            _soundManager.PlayLoop("welcomeZEB.wav"); // 🎵 인트로 음악 시작
+            _soundManager.PlayLoop("welcomeZEB.wav");
 
             for (int i = 0; i < 5; i++) Console.WriteLine();
 
@@ -49,24 +55,72 @@ namespace week3
 
             for (int i = 0; i < 2; i++) Console.WriteLine();
 
+            for (int flash = 0; flash < 3; flash++)
+            {
+                Console.Clear();
+                Thread.Sleep(100);
 
+                int startY = (Console.WindowHeight - Constants.WELCOME_ZEB_STRING.Length) / 2;
+                for (int i = 0; i < Constants.WELCOME_ZEB_STRING.Length; i++)
+                {
+                    string line = Constants.WELCOME_ZEB_STRING[i];
+                    int padding = Math.Max(0, (Console.WindowWidth - line.Length) / 2);
+                    Console.SetCursorPosition(padding, startY + i - 9);
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.WriteLine(line);
+                }
+
+                Console.ResetColor();
+                Thread.Sleep(100);
+            }
 
             int introStartY = (Console.WindowHeight / 2) - (Constants.TEAM_INTRO.Length / 2);
-            Console.ForegroundColor = ConsoleColor.White;
 
             for (int i = 0; i < Constants.TEAM_INTRO.Length; i++)
             {
                 string line = Constants.TEAM_INTRO[i];
                 int paddingX = Math.Max(0, (Console.WindowWidth - _uiStoryText.GetVisualWidth(line)) / 2);
                 int paddingY = introStartY + i + 3;
-
                 Console.SetCursorPosition(paddingX, paddingY);
+
+                if (line.Contains("5조 팀 프로젝트 TextRPG"))
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                else
+                    Console.ForegroundColor = ConsoleColor.White;
+
                 Console.WriteLine(line);
                 Thread.Sleep(500);
             }
 
             Console.ResetColor();
+            Console.Clear();
+
+            _soundManager.StopCurrentLoop();
+            _soundManager.PlayLoop("electric.wav");
+            int logoStartY = (Console.WindowHeight / 2) - (Constants.FINAL_LOGO.Length / 2);
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            for (int i = 0; i < Constants.FINAL_LOGO.Length; i++)
+            {
+                string line = Constants.FINAL_LOGO[i];
+                int paddingX = Math.Max(0, (_uiStoryText.GetVisualWidth(line) - line.Length) > 0
+                    ? (Console.WindowWidth - _uiStoryText.GetVisualWidth(line)) / 2
+                    : (Console.WindowWidth - line.Length) / 2);
+                int lineY = logoStartY + i;
+                Console.SetCursorPosition(paddingX, lineY);
+                Console.WriteLine(line);
+                Thread.Sleep(50);
+                Console.SetCursorPosition(paddingX, lineY);
+                Console.Write(new string(' ', line.Length));
+                Thread.Sleep(50);
+                Console.SetCursorPosition(paddingX, lineY);
+                Console.WriteLine(line);
+                Thread.Sleep(30);
+            }
+
+            Console.ResetColor();
             Thread.Sleep(1000);
+
             _soundManager.StopCurrentLoop();
             _soundManager.PlayLoop("noise.wav");
 
@@ -109,9 +163,8 @@ namespace week3
             Console.ResetColor();
         }
 
-
         // ========================================
-        // 🌒 어두운 ZEB 텍스트
+        // 🌒 어두운 ZEB 텍스트 (노이즈 효과 포함)
         // ========================================
         public void PrintDarkZEBUI()
         {
@@ -119,18 +172,87 @@ namespace week3
             Console.SetBufferSize(120, 40);
             Console.SetWindowSize(120, 40);
             _soundManager.PlayLoop("intro.wav");
-            for (int i = 0; i < 5; i++) Console.WriteLine();
 
-            Console.ForegroundColor = ConsoleColor.Red;
-            foreach (string line in Constants.DARK_ZEB_STRING)
+            int startY1 = 5;
+            int startY2 = startY1 + Constants.DARK_ZEB_STRING.Length + 1;
+            int startY3 = startY2 + Constants.DARK_ZEB_STRING2.Length - 1;
+
+            // 지지직 루프
+            StartFlickerLoop(Constants.DARK_ZEB_STRING, startY1, new[] { 1000, 500, 1000, 500, 500, 300, 400, 200, 1000 });
+            StartFlickerLoop(Constants.DARK_ZEB_STRING2, startY2, new[] { 2000, 500, 2000, 500, 500, 300, 400, 200, 2000 });
+            StartFlickerLoop(Constants.DARK_ZEB_STRING3, startY3, new[] { 3000, 500, 3000, 500, 500, 300, 400, 200, 1000 });
+        }
+
+        private void StartFlickerLoop(string[] lines, int startY, int[] delays)
+        {
+            new Thread(() =>
             {
+                while (true)
+                {
+                    FlickerPattern(lines, startY, delays); // 깜빡
+                    PrintAscii(lines, startY);              // 고정 출력
+                    Thread.Sleep(1500);                     // 잠깐 멈춤 후 반복
+                }
+            })
+            {
+                IsBackground = true
+            }.Start();
+        }
+        private void PrintAscii(string[] lines, int startY)
+        {
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
                 int padding = Math.Max(0, (Console.WindowWidth - line.Length) / 2);
-                Console.SetCursorPosition(padding, Console.CursorTop);
+                Console.SetCursorPosition(padding, startY + i);
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(line);
+            }
+        }
+
+
+
+        private void FlickerPattern(string[] lines, int startY, int[] delays)
+        {
+            ConsoleColor color = ConsoleColor.Red;
+            int maxY = Console.WindowHeight - 8;
+
+            foreach (int delay in delays)
+            {
+                // 출력 단계
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    int y = startY + i;
+                    if (y >= maxY) break;
+
+                    string line = lines[i];
+                    int paddingX = Math.Max(0, (Console.WindowWidth - line.Length) / 2);
+
+                    Console.SetCursorPosition(0, y);
+                    Console.Write(new string(' ', Console.WindowWidth)); // 먼저 지우고
+                    Console.SetCursorPosition(paddingX, y);
+                    Console.ForegroundColor = color;
+                    Console.Write(line);
+                }
+
+                Thread.Sleep(delay);
+
+                // 클리어 단계
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    int y = startY + i;
+                    if (y >= maxY) break;
+
+                    Console.SetCursorPosition(0, y);
+                    Console.Write(new string(' ', Console.WindowWidth)); // 전체 라인 클리어
+                }
+
                 Thread.Sleep(50);
             }
-            Console.ResetColor();
         }
+
+
+
 
 
         // ========================================
@@ -138,6 +260,9 @@ namespace week3
         // ========================================
         public void ShowMenu()
         {
+            PrintDarkZEBUI();
+            Thread.Sleep(200); // 타이밍 보정용 짧은 딜레이
+
             string[] menuItems = {
                 "1. 게임 시작",
                 "2. 시스템 설정",
@@ -147,7 +272,7 @@ namespace week3
             ConsoleKey key;
             int selectedIndex = 0;
             bool firstDraw = true;
-            int menuStartRow = 0;
+            int menuStartRow = 23; // ✅ Y값 충분히 아래로 조정
             int separatorBottomRow = 0;
             string separator = new string('=', 100);
             int separatorPadding = Math.Max(0, (Console.WindowWidth - separator.Length) / 2);
@@ -156,20 +281,18 @@ namespace week3
             {
                 if (firstDraw)
                 {
-                    Console.Clear();
-                    PrintDarkZEBUI();
+                    Console.ForegroundColor = ConsoleColor.White;
 
-                    for (int i = 0; i < 5; i++) Console.WriteLine();
-
-                    Console.SetCursorPosition(separatorPadding, Console.CursorTop);
+                    // 상단 구분선
+                    Console.SetCursorPosition(separatorPadding, menuStartRow - 2);
                     Console.WriteLine(separator);
 
-                    menuStartRow = Console.CursorTop + 1;
+                    // 하단 구분선
                     separatorBottomRow = menuStartRow + menuItems.Length * 2 + 1;
-
                     Console.SetCursorPosition(separatorPadding, separatorBottomRow);
                     Console.WriteLine(separator);
 
+                    Console.ResetColor();
                     firstDraw = false;
                 }
 
@@ -177,7 +300,7 @@ namespace week3
                 {
                     int row = menuStartRow + i * 2;
                     Console.SetCursorPosition(0, row);
-                    Console.Write(new string(' ', Console.WindowWidth));
+                    Console.Write(new string(' ', Console.WindowWidth)); // 기존 텍스트 삭제
 
                     int itemPadding = Math.Max(0, (Console.WindowWidth - menuItems[i].Length - 2) / 6);
                     Console.SetCursorPosition(itemPadding, row);
@@ -190,7 +313,9 @@ namespace week3
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.White;
                         Console.Write($"  {menuItems[i]}");
+                        Console.ResetColor();
                     }
                 }
 
@@ -215,6 +340,7 @@ namespace week3
             }
         }
 
+
         // ========================================
         // 🧭 선택한 메뉴 동작 처리
         // ========================================
@@ -224,6 +350,7 @@ namespace week3
             {
                 case 0:
                     Console.Clear();
+                    _soundManager.StopCurrentLoop();
                     StoryText storyText = new StoryText(this);
                     storyText.IntroText();
                     Console.ReadKey();
