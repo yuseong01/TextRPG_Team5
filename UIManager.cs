@@ -12,7 +12,11 @@
         public void WelcomeZEB()
         {
             Console.Clear();
-            //Console.OutputEncoding = Encoding.UTF8;
+
+            //SCARED_FACE 아스키코드 깨짐방지
+            Console.OutputEncoding = System.Text.Encoding.UTF8; 
+
+            //콘솔창 사이즈 조정
             Console.SetWindowSize(120, 40);
             Console.SetBufferSize(120, 40);
             Console.CursorVisible = false;
@@ -40,11 +44,12 @@
             Thread.Sleep(300);
 
             Random rnd = new Random();
-            
+
+            //SCARED_FACE 연출 효과
             int noiseHeight = 70;
             int asciiStartY = (noiseHeight - Constants.SCARED_FACE_STRING.Length) / 8;
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 6; i++)
             {
                 Console.SetCursorPosition(0, 0);
 
@@ -71,7 +76,7 @@
                     }
                 }
 
-                Thread.Sleep(50);
+                Thread.Sleep(20);
                 Console.Clear();
                 Thread.Sleep(300);
             }
@@ -196,7 +201,75 @@
                     break;
             }
         }
-        
+
+        public static class _uiStoryText //텍스트 세팅에 관한 설계도
+        {
+            // 텍스트 시작 설정
+            public static void BeginTextSet()
+            {
+                Console.OutputEncoding = System.Text.Encoding.UTF8;
+                Console.SetWindowSize(120, 40);
+                Console.SetBufferSize(120, 40);
+                Console.Clear();
+            }
+
+            // 텍스트 종료 입력 대기
+            public static void EndTextSet()
+            {
+                Thread.Sleep(1000);
+                string pressKeyMsg = "아무 키나 누르세요...";
+                int msgX = (Console.WindowWidth - GetVisualWidth(pressKeyMsg)) / 2;
+                int msgY = Console.WindowHeight - 3;
+                Console.SetCursorPosition(msgX, msgY);
+                Console.WriteLine(pressKeyMsg);
+                Console.ReadKey();
+            }
+            // 타자기 효과
+            public static void TypeEffect(string text, int delay = 50, ConsoleColor color = ConsoleColor.White)
+            {
+                Console.ForegroundColor = color;
+                foreach (char c in text)
+                {
+                    Console.Write(c);
+                    Thread.Sleep(delay);
+                }
+                Console.ResetColor();
+            }
+
+            // 시각적 폭 계산 (한글 2폭 처리)
+            public static int GetVisualWidth(string text)
+            {
+                int width = 0;
+                foreach (char c in text)
+                {
+                    //한글 유니코드 범위
+                    width += (c >= 0xAC00 && c <= 0xD7A3) ? 2 : 1;
+                }
+                return width;
+            }
+
+            // 여러 줄 텍스트를 중앙 정렬 + 타자기 효과
+            public static void TypeEffectCenteredLines(string[] lines, int delay = 50, ConsoleColor color = ConsoleColor.White)
+            {
+                Console.ForegroundColor = color;
+                int startY = (Console.WindowHeight - lines.Length) / 3;
+
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    string line = lines[i];
+                    int centerX = (Console.WindowWidth - GetVisualWidth(line)) / 2;
+                    int posY = startY + i;
+
+                    Console.SetCursorPosition(centerX, posY);
+                    foreach (char c in line)
+                    {
+                        Console.Write(c);
+                        Thread.Sleep(delay);
+                    }
+                }
+                Console.ResetColor();
+            }
+        }
         //플레이어 UI
         public void ShowStatus(Player player)
         {
