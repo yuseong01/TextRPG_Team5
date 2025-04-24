@@ -42,14 +42,14 @@ namespace week3
 
         // 몬스터 서브클래스
         
-        // 일반 몬스터 (수정중)
+        // 일반 몬스터 (수정중) 마주치면 문제 냄
         public class NormalMonster : Monster
         {
             public NormalMonster(string question, string correctAnswer)
                 :base("노말 몬스터", MonsterType.Normal, question, correctAnswer, maxHealth: 80, attackPower: 8, defense: 3, expReward: 15) { }
         }
 
-        // 하드 몬스터 (수정중)
+        // 하드 몬스터 (수정중) 미믹 
         public class HardMonster : Monster
         {
             public HardMonster(string question, string correctAnswer)
