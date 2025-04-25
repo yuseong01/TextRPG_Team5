@@ -26,9 +26,7 @@ namespace week3
             "Console.WriteLine()에서 CS1002 발생.즉시, 해결.바람.",
             correctAnswer: ";",
             maxHealth: 50,
-            attackPower: 5,
-            expReward: 10
-             
+            attackPower: 5
             ));
 
             normalMonsters.Add(new Monster(
@@ -42,8 +40,8 @@ namespace week3
             "알려주세요. 알려. 주■※§?",
             correctAnswer: "protected",
             maxHealth: 50,
-            attackPower: 5,
-            expReward: 10
+            attackPower: 5
+
 
             ));
             normalMonsters.Add(new Monster(
@@ -65,9 +63,7 @@ namespace week3
             "답안 예시 : ㅇㅇ -> ㅇㅇ",
             correctAnswer: "FindNumberOptimized -> FindNumber",
             maxHealth: 50,
-            attackPower: 5,
-            expReward: 10
-
+            attackPower: 5
             ));
             normalMonsters.Add(new Monster(
             name: "{name}?",
@@ -78,12 +74,9 @@ namespace week3
             "난 주로 두 값이 다를 때 true .. . 난 누구야 ..? ",
             correctAnswer: "!=",
             maxHealth: 50,
-            attackPower: 5,
-            expReward: 10
-
-
-            // 미믹 몬스터
+            attackPower: 5
             ));
+            // 미믹 몬스터
             normalMonsters.Add(new Monster(
             name: "ZebC□in",
             type: MonsterType.Hard,
@@ -93,9 +86,7 @@ namespace week3
             "Array.Sort(arr); 을 하면 arr은 어떻게 정렬이. 되나.요? ",
             correctAnswer: "1, 2, 3, 4, 5",
             maxHealth: 50,
-            attackPower: 5,
-            expReward: 10
-
+            attackPower: 5
             ));
             normalMonsters.Add(new Monster(
             name: "{message}",
@@ -107,9 +98,7 @@ namespace week3
             "-> 알맞은 답을 입력 해주세요.",
             correctAnswer: "오버라이딩",
             maxHealth: 50,
-            attackPower: 5,
-            expReward: 10
-
+            attackPower: 5
             ));
             normalMonsters.Add(new Monster(
             name: "1",
@@ -117,9 +106,7 @@ namespace week3
             question: "",
             correctAnswer: "",
             maxHealth: 50,
-            attackPower: 5,
-            expReward: 10
-
+            attackPower: 5
             ));
             normalMonsters.Add(new Monster(
             name: "2",
@@ -127,9 +114,7 @@ namespace week3
             question: "",
             correctAnswer: "",
             maxHealth: 50,
-            attackPower: 5,
-            expReward: 10
-
+            attackPower: 5
             ));
         }
 

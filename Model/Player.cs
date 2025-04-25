@@ -60,14 +60,13 @@
             Console.WriteLine($"[시스템] {Name}의 Gold가 {value}G 감소! (현재: {Gold})");
         }
 
-        //스탯 증가 메서드
-
+        //스탯 감소 메서드
         public void TakeDamage(int amount)
         {
             Hp -= amount;
         }
 
-        //스탯 감소 메서드
+        //스탯 증가 메서드
         public void Heal(int amount)
         {
             Hp += amount;

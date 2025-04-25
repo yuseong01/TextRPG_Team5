@@ -97,7 +97,7 @@ namespace week3
             }
             else
             {
-                Console.WriteLine("오답임니다! 몬스터가 공격합니다!");
+                Console.WriteLine("오답입니다! 몬스터가 공격합니다!");
 
                 switch (monster.Type)
                 {
