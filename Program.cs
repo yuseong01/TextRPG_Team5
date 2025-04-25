@@ -4,8 +4,8 @@ class Program
 {
     public static void Main(string[] args)
     {
-        Map1 map1 = new Map1();
-        map1.Draw();
+        TEST test = new TEST();
+        test.Draw();
         //GameManager gameManager = new GameManager();
         //gameManager.GameStart();
         //UI테스트 용이라 주석처리 (지우지마시오)

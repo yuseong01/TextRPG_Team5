@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace week3
 {
-    internal class Map1
+    internal class TEST
     {
         string art = @"
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -92,8 +92,9 @@ namespace week3
 
         public void Draw()
         {
-            Console.WriteLine(art1);
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.WriteLine(art);
         }
+
     }
-    
 }
