@@ -14,7 +14,7 @@ namespace week3
         public string Type { get; private set; }
         public int Point {  get; private set; }
 
-        static Dictionary<string, item_ahh> ItemData = new Dictionary<string, item_ahh>() // 아이템 데이터
+        public static Dictionary<string, item_ahh> ItemData = new Dictionary<string, item_ahh>() // 아이템 데이터
         {
             { "캠 수리", new item_ahh {Name = "캠 수리", Description = "ZEP에서 참여할 때 화면을 보여주는 웹캠이다.\n사용 시 1턴동안 캠을 수리하여 켤 수 있다.", Type = "공격", Point = 0} },
             { "마이크 수리", new item_ahh {Name = "마이크 수리", Description = "ZEP에서 참여할 때 목소리를 송출하는 마이크다.\n사용 시 1턴동안 마이크를 수리하여 켤 수 있다.", Type = "공격", Point = 0} },
@@ -23,7 +23,8 @@ namespace week3
             { "TIL", new item_ahh {Name = "TIL", Description = "이 곳에서 있었던 일을 꼭 남겨야 한다. 같은 처지를 겪을지도 모르는 이를 위해...", Type = "기타", Point = 0} },
             { "구글폼", new item_ahh {Name = "구글폼", Description = "그들의 부름에 대답해야만 한다.", Type = "기타", Point = 0} },
             { "캠 발광", new item_ahh {Name = "캠 발광", Description = "ZEP에서 참여할 때 화면을 보여주는 웹캠에서 강한 빛을 발광시킨다.", Type = "공격", Point = 0} },
-            { "소음", new item_ahh {Name = "소음", Description = "ZEP에서 참여할 때 목소리를 송출하는 마이크에서 엄청난 크기의 소음을 발생시킨다.", Type = "공격", Point = 0} }
+            { "소음", new item_ahh {Name = "소음", Description = "ZEP에서 참여할 때 목소리를 송출하는 마이크에서 엄청난 크기의 소음을 발생시킨다.", Type = "공격", Point = 0} },
+            { "회복약", new item_ahh {Name = "회복약 (TEST)", Description = "테스트용 회복 아이템", Type = "회복", Point = 0} }
         };
     }
 }
