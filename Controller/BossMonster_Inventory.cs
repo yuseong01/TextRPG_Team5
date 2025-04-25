@@ -54,12 +54,12 @@ namespace week3
                 }
             }
         }
-        public static void BattleItemMenu(Player player, InventoryManager inventory, ref bool isAttackItemUsed)
+        public void BattleItemMenu(bool isAttackItemUsed)
         {
             while (true)
             {
                 // 회복 아이템만 필터링
-                var recoveryItems = item_ahh.ItemData
+                var recoveryItems = inventory.ItemData
                     .Where(kvp => kvp.Value.Type != "회복") //&& inventory.Items.Any(invItem => invItem.Name == kvp.Key))
                     .ToList();
 
@@ -86,6 +86,7 @@ namespace week3
                     var item = recoveryItems[selected - 1].Value;
                     Console.WriteLine($"{item.Name}을 사용했다.");
                     isAttackItemUsed = true;
+                    player.Heal(inventory.ItemData[8].Value);
                     //player.HP += item.Point;
                     //if (player.HP > player.MaxHP) player.HP = player.MaxHP;
                     Console.ReadKey(true);
