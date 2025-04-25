@@ -18,9 +18,7 @@ namespace week3
         }
         public void GameStart() 
         {
-            string playerName = uiManager.GetPlayerName();
-            player.Name = playerName;
-
+            player.GetPlayerName();
             //uiManager.ShowGameIntroUI();
             //Console.ReadLine(); // 화면 유지
             mapManager.LoadAllMap();

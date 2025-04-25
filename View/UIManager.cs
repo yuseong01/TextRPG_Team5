@@ -21,11 +21,7 @@ namespace week3
         }
 
         
-        public string GetPlayerName()
-        {
-            Console.Write("플레이어의 이름을 입력하세요:");
-            return Console.ReadLine();
-        }
+
 
         //인벤토리
         public void ShowInventory(List<Item> items)
