@@ -9,8 +9,8 @@ using week3;
 
 namespace week3
 {
-    public enum MonsterType { Normal, Mimic }
-    class Monster
+    public enum MonsterType { Normal, Hard }
+    public class Monster
     {
         
         public string Name { get; private set; }

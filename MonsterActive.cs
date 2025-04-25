@@ -11,7 +11,7 @@ namespace week3
 {
 
     // 몬스터의 전투 행동을 관리하는 클래스
-    class MonsterActive
+    public class MonsterActive
     {
 
         protected Monster monster; 
@@ -79,6 +79,7 @@ namespace week3
 
             if (lastAnswerCorrect)
             {
+                //zeb코인
                 Console.WriteLine("정답입니다! 몬스터를 물리쳤습니다.");
                 int zebReward = new Random().Next(10, 31);
                 player.AddZebCoin(zebReward);
@@ -105,7 +106,7 @@ namespace week3
                         player.TakeDamage(monster.AttackPower);
                         break;
 
-                    case MonsterType.Mimic:
+                    case MonsterType.Hard:
                         Console.WriteLine("하드 몬스터의 강한 정신 공격!");
                         player.TakeDamage(monster.AttackPower * 2);
                         player.ReduceSpirit(10);
