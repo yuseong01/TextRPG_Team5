@@ -24,9 +24,6 @@ namespace week3
         {
             IsOpen = !IsOpen;
         }
-
-        
-
         
     }
     public enum ObjectType
