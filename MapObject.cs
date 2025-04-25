@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace week3
 {
-    internal class MapObject
+    public class MapObject
     {
         public string Name { get; private set; }
         public string Description { get; private set; }
@@ -36,7 +36,7 @@ namespace week3
 
         
     }
-    enum ObjectType
+    public enum ObjectType
     {
         Monster,
         Money,

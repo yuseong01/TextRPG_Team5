@@ -411,6 +411,42 @@ namespace week3
             Console.Write(text);
         }
     }
+
+    public class MapUI
+    {
+        public void ShowMap(MapManager.mapType mapType)
+        {
+            switch(mapType)
+            {
+                case MapManager.mapType.GroupFiveMap:
+                    Console.OutputEncoding = System.Text.Encoding.UTF8;
+                    Console.WriteLine(value: Constants.GROUP_FIVE_UI_STRING[0]);
+                    break;
+                case MapManager.mapType.PassageMap:
+                    Console.OutputEncoding = System.Text.Encoding.UTF8;
+                    Console.WriteLine(value: Constants.PASSAGE_UI_STRING[0]);
+                    break;
+                case MapManager.mapType.Manager1RoomMap:
+                    Console.OutputEncoding = System.Text.Encoding.UTF8;
+                    Console.WriteLine(value: Constants.MANAGER_ROOM_UI_STRING[0]);
+                    break;
+                case MapManager.mapType.Manager2RoomMap:
+                    Console.OutputEncoding = System.Text.Encoding.UTF8;
+                    Console.WriteLine(value: Constants.MANAGER_ROOM_UI_STRING[0]);
+                    break;
+                case MapManager.mapType.Manager3RoomMap:
+                    Console.OutputEncoding = System.Text.Encoding.UTF8;
+                    Console.WriteLine(value: Constants.MANAGER_ROOM_UI_STRING[0]);
+                    break;
+                default:
+                    break;
+        }
+
+    }
+
+    }
 }
+
+
 
 

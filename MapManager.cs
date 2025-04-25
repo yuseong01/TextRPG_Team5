@@ -3,41 +3,16 @@ using week3;
 
 public class MapManager
 {
-    public MapObject[] map = new MapObject[4];
-    public MapManager()
-    {
+    MapUI mapUI = new MapUI();
+    MapObject[] mapObjects = new MapObject[4]; //맵오브젝트는 각각의 맵에 있는 사물. //5조, 매니저룸1,2,3 이렇게 총 4개 필요함
+
+    public MapManager(){
         
     }
-
-    public void ShowMap(mapType mapType)
+    public void ManageMap() //ManageMap(요기 불러오는거는 나중에 gameManager에서 하는걸로 변경하기)
     {
-        switch(mapType)
-        {
-            case mapType.GroupFiveMap:
-                Console.OutputEncoding = System.Text.Encoding.UTF8;
-                Console.WriteLine(value: Constants.GROUP_FIVE_UI_STRING[0]);
-                break;
-            case mapType.PassageMap:
-                Console.OutputEncoding = System.Text.Encoding.UTF8;
-                Console.WriteLine(value: Constants.PASSAGE_UI_STRING[0]);
-                break;
-            case mapType.Manager1RoomMap:
-                Console.OutputEncoding = System.Text.Encoding.UTF8;
-                Console.WriteLine(value: Constants.MANAGER_ROOM_UI_STRING[0]);
-                break;
-            case mapType.Manager2RoomMap:
-                Console.OutputEncoding = System.Text.Encoding.UTF8;
-                Console.WriteLine(value: Constants.MANAGER_ROOM_UI_STRING[0]);
-                break;
-            case mapType.Manager3RoomMap:
-                Console.OutputEncoding = System.Text.Encoding.UTF8;
-                Console.WriteLine(value: Constants.MANAGER_ROOM_UI_STRING[0]);
-                break;
-            default:
-                break;
-
-        }
-
+        mapUI.ShowMap(mapType.GroupFiveMap);
+        InputManager.GetInt(1,3);   //플레이어스탯, 인벤토리, 오브젝트
     }
 
     public enum mapType
@@ -49,5 +24,4 @@ public class MapManager
         Manager3RoomMap
 
     }
- 
 }

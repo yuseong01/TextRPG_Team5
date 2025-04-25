@@ -5,16 +5,19 @@ namespace week3
     public  class GameManager
     {
         Player player;
-        UIManager _uiManager;
+        UIManager uiManager;
+        MapManager mapManager;
         public GameManager() 
         {
             player = new Player("수민", "학생");
-            _uiManager = new UIManager();
+            uiManager = new UIManager();
+            mapManager = new MapManager();
         }
         public void GameStart() 
         {
-            _uiManager.ShowGameIntroUI();
+            uiManager.ShowGameIntroUI();
             Console.ReadLine(); // 화면 유지
+            mapManager.ManageMap();
         }
     }
 }
