@@ -59,9 +59,6 @@ namespace week3
         {
             int listCount = maps.Count;
 
-
-            Console.Clear();
-
             Console.WriteLine("ㅇㅇ의 방에 들어왔다. 도움될만한 물건을 찾아보자.");
 
             for (int i = 0; i < listCount; i++)
