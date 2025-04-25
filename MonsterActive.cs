@@ -9,9 +9,11 @@ using week3;
 using Timer = System.Timers.Timer;
 namespace week3
 {
+
     // 몬스터의 전투 행동을 관리하는 클래스
-    class MonsterActive
+    public class MonsterActive
     {
+
         protected Monster monster; 
         protected bool lastAnswerCorrect; 
 
@@ -77,6 +79,7 @@ namespace week3
 
             if (lastAnswerCorrect)
             {
+                //zeb코인
                 Console.WriteLine("정답입니다! 몬스터를 물리쳤습니다.");
                 int zebReward = new Random().Next(10, 31);
                 player.AddZebCoin(zebReward);
