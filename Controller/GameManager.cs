@@ -4,17 +4,20 @@ namespace week3
 {
     public  class GameManager
     {
+        UIManager uiManager= new UIManager();
         Player player;
-        UIManager uiManager;
         MapManager mapManager;
+        
         public GameManager() 
         {
-            player = new Player("수민", "학생");
-            uiManager = new UIManager();
+            player = new Player();
             mapManager = new MapManager();
         }
         public void GameStart() 
         {
+            string playerName = uiManager.GetPlayerName();
+            player.Name = playerName;
+
             //uiManager.ShowGameIntroUI();
             //Console.ReadLine(); // 화면 유지
             mapManager.LoadAllMap();

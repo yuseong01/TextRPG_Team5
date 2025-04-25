@@ -3,9 +3,9 @@
     public class Shop
     {
         private List<Item> shopItems = new List<Item>();
-        private Inventory inventory;
+        private InventoryManager inventory;
         
-        public Shop(Inventory inventory)
+        public Shop(InventoryManager inventory)
         {
             this.inventory = inventory;
             // 초기 상점 아이템 구성
