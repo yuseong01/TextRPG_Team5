@@ -20,7 +20,7 @@ namespace week3
             shopItems.Add(inventory.ItemData[15]);
         }
 
-        public void ShopItemList()
+        private void ShopItemList()
         {
             number = shopItems.Count;
             Console.WriteLine("=== 상점 목록 ===");
@@ -29,15 +29,19 @@ namespace week3
                 Item item = shopItems[i];
                 Console.WriteLine($"{i + 1}. {item.Name} ({item.Price}G) - {item.Description}");
             }
-
         }
 
 
-        public void BuyItem()
+        private void BuyItem()
         {
-            Console.WriteLine("구매를 원하시는 아이템의 번호를 입력해 주세요.");
-            int index = InputManager.GetInt(1, number) - 1;
+            Console.WriteLine("구매를 원하시는 아이템의 번호를 입력해 주세요.\n나가고 싶으시다면 0을 눌러주세요.");
+            int inputNum = InputManager.GetInt(1, number);
+
+            if (inputNum == 0) return;
+
+            int index = inputNum - 1;
             int gold = player.Gold;
+
             if (gold < shopItems[index].Price)
             {
                 Console.WriteLine("골드가 부족합니다!");
@@ -46,10 +50,15 @@ namespace week3
             else
             {
                 inventory.AddItem(index);
-                // 플레이어 클래스에 골드를 차감하는 함수를 추가한 후 여기에 넣어주세요.(매개변수로 int gold를 넣어주세요)
-                Console.WriteLine($"{shopItems[index].Name}을(를) 구매했습니다!");
+                player.SpendGold(shopItems[index].Price);
                 ShopItemList();
             }
+        }
+
+        public void EnterShop()
+        {
+            ShopItemList();
+            BuyItem();
         }
     }
 }

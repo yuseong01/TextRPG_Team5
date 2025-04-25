@@ -3,7 +3,6 @@
     public class Player
     {
         public string Name { get; set; }
-
         public int BaseAttackPower { get; set; }
         public int BaseDefense { get; set; }
         public int additionalAttackPower {get; set;}
@@ -11,8 +10,8 @@
         public int AttackPower { get; set; }
         public int Defense { get; set; }
 
-        public int Hp { get; set; }
-        public int Gold { get; set; }
+        public int Hp { get; private set; }
+        public int Gold { get; private set; }
         public int ZebCoin { get; set; }
 
         public int Spirit { get; private set; }
@@ -32,28 +31,47 @@
             ZebCoin = 0;
         }
 
-
-        // 보상 시스템 추가
-        public void AddZebCoin(int amount)
+        // 이름을 입력 받는 메서드
+        public void GetPlayerName() // UI매니저에 있는 거 지우기
         {
-            ZebCoin += amount;
-            Console.WriteLine($"[시스템] {Name}의 ZebCoin이 {amount} 증가! (현재 : {ZebCoin})");
+            Console.Write("당신의 이름은? :");
+            string name = Console.ReadLine();
+            Name = name;
         }
 
-        public void AddGold(int amount)
+
+        // 보상 시스템
+        public void AddZebCoin(int value)
         {
-            Gold += amount;
-            Console.WriteLine($"[시스템] {Name}의 Gold가 {amount} 증가! (현재: {Gold})");
+            ZebCoin += value;
+            Console.WriteLine($"[시스템] {Name}의 ZebCoin이 {value} 증가! (현재 : {ZebCoin})");
         }
 
-        // 아이템 보상 시스템 추가 
-        // itemName CS1503 오류 (타입 불일치) 로 인한 주석처리 -> Inventory 클래스가 Item 객체를 요구하도록 설계되었으나 문자열 전달
-        public void AddItem(string itemName)
+        public void AddGold(int value)
         {
-            //inventory.AddItem(itemName);
-            //Console.WriteLine($"[획득] {itemName}을(를) 얻었습니다!");
+            Gold += value;
+            Console.WriteLine($"[시스템] {Name}의 Gold가 {value}G 증가! (현재: {Gold})");
         }
 
+        // 재화 차감 시스템
+        public void SpendGold(int value)
+        {
+            Gold -= value;
+            Console.WriteLine($"[시스템] {Name}의 Gold가 {value}G 감소! (현재: {Gold})");
+        }
+
+        //스탯 증가 메서드
+
+        public void TakeDamage(int amount)
+        {
+            Hp -= amount;
+        }
+
+        //스탯 감소 메서드
+        public void Heal(int amount)
+        {
+            Hp += amount;
+        }
         // 몬스터 데미지
 
         public void TakeDamage(int damage)
