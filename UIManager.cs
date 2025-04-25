@@ -1,4 +1,5 @@
-﻿using week3;
+﻿using System.Security.Cryptography.X509Certificates;
+using week3;
 namespace week3
 {
     public class UIManager
@@ -416,7 +417,7 @@ namespace week3
     {
         public void ShowMap(MapManager.mapType mapType)
         {
-            switch(mapType)
+            switch (mapType)
             {
                 case MapManager.mapType.GroupFiveMap:
                     Console.OutputEncoding = System.Text.Encoding.UTF8;
@@ -440,9 +441,10 @@ namespace week3
                     break;
                 default:
                     break;
-        }
+            }
 
-    }
+
+        }
 
     }
 }

@@ -13,7 +13,7 @@ namespace week3
             while (true)
             {
                 Thread.Sleep(700);
-                Console.Clear();
+
                 Console.Write("번호를 선택해주세요. >");
                 string input = Console.ReadLine();
                 bool isNumber = int.TryParse(input, out int value);
@@ -26,13 +26,11 @@ namespace week3
                     }
                     else
                     {
-                        Console.Clear();
                         Console.WriteLine($"{min}부터 {max} 사이의 숫자를 입력해주세요.");
                     }
                 }
                 else
                 {
-                    Console.Clear();
                     Console.WriteLine("숫자를 입력해주세요.");
                 }
             }
