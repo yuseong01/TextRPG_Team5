@@ -63,7 +63,6 @@
             HP -= Math.Max(1, reducedDamage); //최소 1 데미지
             Console.WriteLine($"[전투] {Name}이(가) {Math.Max(1, reducedDamage)} 데미지 입음 (HP: {HP})");
         }
-
         //즉사 메서드
         public void InstantDeath()
         {
@@ -89,7 +88,6 @@
             }
             this.HP -= damage;
         }
-
         public void ReduceSpirit(float amount)
         {
             Spirit -= amount;
