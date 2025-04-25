@@ -18,10 +18,6 @@ namespace week3
             //uiManager.ShowGameIntroUI();
             //Console.ReadLine(); // 화면 유지
             mapManager.LoadAllMap();
-
-
-
-
         }
     }
 }
