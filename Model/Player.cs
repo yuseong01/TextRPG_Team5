@@ -2,39 +2,38 @@
 {
     public class Player
     {
-        // 이름과 직업은 입력받음
-        public string Name { get; private set; }
-        public string Level { get; private set; }
-        public string Job { get; private set; }
+        public string Name { get; set; }
 
-        // 스탯들은 기본값 설정
-        public float HP { get; private set; }
-        public float Spirit { get; private set; }
-        public float Atk { get; private set; }
-        public float Def { get; private set; }
+        public int BaseAttackPower { get; set; }
+        public int BaseDefense { get; set; }
+        public int additionalAttackPower {get; set;}
+        public int additionalDefensePoser {get; set;}
+        public int AttackPower { get; set; }
+        public int Defense { get; set; }
 
-        public int ZebCoin { get; private set; }
-        public int Gold { get; private set; }
-        
-        //인벤토리
-        private Inventory inventory = new Inventory();
+        public int Hp { get; set; }
+        public int Gold { get; set; }
+        public int ZebCoin { get; set; }
+
+        public int Spirit { get; private set; }
+
+
+        public InventoryManager inventory = new InventoryManager();
 
         // 생성자에서 이름과 직업만 설정
-        public Player(string name, string job)
+        public Player()
         {
-            Name = name;
-            Job = job;
-            HP = 100f;
-            Spirit = 80f;
-            Atk = 10f;
-            Def = 5f;
+            BaseAttackPower = 10;
+            BaseDefense = 5;
+            AttackPower = 0;
+            Defense = 0;
+            Hp = 90;
+            Gold = 1500;
             ZebCoin = 0;
-            Gold = 2000;
         }
 
 
         // 보상 시스템 추가
-
         public void AddZebCoin(int amount)
         {
             ZebCoin += amount;
@@ -57,16 +56,16 @@
 
         // 몬스터 데미지
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(int damage)
         {
-            float reducedDamage = damage - Def;
-            HP -= Math.Max(1, reducedDamage); //최소 1 데미지
-            Console.WriteLine($"[전투] {Name}이(가) {Math.Max(1, reducedDamage)} 데미지 입음 (HP: {HP})");
+            int reducedDamage = damage - Defense;
+            Hp -= Math.Max(1, reducedDamage); //최소 1 데미지
+            Console.WriteLine($"[전투] {Name}이(가) {Math.Max(1, reducedDamage)} 데미지 입음 (HP: {Hp})");
         }
         //즉사 메서드
         public void InstantDeath()
         {
-            HP = 0;
+            Hp = 0;
             Console.WriteLine("Game Over");
         }
         // 보스 대미지 계산 메서드
@@ -86,9 +85,9 @@
                 damage *= 2;
                 Console.WriteLine("매니저의 눈이 번뜩이며 평소보다 강한 공격이 들어온다!");
             }
-            this.HP -= damage;
+            this.Hp -= damage;
         }
-        public void ReduceSpirit(float amount)
+        public void ReduceSpirit(int amount)
         {
             Spirit -= amount;
             Console.WriteLine($"[전투] {Name}의 정신력 - {amount} (현재: {Spirit})");
