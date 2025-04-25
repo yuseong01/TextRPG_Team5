@@ -18,6 +18,7 @@ namespace week3
         }
         public void GameStart() 
         {
+            gameIntroUI.ShowGameIntroUI();
             player.GetPlayerName();
             //uiManager.ShowGameIntroUI();
             //Console.ReadLine(); // 화면 유지
