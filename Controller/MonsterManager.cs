@@ -7,15 +7,15 @@ using week3;
 
 namespace week3
 {
-    public static class MonsterManager
+    public class MonsterManager
     {
-        private static List<Monster> normalMonsters { get; } = new List<Monster>(); //-lv.2 lv4 lv10 lv6  <-한전투에 계속 등장할 애들 (랜덤값으로 1-4마리가 나와요)  
-        private static List<Monster> mimicMonsters { get; } = new List<Monster>();
+        private List<Monster> normalMonsters { get; } = new List<Monster>(); //-lv.2 lv4 lv10 lv6  <-한전투에 계속 등장할 애들 (랜덤값으로 1-4마리가 나와요)  
+        private List<Monster> mimicMonsters { get; } = new List<Monster>();
 
         // 랜덤 선택을 위한 Random 인스턴스
-        private static Random random = new Random();
+        private Random random = new Random();
 
-        public static void InitializeMonsters()
+        void InitializeMonsters()
         {
             // 일반 몬스터
             normalMonsters.Add(new Monster(
@@ -118,7 +118,7 @@ namespace week3
             ));
         }
 
-        public static List<Monster> GetRandomMonsters(int count, bool includeMimic = false)
+        List<Monster> GetRandomMonsters(int count, bool includeMimic = false)
         {
             List<Monster> allMonsters = new List<Monster>(normalMonsters);
 
