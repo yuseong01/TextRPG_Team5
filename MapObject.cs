@@ -8,10 +8,14 @@ namespace week3
 {
     public class MapObject
     {
+
         public string Name { get; private set; }
         public string Description { get; private set; }
         public ObjectType ObjectType { get; private set; }
-        public bool IsOpen { get;  private set; }
+        public bool IsOpen { get; private set; }
+
+        public MapObject() { }
+
         public MapObject(string name, string discription, ObjectType type)
         {
             Name = name;
@@ -20,17 +24,20 @@ namespace week3
             IsOpen = false;
         }
 
+
         void ChangeIsOpen()
         {
             IsOpen = !IsOpen;
         }
-        
+
+
+
     }
     public enum ObjectType
     {
         Monster,
         Money,
-        Quiz, 
+        Quiz,
         Store,
         Inventory
     }
