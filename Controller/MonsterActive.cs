@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using week3;
-
+using week3.Model;
 using Timer = System.Timers.Timer;
 namespace week3
 {
@@ -13,7 +13,7 @@ namespace week3
     // 몬스터의 전투 행동을 관리하는 클래스
     public class MonsterActive
     {
-
+        PlayerController playerController;
         protected Monster monster; 
         protected bool lastAnswerCorrect; 
 
@@ -103,12 +103,12 @@ namespace week3
                 {
                     case MonsterType.Normal:
                         Console.WriteLine("노말 몬스터의 기본 공격!");
-                        player.TakeDamage(monster.AttackPower);
+                        playerController.TakeDamageWithDefense(monster.AttackPower);
                         break;
 
                     case MonsterType.Hard:
                         Console.WriteLine("하드 몬스터의 강한 정신 공격!");
-                        player.TakeDamage(monster.AttackPower * 2);
+                        playerController.TakeDamageWithDefense(monster.AttackPower * 2);
                         player.ReduceSpirit(10);
                         break;
 

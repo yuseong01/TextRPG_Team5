@@ -2,7 +2,7 @@
 {
     public class Player
     {
-        public string Name { get; set; }
+        public string Name { get; private set; }
         public int BaseAttackPower { get; set; }
         public int BaseDefense { get; set; }
         public int additionalAttackPower {get; set;}
@@ -60,54 +60,38 @@
             Console.WriteLine($"[시스템] {Name}의 Gold가 {value}G 감소! (현재: {Gold})");
         }
 
-        //스탯 감소 메서드
-        public void TakeDamage(int amount)
-        {
-            Hp -= amount;
-        }
-
         //스탯 증가 메서드
         public void Heal(int amount)
         {
             Hp += amount;
         }
-        // 몬스터 데미지
 
-        public void TakeDamage(int damage)
+        //스탯 감소 메서드
+        public void TakeDamage(int amount)
         {
-            int reducedDamage = damage - Defense;
-            Hp -= Math.Max(1, reducedDamage); //최소 1 데미지
-            Console.WriteLine($"[전투] {Name}이(가) {Math.Max(1, reducedDamage)} 데미지 입음 (HP: {Hp})");
-        }
-        //즉사 메서드
-        public void InstantDeath()
-        {
-            Hp = 0;
-            Console.WriteLine("Game Over");
-        }
-        // 보스 대미지 계산 메서드
-        public void TakeDamageWithChance(int damage, int critRate, int evasionRate)
-        {
-            Random randrange = new Random();
-            int rand = randrange.Next(100);
+            Hp -= amount;
 
-            if (rand < evasionRate)
+            if (Hp < 0)
             {
-                Console.WriteLine("다행히 매니저의 공격을 피했다.");
-                return;
+                Hp = 0;
+                Die();
             }
-
-            if (rand < evasionRate + critRate)
-            {
-                damage *= 2;
-                Console.WriteLine("매니저의 눈이 번뜩이며 평소보다 강한 공격이 들어온다!");
-            }
-            this.Hp -= damage;
         }
+
+        //정신력 감소 메서드
         public void ReduceSpirit(int amount)
         {
             Spirit -= amount;
             Console.WriteLine($"[전투] {Name}의 정신력 - {amount} (현재: {Spirit})");
+        }
+
+
+        //사망 판정
+        public void Die()
+        {
+            Console.WriteLine("... 몸이 점점 무거워지고 눈 앞이 흐려진다... 출석... 해야하는데...");
+            Console.WriteLine("GAME OVER");
+            // 시작화면? 호출? 적절한 메서드 호출하기.
         }
     }
 }

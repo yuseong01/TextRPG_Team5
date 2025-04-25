@@ -407,14 +407,14 @@ namespace week3
             {
                 Console.WriteLine("로마에 가면 로마 법을 따르라!!!! 우오오오오오!!!!");
                 Console.ReadKey(true);
-                player.InstantDeath();
+                player.Die();
                 return;
             }
             else if (currentBoss.heroTime == 3)
             {
                 Console.WriteLine("지옥에 가서도 그 곡을 항상 떠올리며 부지런해지길 바랍니다.");
                 Console.ReadKey(true);
-                player.InstantDeath();
+                player.Die();
                 return;
             }
             else
