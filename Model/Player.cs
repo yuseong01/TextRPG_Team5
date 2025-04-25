@@ -3,7 +3,6 @@
     public class Player
     {
         public string Name { get; set; }
-
         public int BaseAttackPower { get; set; }
         public int BaseDefense { get; set; }
         public int additionalAttackPower {get; set;}
@@ -11,7 +10,7 @@
         public int AttackPower { get; set; }
         public int Defense { get; set; }
 
-        public int Hp { get; set; }
+        public int Hp { get; private set; }
         public int Gold { get; private set; }
         public int ZebCoin { get; set; }
 
@@ -32,8 +31,16 @@
             ZebCoin = 0;
         }
 
+        // 이름을 입력 받는 메서드
+        public void GetPlayerName() // UI매니저에 있는 거 지우기
+        {
+            Console.Write("당신의 이름은? :");
+            string name = Console.ReadLine();
+            Name = name;
+        }
 
-        // 보상 시스템 추가
+
+        // 보상 시스템
         public void AddZebCoin(int value)
         {
             ZebCoin += value;
@@ -46,13 +53,25 @@
             Console.WriteLine($"[시스템] {Name}의 Gold가 {value}G 증가! (현재: {Gold})");
         }
 
-        // 골드 차감
+        // 재화 차감 시스템
         public void SpendGold(int value)
         {
             Gold -= value;
             Console.WriteLine($"[시스템] {Name}의 Gold가 {value}G 감소! (현재: {Gold})");
         }
 
+        //스탯 증가 메서드
+
+        public void TakeDamage(int amount)
+        {
+            Hp -= amount;
+        }
+
+        //스탯 감소 메서드
+        public void Heal(int amount)
+        {
+            Hp += amount;
+        }
         // 몬스터 데미지
 
         public void TakeDamage(int damage)

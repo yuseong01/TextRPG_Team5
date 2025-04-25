@@ -12,8 +12,8 @@ namespace week3
 {
     public class BossMonster_Battle
     {
-        private static Player player = new Player("Name", "Job");
-        private static Inventory inventory = new Inventory();
+        private static Player player;
+        private static InventoryManager inventory = new InventoryManager();
         private static BossMonster_Data currentBoss;
         private static Random randrange = new();
 
@@ -26,7 +26,7 @@ namespace week3
         static void PrintStatusBar() // 체력바
         {
             Console.WriteLine(new string('=', 55));
-            Console.WriteLine($"내 체력 : {player.HP} / 100\n{currentBoss.Name}의 체력 : {currentBoss.HP} / {currentBoss.MaxHP}");
+            Console.WriteLine($"내 체력 : {player.Hp} / 100\n{currentBoss.Name}의 체력 : {currentBoss.HP} / {currentBoss.MaxHP}");
             Console.WriteLine(new string('=', 55));
         }
         // 보스 몬스터 조우
@@ -398,7 +398,7 @@ namespace week3
 
                 }
             }
-            else if (player.HP <= 0)
+            else if (player.Hp <= 0)
             {
                 Console.WriteLine("당신은 '제적'입니다.");
                 return;
