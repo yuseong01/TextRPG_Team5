@@ -4,8 +4,10 @@ namespace week3
 {
     public class SoundManager
     {
+        private Dictionary<string, (IWavePlayer player, WaveStream stream)> multiLoops = new();
+
         // ========================================
-        // 🔊 타자기 사운드용 재생 콘터럴러
+        // 🔊 타자기 사운드용 재생 컨트롤러
         // ========================================
         private IWavePlayer? typingPlayer;
         private AudioFileReader? typingAudio;
@@ -197,7 +199,7 @@ namespace week3
         }
 
         // ========================================
-        // 🔁 배경음 루프 재생 콘터럴 (intro, noise, etc.)
+        // 🔁 배경음 루프 재생 컨트롤러 (1채널)
         // ========================================
         private IWavePlayer? loopPlayer;
         private WaveStream? loopAudio;
@@ -214,12 +216,11 @@ namespace week3
             }
 
             var fileReader = new AudioFileReader(path);
-            loopAudio = new LoopStream(fileReader); // 💡 중요: LoopStream으로 래핑
+            loopAudio = new LoopStream(fileReader);
             loopPlayer = new WaveOutEvent();
-            loopPlayer.Init(loopAudio); // ✅ 반드시 Init 호출 후
-            loopPlayer.Play();          // ✅ Play 실행
+            loopPlayer.Init(loopAudio);
+            loopPlayer.Play();
         }
-
 
         public void StopCurrentLoop()
         {
@@ -243,7 +244,55 @@ namespace week3
         // ========================================
         public void PlayHorrorLoop()
         {
-            PlayLoop("intro.wav");
+            PlayLoop("main.wav");
+        }
+
+        // ========================================
+        // 🎶 다중 루프 채널 사운드 재생 + 볼륨 설정
+        // ========================================
+        public void PlayLoopEx(string key, string fileName, float volume = 1.0f)
+        {
+            StopLoopEx(key);
+
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sounds", fileName);
+            if (!File.Exists(path))
+            {
+                Console.WriteLine($"[사운드 오류] 파일 없음: {fileName}");
+                return;
+            }
+
+            var fileReader = new AudioFileReader(path);
+            fileReader.Volume = volume; // 💡 여기서 볼륨 조절!
+
+            var stream = new LoopStream(fileReader);
+            var player = new WaveOutEvent();
+            player.Init(stream);
+            player.Play();
+
+            multiLoops[key] = (player, stream);
+        }
+
+
+        public void StopLoopEx(string key)
+        {
+            if (multiLoops.TryGetValue(key, out var pair))
+            {
+                pair.player.Stop();
+                pair.stream.Dispose();
+                pair.player.Dispose();
+                multiLoops.Remove(key);
+            }
+        }
+
+        public void StopAllLoopEx()
+        {
+            foreach (var pair in multiLoops.Values)
+            {
+                pair.player.Stop();
+                pair.stream.Dispose();
+                pair.player.Dispose();
+            }
+            multiLoops.Clear();
         }
     }
 
@@ -288,5 +337,4 @@ namespace week3
             return totalBytesRead;
         }
     }
-
 }

@@ -1,6 +1,7 @@
 ﻿using static week3.UIManager;
 using static week3.Constants;
 
+
 namespace week3
 {
     public class StoryText
@@ -17,10 +18,16 @@ namespace week3
         // 텍스트 표현을 시작하는 메서드
         public void IntroText()
         {
+            
+            UIManager.stopFlicker = true;
+            Thread.Sleep(150);
+            Console.Clear();
+
             _uiStoryText.BeginTextSet();
             _soundManager.PlayBirdLoopFadeIn(); // 🐦 새소리 페이드 인
 
             // ✅ 첫 페이지 출력
+            Console.Clear();
             _uiStoryText.TypePage(INTRO_STORY_PAGES[0].ToList(), 70, ConsoleColor.White);
             ShowEnterPrompt();
             while (Console.KeyAvailable) Console.ReadKey(true);
@@ -50,9 +57,12 @@ namespace week3
                 ShowEnterPrompt();
                 while (Console.KeyAvailable) Console.ReadKey(true);
             }
-
+            _soundManager.StopCurrentLoop(); //임시로 horror.wav 2번 재생 방지
             _soundManager.StopBirdSound();
+            Console.Clear();
+            _uiManager.PrintDarkZEBUI();
         }
+
 
         //다음으로 넘어가는 문구
         private void ShowEnterPrompt()
