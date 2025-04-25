@@ -61,7 +61,7 @@ namespace week3
         public int reinforceZoomCri { get; set; } = 0; // 공간 지배의 한효승 매니저 스킬 제어용
         public int reinforceZoomEva { get; set; } = 0; // 공간 지배의 한효승 매니저 스킬 제어용
         public BossMonster_Data() { }
-        private static Player player = new Player("Name", "Job");
+        Player player;
         public BossMonster_Data(string name, int atk, int def, int hp, int spi, int crt, int eva, int pointreward) // 보스 몬스터 생성자
         {
             Name = name;

@@ -12,10 +12,10 @@ namespace week3
 {
     public class BossMonster_Battle
     {
-        private static Player player;
-        private static InventoryManager inventory = new InventoryManager();
-        private static BossMonster_Data currentBoss;
-        private static Random randrange = new();
+        Player player;
+        InventoryManager inventory;
+        BossMonster_Data currentBoss;
+        Random randrange = new();
 
         static List<BossMonster_Skill> normals = new List<BossMonster_Skill>(); // 일반공격 스킬 리스트화
         private static int PlayerDamage = 0; // 보스 피격 대미지 저장용
@@ -23,14 +23,14 @@ namespace week3
         private static bool isBossAttackSuccess = true;
         private static bool isAttackItemUsed = false;
 
-        static void PrintStatusBar() // 체력바
+        void PrintStatusBar() // 체력바
         {
             Console.WriteLine(new string('=', 55));
             Console.WriteLine($"내 체력 : {player.Hp} / 100\n{currentBoss.Name}의 체력 : {currentBoss.HP} / {currentBoss.MaxHP}");
             Console.WriteLine(new string('=', 55));
         }
         // 보스 몬스터 조우
-        public static void BossBattle_Park()
+        void BossBattle_Park()
         {
             Console.Clear();
 
@@ -45,7 +45,7 @@ namespace week3
             PrepareManager_Park(boss);
             PlayerTurn();
         }
-        public static void BossBattle_Hero()
+        void BossBattle_Hero()
         {
             Console.Clear();
 
@@ -60,7 +60,7 @@ namespace week3
             PrepareManager_Hero(boss);
             PlayerTurn();
         }
-        public static void BossBattle_Zoom()
+        void BossBattle_Zoom()
         {
             Console.Clear();
 
@@ -75,7 +75,7 @@ namespace week3
             PrepareManager_Zoom(boss);
             PlayerTurn();
         }
-        private static BossMonster_Skill FindSkillByName(BossMonster_Data boss, string name) // 스킬 찾는 메서드
+        BossMonster_Skill FindSkillByName(BossMonster_Data boss, string name) // 스킬 찾는 메서드
         {
             foreach (var s in boss.Skills)
             {
@@ -87,11 +87,11 @@ namespace week3
             return null;
         }
         // 플레이어턴 들어가기 전 각 보스별 행동계산 메서드
-        private static List<BossMonster_Skill> GetNormalSkills(BossMonster_Data boss)
+        List<BossMonster_Skill> GetNormalSkills(BossMonster_Data boss)
         {
             return boss.Skills.Where(s => s.Type == BossSkillType.Normal).ToList();
         }
-        public static void PrepareManager_Park(BossMonster_Data boss)
+        void PrepareManager_Park(BossMonster_Data boss)
         {            
             var skill1 = FindSkillByName(boss, "자유의 함성");
             var skill2 = FindSkillByName(boss, "질서의 함성");
@@ -145,7 +145,7 @@ namespace week3
                 }
             }
         }
-        public static void PrepareManager_Hero(BossMonster_Data boss)
+        void PrepareManager_Hero(BossMonster_Data boss)
         {
             int rand = randrange.Next(1, 101);
             int rand2 = randrange.Next(1, 101);
@@ -199,7 +199,7 @@ namespace week3
                 }
             }
         }
-        public static void PrepareManager_Zoom(BossMonster_Data boss)
+        void PrepareManager_Zoom(BossMonster_Data boss)
         {
             int rand = randrange.Next(1, 101);
 
@@ -252,7 +252,7 @@ namespace week3
             }
         }
         // 플레이어 턴 행동 선택
-        public static void PlayerTurn()
+        void PlayerTurn()
         {
             Console.Clear();
             isAttackItemUsed = false;
@@ -324,7 +324,7 @@ namespace week3
             }
         }
         // 보스 턴 전투 계산
-        static void BossTurn()
+         void BossTurn()
         {
             int totalDamage = 0;
 
