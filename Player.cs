@@ -63,7 +63,31 @@
             HP -= Math.Max(1, reducedDamage); //최소 1 데미지
             Console.WriteLine($"[전투] {Name}이(가) {Math.Max(1, reducedDamage)} 데미지 입음 (HP: {HP})");
         }
+        //즉사 메서드
+        public void InstantDeath()
+        {
+            HP = 0;
+            Console.WriteLine("Game Over");
+        }
+        // 보스 대미지 계산 메서드
+        public void TakeDamageWithChance(int damage, int critRate, int evasionRate)
+        {
+            Random randrange = new Random();
+            int rand = randrange.Next(100);
 
+            if (rand < evasionRate)
+            {
+                Console.WriteLine("다행히 매니저의 공격을 피했다.");
+                return;
+            }
+
+            if (rand < evasionRate + critRate)
+            {
+                damage *= 2;
+                Console.WriteLine("매니저의 눈이 번뜩이며 평소보다 강한 공격이 들어온다!");
+            }
+            this.HP -= damage;
+        }
         public void ReduceSpirit(float amount)
         {
             Spirit -= amount;
