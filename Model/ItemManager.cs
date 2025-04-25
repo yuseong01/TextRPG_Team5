@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace week3.Model
+namespace week3
 {
     internal class ItemManager
     {
