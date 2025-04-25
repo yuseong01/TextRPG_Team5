@@ -279,7 +279,7 @@ namespace week3
 
                     if (attackInput == "1")
                     {
-                        BossMonster_Inventory.BattleItemMenu(player, inventory, ref isAttackItemUsed);
+                        BossMonster_Inventory.BattleItemMenu(ref isAttackItemUsed);
                         if (isAttackItemUsed)
                         {
                             PlayerDamage = 25;
@@ -307,7 +307,7 @@ namespace week3
                     break;
                 case "2": Console.WriteLine("소비 아이템");
                     Console.ReadKey(true);
-                    BossMonster_Inventory.ConsumableItemMenu(player, inventory);
+                    BossMonster_Inventory.ConsumableItemMenu();
                     BossTurn();
                     break;
                 case "3":

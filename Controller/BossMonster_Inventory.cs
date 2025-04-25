@@ -9,12 +9,14 @@ namespace week3
 {
     public class BossMonster_Inventory
     {
-        public static void ConsumableItemMenu(Player player, Inventory inventory)
+        InventoryManager inventory;
+        Player player;
+        public void ConsumableItemMenu()
         {
             while (true)
             {
                 // 회복 아이템만 필터링
-                var recoveryItems = item_ahh.ItemData
+                var recoveryItems = inventory.ItemData
                     .Where(kvp => kvp.Value.Type == "회복") //&& inventory.Items.Any(invItem => invItem.Name == kvp.Key))
                     .ToList();
 
@@ -52,7 +54,7 @@ namespace week3
                 }
             }
         }
-        public static void BattleItemMenu(Player player, Inventory inventory, ref bool isAttackItemUsed)
+        public static void BattleItemMenu(Player player, InventoryManager inventory, ref bool isAttackItemUsed)
         {
             while (true)
             {
