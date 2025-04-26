@@ -16,6 +16,7 @@ namespace week3
         Item item;
         InventoryManager inventory;
         BossMonster_Data bossMonster;
+        BossMonster_Status bossStatus = new BossMonster_Status();
         Random random = new Random();
 
         List<BossMonster_Skill> normals = new List<BossMonster_Skill>(); // 일반공격 스킬 리스트화
@@ -246,7 +247,7 @@ namespace week3
             }
         }
         // 플레이어 턴 행동 선택
-        void PlayerTurn()
+        public void PlayerTurn()
         {
             Console.Clear();
             PrintStatusBar();
@@ -291,8 +292,8 @@ namespace week3
                         PlayerTurn();
                     }
                     break;
-                case 2: 
-                    //BossMonster_Status.ShowBossStatus(bossMonster); //이거 어딧죠...? 제가 지웠나..? 안지운거같은데
+                case 2:
+                    bossStatus.ShowBossStatus(bossMonster); //이거 어딧죠...? 제가 지웠나..? 안지운거같은데
                     break;
 
                 case 3: Console.WriteLine("도주할 수 없다.");
