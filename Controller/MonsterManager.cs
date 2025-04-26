@@ -84,7 +84,7 @@ TIL 작성은요? 제출은요? 퇴실체크는요? .. .다 안 하셨군요. . 
 ";
 
             string monster8question = @"
--
+
 ";
 
             string monster7question = @"

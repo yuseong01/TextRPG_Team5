@@ -101,15 +101,15 @@ namespace week3
             int goldReward = random.Next(100, 301);
             player.AddGold(goldReward);
 
-            //if (random.Next(100) < 30)
-            //{
-            //    string[] commonItems = { /* 아이템 추가 예정 */ }; // [주석] : 아이템 추가 필요
-            //    if (commonItems.Length > 0) // [추가] : 예외 방지
-            //    {
-            //        string randomItem = commonItems[random.Next(commonItems.Length)];
-            //        player.AddItem(randomItem);
-            //    }
-            //}
+            if (random.Next(100) < 30)
+            {
+                string[] commonItems = { /* 아이템 추가 예정 */ }; // [주석] : 아이템 추가 필요
+                if (commonItems.Length > 0) // [추가] : 예외 방지
+                {
+                    string randomItem = commonItems[random.Next(commonItems.Length)];
+                    player.AddItem(randomItem);
+                }
+            }
         }
 
 
