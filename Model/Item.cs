@@ -7,6 +7,7 @@
         public string Type { get; private set; }
         public int Value { get; private set; }
         public bool IsEquip {  get; private set; }
+        public bool IsSold { get; private set; }
         public int Price { get; private set; }
 
         public Item(string name, string description, string type, int price)
@@ -14,6 +15,7 @@
             Name = name;
             Description = description;
             Type = type;
+            IsSold = false;
             Price = price;
         }
 
@@ -24,12 +26,17 @@
             Type = type;
             Value = value;
             IsEquip = false;
+            IsSold = false;
             Price = price;
         }
 
-        public void ChangeIsEquip()
+        public void ToggleEquipStatus(Item item)
         {
             IsEquip = !IsEquip;
+        }
+        public void ToggleSoldStatus(Item item)
+        {
+            IsSold = !IsSold;
         }
     }
 

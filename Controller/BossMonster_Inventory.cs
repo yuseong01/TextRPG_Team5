@@ -16,9 +16,11 @@ namespace week3
             while (true)
             {
                 // 회복 아이템만 필터링
-                var recoveryItems = inventory.ItemData
-                    .Where(kvp => kvp.Value.Type == "회복") //&& inventory.Items.Any(invItem => invItem.Name == kvp.Key))
-                    .ToList();
+                //var recoveryItems = inventory.ItemData
+                //    .Where(kvp => kvp.Value.Type == "회복") //&& inventory.Items.Any(invItem => invItem.Name == kvp.Key))
+                //    .ToList();
+
+                List<Item> item = inventory.ItemData[].Type
 
                 if (recoveryItems.Count == 0)
                 {
