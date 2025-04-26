@@ -39,8 +39,8 @@
             {
                 Console.Clear();
                 ui.ShowStatus();
-                int inputNum = InputManager.GetInt(1, shopItems.Count);
-                if (inputNum == 0) break;
+                int inputNum = InputManager.GetInt(0, 0);
+                break;
             }
         }
 
