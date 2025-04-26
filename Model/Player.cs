@@ -3,19 +3,19 @@
     public class Player
     {
         InventoryManager inventory;
+        UIManager ui;
 
         public string Name { get; private set; }
         public int Attack { get; private set; }
         public int Defense { get; private set; }
-        public int AdditionalAttackPower {get; private set;}
-        public int AdditionalDefensePower {get; private set;}
+        public int AdditionalAttackPower { get; private set; }
+        public int AdditionalDefensePower { get; private set; }
         public int CurrentHp { get; private set; }
         public int MaxHp { get; private set; }
         public int Gold { get; private set; }
         public int ZebCoin { get; set; }
-
         public int Spirit { get; private set; }
-
+        public bool IsPlayerAlive { get; private set; }
 
 
 
@@ -29,10 +29,23 @@
             CurrentHp = 90;
             MaxHp = 100;
             Gold = 1500;
+            IsPlayerAlive = true;
             ZebCoin = 0;
         }
+        // 스탯 창 들고오는 함수
+        public void ShowPlayerStat()
+        {
+            while (true)
+            {
+                Console.Clear();
+                ui.ShowStatus();
+                int inputNum = InputManager.GetInt(1, shopItems.Count);
+                if (inputNum == 0) break;
+            }
+        }
 
-        public void GetPlayerName() 
+        //이름 들고오는 함수
+        public void GetPlayerName()
         {
             Console.Write("당신의 이름은? :");
             string name = Console.ReadLine();
@@ -57,7 +70,7 @@
         public void SpendGold(int value)
         {
             Gold -= value;
-            if( Gold < 0 ) { Gold = 0; }
+            if (Gold < 0) { Gold = 0; }
             Console.WriteLine($"[시스템] {Name}의 Gold가 {value}G 감소! (현재: {Gold})");
         }
 
@@ -66,7 +79,7 @@
         {
             CurrentHp += value;
 
-            if( CurrentHp > MaxHp ) { CurrentHp = MaxHp; }
+            if (CurrentHp > MaxHp) { CurrentHp = MaxHp; }
         }
 
         public void AddAttackPower(int value)
@@ -74,7 +87,7 @@
             AdditionalAttackPower += value;
         }
         public void AddDefensePower(int value)
-        { 
+        {
             AdditionalDefensePower += value;
         }
 
@@ -104,8 +117,8 @@
         public void ReduceSpirit(int value)
         {
             Spirit -= value;
-            if( Spirit < 0 )
-            { 
+            if (Spirit < 0)
+            {
                 Spirit = 0;
                 Die();
             }
@@ -119,6 +132,7 @@
         {
             Console.WriteLine("... 몸이 점점 무거워지고 눈 앞이 흐려진다... 출석... 해야하는데...");
             Console.WriteLine("GAME OVER");
+            IsPlayerAlive = false;
             // 시작화면? 호출? 적절한 메서드 호출하기.
         }
     }
