@@ -20,9 +20,6 @@ namespace week3
             Console.WriteLine("\n0. 나가기");
         }
 
-        
-
-
         //인벤토리
         public void ShowInventory(List<Item> items)
         {
@@ -85,6 +82,30 @@ namespace week3
             Console.WriteLine();
             Console.ReadKey(true);
             BossMonster_Battle.PlayerTurn();
+        }
+        
+        //곧 view랑 로직 분리해서 mapManager에 수정예정입니다 
+        void Choice(List<MapObject> maps)
+        {
+            int listCount = maps.Count;
+
+            Console.WriteLine("ㅇㅇ의 방에 들어왔다. 도움될만한 물건을 찾아보자.");
+
+            for (int i = 0; i < listCount; i++)
+            {
+                string list = $"{i + 1}. {maps[i].Name}";
+                string describe = $"{maps[i].Description}";
+                Console.WriteLine(list);
+            }
+
+            int choose = InputManager.GetInt(1, listCount) - 1;
+
+            string choosedObjectDiscribe = maps[choose].Description;
+
+            Console.WriteLine(choosedObjectDiscribe);
+            Thread.Sleep(1000);
+            Console.WriteLine("진행하려면 엔터를 누르세요.");
+            Console.ReadLine();
         }
     }
 

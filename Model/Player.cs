@@ -31,8 +31,7 @@
             ZebCoin = 0;
         }
 
-        // 이름을 입력 받는 메서드
-        public void GetPlayerName() // UI매니저에 있는 거 지우기
+        public void GetPlayerName() 
         {
             Console.Write("당신의 이름은? :");
             string name = Console.ReadLine();

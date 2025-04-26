@@ -30,8 +30,8 @@ public class GameIntroUI
     {
         Console.Clear();
         Console.OutputEncoding = System.Text.Encoding.UTF8;
-        Console.SetBufferSize(120, 40);
-        Console.SetWindowSize(120, 40);
+        //Console.SetBufferSize(120, 40);
+        //Console.SetWindowSize(120, 40);
         Console.CursorVisible = false;
         soundManager.PlayLoop("song.wav");
 

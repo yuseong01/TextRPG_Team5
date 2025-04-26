@@ -14,15 +14,20 @@ namespace week3
         {
             gameIntroUI = new GameIntroUI(soundManager);
             player = new Player();
-            mapManager = new MapManager();
+            mapManager = new MapManager(uiManager);
         }
         public void GameStart() 
         {
             gameIntroUI.ShowGameIntroUI();
             player.GetPlayerName();
-            //uiManager.ShowGameIntroUI();
-            //Console.ReadLine(); // 화면 유지
-            mapManager.LoadAllMap();
+            //mapManager.LoadAllMap();
+            while(true)
+            {
+                Thread.Sleep(700);
+                Console.Clear();
+
+                
+            }
         }
     }
 }

@@ -3,33 +3,37 @@ using week3;
 
 public class MapManager
 {
-    MapUI mapUI = new MapUI();
+    UIManager uiManager;
     Map map = new Map();
 
-
+    public MapManager(UIManager uiManager)
+    {
+        this.uiManager = uiManager;
+    }
     private void LoadSelectedMap(mapType mapType) //ManageMap(요기 불러오는거는 나중에 gameManager에서 하는걸로 변경하기) 
     {
 
         switch (mapType)
         {
             case mapType.GroupFiveMap:
-                mapUI.ShowMap(mapType);
+                
+                uiManager.ShowMap(mapType);
                 map.GroupFiveMap();
                 break;
             case mapType.PassageMap:
-                mapUI.ShowMap(mapType);
+                uiManager.ShowMap(mapType);
                 map.PassageMap();
                 break;
             case mapType.Manager1RoomMap:
-                mapUI.ShowMap(mapType);
+                uiManager.ShowMap(mapType);
                 map.Manager1RoomMap();
                 break;
             case mapType.Manager2RoomMap:
-                mapUI.ShowMap(mapType);
+                uiManager.ShowMap(mapType);
                 map.Manager2RoomMap();
                 break;
             case mapType.Manager3RoomMap:
-                mapUI.ShowMap(mapType);
+                uiManager.ShowMap(mapType);
                 map.Manager3RoomMap();
                 break;
 

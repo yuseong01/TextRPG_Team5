@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace week3
 {
-    internal class Map
+    public class Map
     {
+        UIManager uiManager;
+        public Map(UIManager uiManager)
+        {
+            this.uiManager = uiManager;
+        }
         public void GroupFiveMap()
         {
             List<MapObject> groupFiveMapObject = new List<MapObject>();
@@ -55,28 +60,7 @@ namespace week3
             Choice(manager3RoomObject);
         }
 
-        void Choice(List<MapObject> maps)
-        {
-            int listCount = maps.Count;
-
-            Console.WriteLine("ㅇㅇ의 방에 들어왔다. 도움될만한 물건을 찾아보자.");
-
-            for (int i = 0; i < listCount; i++)
-            {
-                string list = $"{i + 1}. {maps[i].Name}";
-                string describe = $"{maps[i].Description}";
-                Console.WriteLine(list);
-            }
-
-            int choose = InputManager.GetInt(1, listCount) - 1;
-
-            string choosedObjectDiscribe = maps[choose].Description;
-
-            Console.WriteLine(choosedObjectDiscribe);
-            Thread.Sleep(1000);
-            Console.WriteLine("진행하려면 엔터를 누르세요.");
-            Console.ReadLine();
-        }
+        
 
         List<MapObject> mapObjectList = new List<MapObject>()
         {
@@ -87,5 +71,5 @@ namespace week3
             new MapObject("쓰레기통", "열쇠를 발견했다... 음? 열쇠가 움직인다...?", ObjectType.Monster)
         };
 
-    }
+    }   
 }
