@@ -10,7 +10,8 @@
         public int AttackPower { get; set; }
         public int Defense { get; set; }
 
-        public int Hp { get; private set; }
+        public int CurrentHp { get; private set; }
+        public int MaxHp { get; private set; }
         public int Gold { get; private set; }
         public int ZebCoin { get; set; }
 
@@ -26,7 +27,8 @@
             BaseDefense = 5;
             AttackPower = 0;
             Defense = 0;
-            Hp = 90;
+            CurrentHp = 90;
+            MaxHp = 100;
             Gold = 1500;
             ZebCoin = 0;
         }
@@ -57,23 +59,26 @@
         public void SpendGold(int value)
         {
             Gold -= value;
+            if( Gold < 0 ) { Gold = 0; }
             Console.WriteLine($"[시스템] {Name}의 Gold가 {value}G 감소! (현재: {Gold})");
         }
 
         //스탯 증가 메서드
         public void Heal(int amount)
         {
-            Hp += amount;
+            CurrentHp += amount;
+
+            if( CurrentHp > MaxHp ) { CurrentHp = MaxHp; }
         }
 
         //스탯 감소 메서드
         public void TakeDamage(int amount)
         {
-            Hp -= amount;
+            CurrentHp -= amount;
 
-            if (Hp < 0)
+            if (CurrentHp < 0)
             {
-                Hp = 0;
+                CurrentHp = 0;
                 Die();
             }
         }
@@ -82,6 +87,12 @@
         public void ReduceSpirit(int amount)
         {
             Spirit -= amount;
+            if( Spirit < 0 )
+            { 
+                Spirit = 0;
+                Die();
+            }
+
             Console.WriteLine($"[전투] {Name}의 정신력 - {amount} (현재: {Spirit})");
         }
 
