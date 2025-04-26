@@ -14,9 +14,8 @@
         public int MaxHp { get; private set; }
         public int Gold { get; private set; }
         public int ZebCoin { get; set; }
-
         public int Spirit { get; private set; }
-
+        public bool IsPlayerAlive { get; private set; }
 
 
 
@@ -30,6 +29,7 @@
             CurrentHp = 90;
             MaxHp = 100;
             Gold = 1500;
+            IsPlayerAlive = true;
             ZebCoin = 0;
         }
         // 스탯 창 들고오는 함수
@@ -132,6 +132,7 @@
         {
             Console.WriteLine("... 몸이 점점 무거워지고 눈 앞이 흐려진다... 출석... 해야하는데...");
             Console.WriteLine("GAME OVER");
+            IsPlayerAlive = false;
             // 시작화면? 호출? 적절한 메서드 호출하기.
         }
     }
