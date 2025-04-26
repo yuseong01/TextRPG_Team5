@@ -9,5 +9,13 @@ namespace week3
     public class Map
     {
         public List<MapObject> mapObjectList = new List<MapObject>();
+        public string mapName {get; set;}
+        public bool isClear {get; set;}
+
+        public Map(string mapName)
+        {
+            this.mapName = mapName;
+            isClear = false;
+        }
     }   
 }

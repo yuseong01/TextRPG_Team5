@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using week3;
-﻿using System.Numerics;
+using System.Numerics;
 
 namespace week3
 {
@@ -51,20 +51,32 @@ namespace week3
                     break;
                 case MapManager.mapType.Manager1RoomMap:
                     Console.OutputEncoding = System.Text.Encoding.UTF8;
-                    Console.WriteLine(value: Constants.MANAGER_ROOM_UI_STRING[0]);
+                    Console.WriteLine(value: Constants.MANAGER1_ROOM_UI_STRING[0]);
                     break;
                 case MapManager.mapType.Manager2RoomMap:
                     Console.OutputEncoding = System.Text.Encoding.UTF8;
-                    Console.WriteLine(value: Constants.MANAGER_ROOM_UI_STRING[0]);
+                    Console.WriteLine(value: Constants.MANAGER2_ROOM_UI_STRING[0]);
                     break;
                 case MapManager.mapType.Manager3RoomMap:
                     Console.OutputEncoding = System.Text.Encoding.UTF8;
-                    Console.WriteLine(value: Constants.MANAGER_ROOM_UI_STRING[0]);
+                    Console.WriteLine(value: Constants.MANAGER3_ROOM_UI_STRING[0]);
                     break;
                 default:
                     break;
             }
         }
+        public void ShowMapDescriptionUI(string mapName, List<MapObject> mapObjects)
+        {
+            Console.WriteLine($"{mapName}에 들어왔다. 도움될만한 물건을 찾아보자.");
+
+            for (int i = 0; i < mapObjects.Count; i++)
+            {
+                string list = $"{i + 1}. {mapObjects[i].Name}";
+                string describe = $"{mapObjects[i].Description}";
+                Console.WriteLine(list);
+            }
+        }
+
         //보스 몬스터
         public  void ShowBossStatus(BossMonster_Data boss)
         {
@@ -83,11 +95,7 @@ namespace week3
             Console.ReadKey(true);
             BossMonster_Battle.PlayerTurn();
         }
-        
+
     }
 
 }
-
-
-
-
