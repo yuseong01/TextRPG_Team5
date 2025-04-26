@@ -37,7 +37,6 @@ namespace week3
         Inventory,
         Store,
         Money,
-        Quiz,
         Monster,
         HardMonster,
     }
