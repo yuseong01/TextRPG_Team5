@@ -9,12 +9,13 @@ namespace week3
         UIManager uiManager= new UIManager();
         Player player;
         MapManager mapManager;
+        InventoryManager inventoryManager = new InventoryManager();
         
         public GameManager() 
         {
             //gameIntroUI = new GameIntroUI(soundManager);
             player = new Player();
-            mapManager = new MapManager(uiManager);
+            mapManager = new MapManager(uiManager,player, inventoryManager);
         }
         public void GameStart() 
         {

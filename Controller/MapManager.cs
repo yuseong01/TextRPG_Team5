@@ -6,10 +6,14 @@ public class MapManager
     UIManager uiManager;
     public List<Map> maps = new List<Map>();
     public List<MapObject> baseMapObject = new List<MapObject>();
+    Player player;
+    InventoryManager inventoryManager;
 
-    public MapManager(UIManager uiManager)
+    public MapManager(UIManager uiManager, Player player, InventoryManager inventoryManager)
     {
+        this.player=player;
         this.uiManager = uiManager;
+        this.inventoryManager = inventoryManager;
 
         maps.Add(new Map("5조"));
         maps.Add(new Map("복도"));
@@ -85,7 +89,6 @@ public class MapManager
             CheckMapClear(maps[mapTypeNumber]);
             if(maps[mapTypeNumber].isClear)
             {
-                
                 break;
             }
 
@@ -137,19 +140,17 @@ public class MapManager
         switch (mapObject.ObjectType)
         {
             case ObjectType.PlayerStat:
-                //플레이어 스탯창 함수 호출
-                Console.WriteLine("스탯창 보여줌");
+                player.ShowPlayerStat();
                 break;
             case ObjectType.Inventory:
-                //인벤토리 함수 호출
-                Console.WriteLine("인벤토리창 보여줌");
+                inventoryManager.ShowInventory();
                 break;
             case ObjectType.Store:
                 //상점 함수 호출
                 Console.WriteLine("상점 보여줌");
                 break;
             case ObjectType.Money:
-                //그냥 돈줌
+                player.AddGold(500);
                 Console.WriteLine("러키머니 겟");
                 break;
             case ObjectType.Quiz:
