@@ -140,7 +140,7 @@ namespace week3
         }
 
         // 다수 몬스터와 그룹 배틀 시작 (static 메서드)
-        public static void StartGroupBattle(List<Monster> monsters, Player player)
+        public void StartGroupBattle(List<Monster> monsters, Player player)
         {
             List<Monster> randomMonsters = MonsterManager.GetRandomMonsters(new Random().Next(1, 5));
             // 랜덤 1~4마리 생성
@@ -149,7 +149,7 @@ namespace week3
 
             // 몬스터가 다 죽거나 플레이어가 죽을 때까지 반복
 
-            while (randomMonsters.Any(monster => !monster.IsDefeated) && player.IsAlive)
+            while (randomMonsters.Any(monster => !monster.IsDefeated) && player.IsPlayerAlive)
             {
                 DisplayMonsters(randomMonsters); // 현재 살아있는 몬스터 보여주기
                 Monster target = SelectTarget(randomMonsters); // 유저가 타겟 선택
@@ -168,15 +168,15 @@ namespace week3
                 foreach (var m in monsters.Where(m => !m.IsDefeated))
                 {
                     player.TakeDamage(m.AttackPower);
-                    if (!player.IsAlive) break; // 플레이어 사망 시 루프 중단
+                    if (!player.IsPlayerAlive) break; // 플레이어 사망 시 루프 중단
                 }
             }
 
             // 전투 결과 출력
-            Console.WriteLine(player.IsAlive ? " ===== [승리!] =====" : " ===== [패배....] =====");
+            Console.WriteLine(player.IsPlayerAlive ? " ===== [승리!] =====" : " ===== [패배....] =====");
         }
 
-        private static void DisplayMonsters(List<Monster> monsters)
+        private void DisplayMonsters(List<Monster> monsters)
         {
             Console.WriteLine("\n ===== 몬스터 목록 =====");
 
@@ -198,7 +198,7 @@ namespace week3
         }
 
         // SelectTarget == AttackMenu ? 확인해야함 몬스터 번호 선택 관련 및 문제 204 - 241 무언가 뒤틀려있음
-        private static Monster SelectTarget(List<Monster> monsters)
+        private Monster SelectTarget(List<Monster> monsters)
         {
             Console.Write("\n 공격할 몬스터 번호: ");
             if (int.TryParse(Console.ReadLine(), out int index) && index <= monsters.Count)
@@ -215,7 +215,7 @@ namespace week3
             return null;
         }
        
-        private static void AttackMenu(List<Monster> aliveMonsters, Player player) 
+        private void AttackMenu(List<Monster> aliveMonsters, Player player) 
         {
             Console.Write("\n공격할 몬스터 번호 선택:");
             if (int.TryParse(Console.ReadLine(), out int selectedIndex) &&
@@ -230,7 +230,7 @@ namespace week3
             }
         }
 
-        private static bool AskQuestion(Monster monster)
+        private bool AskQuestion(Monster monster)
         {
             Console.WriteLine($"\n{monster.Name}의 문제: {monster.Question}");
             Console.Write("정답 입력:");
