@@ -75,7 +75,7 @@ namespace week3
             else
             {
              
-                inventory.AddItem(index);
+                inventory.AddItem(itemIndex);
                 player.SpendGold(selectedItem.Price);
                 if (selectedItem.Type == "회복") // 아이템 타입을 확인하고 회복 아이템이면 판매완료 문구 띄우지 않음.
                 {
