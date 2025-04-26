@@ -6,8 +6,9 @@ namespace week3
 {
     public class UIManager
     {
+        Player player;
         // 플레이어 관련
-        public void ShowStatus(Player player)
+        public void ShowStatus()
         {
             Console.WriteLine($"이름: {player.Name}");
             Console.WriteLine($"체력 : {player.CurrentHp}");

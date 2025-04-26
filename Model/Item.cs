@@ -7,7 +7,6 @@
         public string Type { get; private set; }
         public int Value { get; private set; }
         public bool IsEquip {  get; private set; }
-
         public bool IsSold { get; private set; }
         public int Price { get; private set; }
 
@@ -16,6 +15,7 @@
             Name = name;
             Description = description;
             Type = type;
+            IsSold = false;
             Price = price;
         }
 
