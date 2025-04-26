@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace week3.Model
 {
-    internal class PlayerController
+    public class PlayerController
     {
         Player player;
         Random random = new Random();

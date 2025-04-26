@@ -84,7 +84,7 @@ namespace week3
             Console.Clear();
             Console.WriteLine($"<매니저 스펙>");
             Console.WriteLine(new string('=', 35));
-            Console.WriteLine($"{boss.Name}");
+            Console.WriteLine($"{boss.BossMonsterName}");
             Console.WriteLine($"공격력: {boss.Atk}");
             Console.WriteLine($"방어력: {boss.Def}");
             Console.WriteLine($"체력: {boss.MaxHP}");

@@ -26,16 +26,16 @@ namespace week3
         void PrintStatusBar() // 체력바
         {
             Console.WriteLine(new string('=', 55));
-            Console.WriteLine($"내 체력 : {player.CurrentHp} / {player.MaxHp}  {bossMonster.Name}의 체력 : {bossMonster.HP} / {bossMonster.MaxHP}");
+            Console.WriteLine($"내 체력 : {player.CurrentHp} / {player.MaxHp}  {bossMonster.BossMonsterName}의 체력 : {bossMonster.HP} / {bossMonster.MaxHP}");
             Console.WriteLine(new string('=', 55));
         }
         // 보스 몬스터 조우
         void BossBattle_Park()
         {
             Console.Clear();
-            bossMonster.CopyFrom(BossMonster_Data.BossMonsterData["관리하는 박찬우 매니저"]);
+            bossMonster.CopyFrom(bossMonster.BossMonsterData["관리하는 박찬우 매니저"]);
 
-            Console.WriteLine($"{bossMonster.Name} : 우오오오오오오오!!! 우오오오오오오오오!!");
+            Console.WriteLine($"{bossMonster.BossMonsterName} : 우오오오오오오오!!! 우오오오오오오오오!!");
             Console.WriteLine();
             Console.ReadKey(true);
 
@@ -48,7 +48,7 @@ namespace week3
 
             bossMonster.CopyFrom(BossMonster_Data.BossMonsterData["메아리치는 나영웅 매니저"]);
 
-            Console.WriteLine($"{bossMonster.Name} : 인간적인 감정이 없었다면 어려움도 없었겠죠.\n제가 당신의 감정을 없애드리죠.");
+            Console.WriteLine($"{bossMonster.BossMonsterName} : 인간적인 감정이 없었다면 어려움도 없었겠죠.\n제가 당신의 감정을 없애드리죠.");
             Console.WriteLine();
             Console.ReadKey(true);
 
@@ -61,7 +61,7 @@ namespace week3
 
             bossMonster.CopyFrom(BossMonster_Data.BossMonsterData["공간 지배의 한효승 매니저"]);
 
-            Console.WriteLine($"{bossMonster.Name} : 그렇게 계속 청개구리처럼 행동할겁니까?");
+            Console.WriteLine($"{bossMonster.BossMonsterName} : 그렇게 계속 청개구리처럼 행동할겁니까?");
             Console.WriteLine();
             Console.ReadKey(true);
 
@@ -72,7 +72,7 @@ namespace week3
         {
             foreach (var s in boss.Skills)
             {
-                if (s.Name == name)
+                if (s.SkillName == name)
                 {
                     return s;
                 }
@@ -377,7 +377,7 @@ namespace week3
             Console.Clear();
             if (bossMonster.HP <= 0)
             {
-                switch (bossMonster.Name)
+                switch (bossMonster.BossMonsterName)
                 {
                     case "관리하는 박찬우 매니저":
                         Console.WriteLine("자유에는... 질서와 통제가... 필요...");
@@ -412,7 +412,7 @@ namespace week3
             }
             else
             {
-                switch (bossMonster.Name)
+                switch (bossMonster.BossMonsterName)
                 {
                     case "관리하는 박찬우 매니저":
                         if (bossMonster.parkPhase == 1)
@@ -429,19 +429,19 @@ namespace week3
                         break;
                     case "메아리치는 나영웅 매니저":
                         bossMonster.Def++;
-                        Console.WriteLine($"{bossMonster.Name}는 점점 단단해지고 있다.\n전투가 길어지면 불리할 것 같다.");
+                        Console.WriteLine($"{bossMonster.BossMonsterName}는 점점 단단해지고 있다.\n전투가 길어지면 불리할 것 같다.");
                         Console.ReadKey(true);
                         if (bossMonster.heroTime > 0)
                         {
                             bossMonster.heroTime++;
-                            Console.WriteLine($"{bossMonster.Name}의 장송곡이 끝나기까지 앞으로 {bossMonster.heroTime}번.");
+                            Console.WriteLine($"{bossMonster.BossMonsterName}의 장송곡이 끝나기까지 앞으로 {bossMonster.heroTime}번.");
                             Console.ReadKey(true);
                         }
                         PrepareManager_Hero(bossMonster);
                         break;
                     case "공간 지배의 한효승 매니저":
                         bossMonster.reinforceZoomEva++;
-                        Console.WriteLine($"{bossMonster.Name}는 매우 빠르게 좌우로 움직이고 있다.");
+                        Console.WriteLine($"{bossMonster.BossMonsterName}는 매우 빠르게 좌우로 움직이고 있다.");
                         Console.ReadKey(true);
                         if (bossMonster.reinforceZoomAtk == 1)
                         {
@@ -462,7 +462,7 @@ namespace week3
                         if (bossMonster.reinforceZoomEva == 3)
                         {
                             bossMonster.reinforceZoomEva = 0;
-                            Console.WriteLine($"{bossMonster.Name}의 움직임이 원래대로 돌아왔다.");
+                            Console.WriteLine($"{bossMonster.BossMonsterName}의 움직임이 원래대로 돌아왔다.");
                         }
                         PrepareManager_Zoom(bossMonster);
                         break;
