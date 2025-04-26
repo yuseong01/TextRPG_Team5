@@ -9,18 +9,14 @@ namespace week3
 
         //여기에 아이템이 있으면 "if 아이템있음?이렇게" 전투에서 사용 
         List<Item> playerItems;
-        List<Item> healingItems;
-        List<Item> equipmentItems;
 
 
         public InventoryManager()
         {
             playerItems = new List<Item>();
-            healingItems = playerItems.Where(item => item.Type == "회복").ToList();
-            equipmentItems = playerItems.Where(item => item.Type != "회복").ToList();
         }
 
-        public void ShowInventory()
+        public void ShowInventory() // inventory 입장 메서드
         {
             while(true)
             {
@@ -34,6 +30,7 @@ namespace week3
 
         void AllItemList()
         {
+            Console.Clear();
             for (int i = 0; i < playerItems.Count; i++)
             {
                 string index = (playerItems[i].IsEquip)? "[E]" : $"{i + 1}.";
