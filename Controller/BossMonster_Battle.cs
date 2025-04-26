@@ -13,6 +13,7 @@ namespace week3
     public class BossMonster_Battle
     {
         Player player;
+        Item item;
         InventoryManager inventory;
         BossMonster_Data bossMonster;
         Random random = new Random();
@@ -21,7 +22,7 @@ namespace week3
         int playerDamage = 0; // 보스 피격 대미지 저장용
         int bossDamage = 0; // 플레이어 피격 대미지 저장용
         bool isBossAttackSuccess = true;
-        bool isAttackItemUsed = false;
+
 
         void PrintStatusBar() // 체력바
         {
@@ -46,7 +47,7 @@ namespace week3
         {
             Console.Clear();
 
-            bossMonster.CopyFrom(BossMonster_Data.BossMonsterData["메아리치는 나영웅 매니저"]);
+            bossMonster.CopyFrom(bossMonster.BossMonsterData["메아리치는 나영웅 매니저"]);
 
             Console.WriteLine($"{bossMonster.BossMonsterName} : 인간적인 감정이 없었다면 어려움도 없었겠죠.\n제가 당신의 감정을 없애드리죠.");
             Console.WriteLine();
@@ -59,7 +60,7 @@ namespace week3
         {
             Console.Clear();
 
-            bossMonster.CopyFrom(BossMonster_Data.BossMonsterData["공간 지배의 한효승 매니저"]);
+            bossMonster.CopyFrom(bossMonster.BossMonsterData["공간 지배의 한효승 매니저"]);
 
             Console.WriteLine($"{bossMonster.BossMonsterName} : 그렇게 계속 청개구리처럼 행동할겁니까?");
             Console.WriteLine();
@@ -248,20 +249,22 @@ namespace week3
         void PlayerTurn()
         {
             Console.Clear();
-            isAttackItemUsed = false;
+            if(item.AttackItemUsed)
+            {
+                item.ToggleAttackItemUsed();
+            }
             PrintStatusBar();
             if (bossMonster.NextSkill != null && bossMonster.NextSkill.HintDialogue.Count > 0)
             {
                 string hint = bossMonster.NextSkill.HintDialogue[random.Next(bossMonster.NextSkill.HintDialogue.Count)];
                 Console.WriteLine(hint);
             }
-            Console.WriteLine("행동을 정해야한다.");
-            Console.WriteLine("1. 공격");
-            Console.WriteLine("2. 소비 아이템 사용");
-            Console.WriteLine("3. 매니저 스펙 확인");
-            Console.WriteLine("4. 도주\n");
+            Console.WriteLine("인벤토리를 열어 행동을 정해야한다.");
+            Console.WriteLine("1. 인벤토리 확인");
+            Console.WriteLine("2. 매니저 스펙 확인");
+            Console.WriteLine("3. 도주\n");
 
-            int input = InputManager.GetInt(1, 4);
+            int input = InputManager.GetInt(1, 3);
 
             switch (input)
             {
@@ -272,7 +275,7 @@ namespace week3
 
                     if (attackInput == 1)
                     {
-                        BossMonster_Inventory.BattleItemMenu(ref isAttackItemUsed);
+                        inventory.ShowInventory();
                         if (isAttackItemUsed)
                         {
                             playerDamage = 25;
@@ -291,22 +294,12 @@ namespace week3
                         Console.ReadKey(true);
                         PlayerTurn();
                     }
-                    else
-                    {
-                        Console.WriteLine("잘못된 입력");
-                        Console.ReadKey(true);
-                        PlayerTurn();
-                    }
                     break;
-                case 2: Console.WriteLine("소비 아이템");
-                    Console.ReadKey(true);
-                    BossMonster_Inventory.ConsumableItemMenu();
-                    BossTurn();
-                    break;
-                case 3:
+                case 2: 
                     BossMonster_Status.ShowBossStatus(bossMonster);
                     break;
-                case 4: Console.WriteLine("도주할 수 없다.");
+
+                case 3: Console.WriteLine("도주할 수 없다.");
                     Console.ReadKey(true);
                     PlayerTurn();
                     break;
