@@ -142,7 +142,8 @@ namespace week3
         // 다수 몬스터와 그룹 배틀 시작 (static 메서드)
         public void StartGroupBattle(List<Monster> monsters, Player player)
         {
-            List<Monster> randomMonsters = MonsterManager.GetRandomMonsters(new Random().Next(1, 5));
+            MonsterManager monsterManager = new MonsterManager();
+            List<Monster> randomMonsters = monsterManager.GetRandomMonsters(new Random().Next(1, 5));
             // 랜덤 1~4마리 생성
 
             Console.WriteLine("===== [전투 시작] =====");
