@@ -7,17 +7,26 @@ using week3;
 
 namespace week3
 {
+    // 몬스터를 관리하는 매니저 클래스
     public class MonsterManager
     {
+        // 필드 영역
+
+        // 일반 몬스터 리스트
         private static List<Monster> normalMonsters { get; } = new List<Monster>(); //-lv.2 lv4 lv10 lv6  <-한전투에 계속 등장할 애들 (랜덤값으로 1-4마리가 나와요)  
+        // 하드 몬스터 리스트
         private static List<Monster> hardMonsters { get; } = new List<Monster>();
 
-        // 랜덤 선택을 위한 Random 인스턴스
+        // 랜덤 숫자 생성을 위한 Random 인스턴스
         private static Random random = new Random();
 
+        // ========= 메서드 영역 =========
+
+        // 몬스터 데이터를 초기화하는 함수
         public void InitializeMonsters()
         {
-            // 일반 몬스터
+            // 일반 몬스터 추가
+
             normalMonsters.Add(new Monster(
             name: "컴파일에러(CS1002)",
             type: MonsterType.Normal,
@@ -74,7 +83,9 @@ namespace week3
             maxHealth: 50,
             attackPower: 5
             ));
-            // 하드 몬스터
+
+            // 하드 몬스터 추가
+
             hardMonsters.Add(new Monster(
             name: "ZebC□in",
             type: MonsterType.Hard,
@@ -116,27 +127,37 @@ namespace week3
             ));
         }
 
+        // 랜덤으로 몬스터를 가져오는 함수
+        // count: 가져올 몬스터 수
+        // includeHard: true면 하드 몬스터도 포함
+
         public static List<Monster> GetRandomMonsters(int count, bool includeHard = false)
         {
             List<Monster> allMonsters = new List<Monster>(normalMonsters);
-            if (includeHard) allMonsters.AddRange(hardMonsters);
 
+
+            // 하드 몬스터를 포함해야 한다면 추가
             if (includeHard)
-                allMonsters.AddRange(hardMonsters);
-
-            if (count <= 0 || allMonsters.Count == 0)
-                return new List<Monster>();
-
-            List<Monster> selected = new List<Monster>();
-            var tempList = new List<Monster>(allMonsters);
-
-            for (int i = 0; i < Math.Min(count, tempList.Count); i++)
             {
-                int index = random.Next(tempList.Count);
-                selected.Add(tempList[index]);
-                tempList.RemoveAt(index);
+                allMonsters.AddRange(hardMonsters);
             }
-            return selected;
+            List<Monster> selectedMonsters = new List<Monster>();
+
+            // allMonsters.AddRange(hardMonsters); // 하드 몬스터 항상 추가
+
+            // 랜덤으로 몬스터 뽑기
+            List<Monster> tempList = new List<Monster>(allMonsters);
+
+            for (int i = 0; i < count; i++)
+            {
+                // 뽑을 몬스터가 더 이상 없으면 중단
+                if (tempList.Count == 0) break;
+
+                int index = random.Next(tempList.Count); // 0~tempList.Count -1 중 하나 뽑기
+                selectedMonsters.Add(tempList[index]); // 몬스터 추가
+                tempList.RemoveAt(index); // 중복 방지를 위해 제거
+            }
+            return selectedMonsters;
         }
     }
 }
