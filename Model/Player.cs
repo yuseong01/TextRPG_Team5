@@ -2,6 +2,8 @@
 {
     public class Player
     {
+        InventoryManager inventory;
+
         public string Name { get; private set; }
         public int Attack { get; private set; }
         public int Defense { get; private set; }
@@ -15,7 +17,7 @@
         public int Spirit { get; private set; }
 
 
-        public InventoryManager inventory = new InventoryManager();
+
 
         //초기 스탯 설정
         public Player()
@@ -86,6 +88,16 @@
                 CurrentHp = 0;
                 Die();
             }
+        }
+
+        public void RemoveAttackPower(int value)
+        {
+            AdditionalAttackPower -= value;
+        }
+
+        public void RemoveDefensePower(int value)
+        {
+            AdditionalDefensePower -= value;
         }
 
         //정신력 감소 메서드
