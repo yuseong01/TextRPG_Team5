@@ -9,13 +9,13 @@ namespace week3
 {
     public class MonsterManager
     {
-        private List<Monster> normalMonsters { get; } = new List<Monster>(); //-lv.2 lv4 lv10 lv6  <-한전투에 계속 등장할 애들 (랜덤값으로 1-4마리가 나와요)  
-        private List<Monster> mimicMonsters { get; } = new List<Monster>();
+        private static List<Monster> normalMonsters { get; } = new List<Monster>(); //-lv.2 lv4 lv10 lv6  <-한전투에 계속 등장할 애들 (랜덤값으로 1-4마리가 나와요)  
+        private static List<Monster> hardMonsters { get; } = new List<Monster>();
 
         // 랜덤 선택을 위한 Random 인스턴스
-        private Random random = new Random();
+        private static Random random = new Random();
 
-        void InitializeMonsters()
+        public void InitializeMonsters()
         {
             // 일반 몬스터
             normalMonsters.Add(new Monster(
@@ -41,8 +41,6 @@ namespace week3
             correctAnswer: "protected",
             maxHealth: 50,
             attackPower: 5
-
-
             ));
             normalMonsters.Add(new Monster(
             name: "※△ㅁ쀓?뚫.뚫/딻?띫",
@@ -76,19 +74,19 @@ namespace week3
             maxHealth: 50,
             attackPower: 5
             ));
-            // 미믹 몬스터
-            normalMonsters.Add(new Monster(
+            // 하드 몬스터
+            hardMonsters.Add(new Monster(
             name: "ZebC□in",
             type: MonsterType.Hard,
             question: "지금 Zeb코인을 공짜로 얻으시려고요?" +
             "이 세상에는 대가 없는 공짜는 없습니다. . . 저를 건들이셨다니.. " +
-            "■※§○◎...  . int[]arr = {3, 2, 4, 1, 4} 를" +
+            "■※§○◎...  . int[]arr = {3, 2, 5, 1, 4} 를" +
             "Array.Sort(arr); 을 하면 arr은 어떻게 정렬이. 되나.요? ",
             correctAnswer: "1, 2, 3, 4, 5",
             maxHealth: 50,
             attackPower: 5
             ));
-            normalMonsters.Add(new Monster(
+            hardMonsters.Add(new Monster(
             name: "{message}",
             type: MonsterType.Hard,
             question: "단서를 쉽게 찾으려하다니." +
@@ -100,7 +98,7 @@ namespace week3
             maxHealth: 50,
             attackPower: 5
             ));
-            normalMonsters.Add(new Monster(
+            hardMonsters.Add(new Monster(
             name: "1",
             type: MonsterType.Hard,
             question: "",
@@ -108,7 +106,7 @@ namespace week3
             maxHealth: 50,
             attackPower: 5
             ));
-            normalMonsters.Add(new Monster(
+            hardMonsters.Add(new Monster(
             name: "2",
             type: MonsterType.Hard,
             question: "",
@@ -118,12 +116,13 @@ namespace week3
             ));
         }
 
-        List<Monster> GetRandomMonsters(int count, bool includeMimic = false)
+        public static List<Monster> GetRandomMonsters(int count, bool includeHard = false)
         {
             List<Monster> allMonsters = new List<Monster>(normalMonsters);
+            if (includeHard) allMonsters.AddRange(hardMonsters);
 
-            if (includeMimic)
-                allMonsters.AddRange(mimicMonsters);
+            if (includeHard)
+                allMonsters.AddRange(hardMonsters);
 
             if (count <= 0 || allMonsters.Count == 0)
                 return new List<Monster>();

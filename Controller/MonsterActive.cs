@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
@@ -93,6 +95,13 @@ namespace week3
                     string randomItem = commonItems[new Random().Next(commonItems.Length)];
                     player.AddItem(randomItem);
                 }
+                monster.Defeat();
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine($"[] {monster.Name} 처치 완료!");
+                Console.ResetColor();
+
+                //int zebReward = new Random().Next(10, 31);
+                //player.AddZebCoin(zebReward);
                 //Player.GainExperience(monster.ExperienceReward);
             }
             else
@@ -113,11 +122,104 @@ namespace week3
                         break;
 
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        Console.WriteLine("해당 몬스터 타입은 존재하지 않습니다");
+                        break;
 
+                }
+            }           
+        }
+
+        public static void StartGroupBattle(List<Monster> monsters, Player player)
+        {
+            List<Monster> randomMonsters = MonsterManager.GetRandomMonsters(new Random().Next(1, 5));
+            Console.WriteLine("===== [전투 시작] =====");
+
+            while (randomMonsters.Any(monster => !monster.IsDefeated) && player.IsAlive)
+            {
+                DisplayMonsters(randomMonsters);
+                Monster target = SelectTarget(randomMonsters);
+                if (target == null) continue;
+
+                bool isCorrect = AskQuestion(target);
+                if (isCorrect)
+                {
+                    Console.WriteLine($"[공격] {target.Name}에게 데미지!");
+                }
+                else
+                {
+                    Console.WriteLine("[공격 실패] 데미지 0!");
+                }
+                // 모든 몬스터가 플레이어 공격 (오름차순)
+                foreach (var m in monsters.Where(m => !m.IsDefeated))
+                {
+                    player.TakeDamage(m.AttackPower);
+                    if (!player.IsAlive) break;
+                }
+            }
+
+            
+            Console.WriteLine(player.IsAlive ? " ===== [승리!] =====" : " ===== [패배....] =====");
+        }
+
+        private static void DisplayMonsters(List<Monster> monsters)
+        {
+            Console.WriteLine("\n ===== 몬스터 목록 =====");
+
+            // 1. 몬스터 목록 표시 (사망 시 회색)
+
+            for (int i = 0; i < monsters.Count; i++)
+            {
+                if (monsters[i].IsDefeated)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"[X] {monsters[i].Name}(사망)");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine($"[{i + 1}] {monsters[i].Name}(HP: {monsters[i].CurrentHealth})");
                 }
             }
         }
+        private static Monster SelectTarget(List<Monster> monsters)
+        {
+            Console.Write("\n 공격할 몬스터 번호: ");
+            if (int.TryParse(Console.ReadLine(), out int index) && index <= monsters.Count)
+            {
+                Monster target = monsters[index - 1];
+                if (target.IsDefeated)
+                {
+                    Console.WriteLine("[오류] 이미 처치된 몬스터입니다!");
+                    return null;
+                }
+                return target;
+            }
+            Console.WriteLine("[오류] 잘못된 번호!");
+            return null;
+        }
+        private static void AttackMenu(List<Monster> aliveMonsters, Player player)
+        {
+            Console.Write("\n공격할 몬스터 번호 선택:");
+            if (int.TryParse(Console.ReadLine(), out int selectedIndex) &&
+                selectedIndex >= 1 && selectedIndex <= aliveMonsters.Count)
+            {
+                new MonsterActive(aliveMonsters[selectedIndex - 1]).AttackPlayer(player);
+            }
+            else
+            {
+                Console.WriteLine("잘못된 입력! 자동으로 첫 번째 몬스터를 공격합니다.");
+                new MonsterActive(aliveMonsters[0]).AttackPlayer(player);
+            }
+        }
+
+        private static bool AskQuestion(Monster monster)
+        {
+            Console.WriteLine($"\n{monster.Name}의 문제: {monster.Question}");
+            Console.Write("정답 입력:");
+            return Console.ReadLine() == monster.CorrectAnswer;
+        }
+
+
 
         // 몬스터별 행동 클래스
 
@@ -137,12 +239,8 @@ namespace week3
                 base.AttackPlayer(player);
                 if (!lastAnswerCorrect)
                 {
-                    base.AttackPlayer(player);        
-                    if (!lastAnswerCorrect)
-                    {
-                        Console.WriteLine("정신력이 깎입니다! (하드몬 특수효과");
-                        player.ReduceSpirit(1);
-                    }
+                    Console.WriteLine("정신력이 깎입니다! (하드몬 특수효과");
+                    player.ReduceSpirit(1);
                     // 플레이어 정신력 깎는 코드
                 }
             }

@@ -23,6 +23,9 @@ namespace week3
         public int AttackPower { get; private set; } 
         public int Defense { get; private set; } 
         public int ExperienceReward { get; private set; } 
+        public bool IsDefeated { get; private set; } // 추가
+
+        public void Defeat() => IsDefeated = true;
 
 
         
@@ -38,6 +41,5 @@ namespace week3
             ExperienceReward = expReward;
             CorrectAnswer = correctAnswer; 
         }
-
     }
 }
