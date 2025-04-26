@@ -16,12 +16,19 @@ namespace week3
         Item item;
         InventoryManager inventory;
         BossMonster_Data bossMonster;
+        BossMonster_Status bossStatus = new BossMonster_Status();
         Random random = new Random();
 
         List<BossMonster_Skill> normals = new List<BossMonster_Skill>(); // 일반공격 스킬 리스트화
         int playerDamage = 0; // 보스 피격 대미지 저장용
         int bossDamage = 0; // 플레이어 피격 대미지 저장용
         bool isBossAttackSuccess = true;
+        public bool IsAttackItemUsed { get; private set; } = false;
+
+        public void ToggleIsIsAttackItemUsed()
+        {
+            IsAttackItemUsed = !IsAttackItemUsed;
+        }
 
 
         void PrintStatusBar() // 체력바
@@ -246,7 +253,7 @@ namespace week3
             }
         }
         // 플레이어 턴 행동 선택
-        void PlayerTurn()
+        public void PlayerTurn()
         {
             Console.Clear();
             PrintStatusBar();
@@ -272,7 +279,7 @@ namespace week3
                     if (attackInput == 1)
                     {
                         inventory.ShowInventory();
-                        if (item.IsAttackItemUsed)
+                        if (IsAttackItemUsed)
                         {
                             playerDamage = 25;
                             isBossAttackSuccess = false;
@@ -291,8 +298,8 @@ namespace week3
                         PlayerTurn();
                     }
                     break;
-                case 2: 
-                    //BossMonster_Status.ShowBossStatus(bossMonster); //이거 어딧죠...? 제가 지웠나..? 안지운거같은데
+                case 2:
+                    bossStatus.ShowBossStatus(bossMonster); 
                     break;
 
                 case 3: Console.WriteLine("도주할 수 없다.");
