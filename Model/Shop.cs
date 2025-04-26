@@ -38,7 +38,7 @@ namespace week3
 
         private void AllShopItemList()
         {
-            Console.Clear()
+            Console.Clear();
             number = shopItems.Count;
 
             Console.WriteLine("=== 상점 목록 ===");

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using week3;
 
 
@@ -10,22 +11,19 @@ namespace week3
     // 몬스터를 관리하는 매니저 클래스
     public class MonsterManager
     {
-        // 필드 영역
+        Random random = new Random();
+        Player player;
+        Monster monster;
+        List<Monster> normalMonsters = new List<Monster>(); //-lv.2 lv4 lv10 lv6  <-한전투에 계속 등장할 애들 (랜덤값으로 1-4마리가 나와요)  
+        List<Monster> hardMonsters = new List<Monster>();
 
-        // 일반 몬스터 리스트
-        private List<Monster> normalMonsters { get; } = new List<Monster>(); //-lv.2 lv4 lv10 lv6  <-한전투에 계속 등장할 애들 (랜덤값으로 1-4마리가 나와요)  
-        // 하드 몬스터 리스트
-        private List<Monster> hardMonsters { get; } = new List<Monster>();
 
-        // 랜덤 숫자 생성을 위한 Random 인스턴스
-        private Random random = new Random();
 
         // ========= 메서드 영역 =========
 
         // 몬스터 데이터를 초기화하는 함수
-        public void InitializeMonsters()
+        public void AddMonsters()
         {
-            // 일반 몬스터 추가
 
             string monster1question = @"
 CS1002가 당신에게 다가옵니다. 
@@ -92,28 +90,30 @@ TIL 작성은요? 제출은요? 퇴실체크는요? .. .다 안 하셨군요. . 
             string monster7question = @"
 -
 ";
-            normalMonsters.Add(MonsterFactory.CreateNormal("컴파일에러(CS1002)",monster1question, ";", 50, 5));
+            normalMonsters.Add(new Monster("컴파일에러(CS1002)",MonsterType.Normal, monster1question, ";", 50, 5));
 
-            normalMonsters.Add(MonsterFactory.CreateNormal("극한의 대문자 E", monster2question, ";", 50, 5));
+            normalMonsters.Add(new Monster("극한의 대문자 E", MonsterType.Normal, monster2question, ";", 50, 5));
 
-            normalMonsters.Add(MonsterFactory.CreateNormal("※△ㅁ쀓?뚫.뚫/딻?띫", monster3question, "FindNumberOptimized -> FindNumber", 50, 5));
+            normalMonsters.Add(new Monster("※△ㅁ쀓?뚫.뚫/딻?띫", MonsterType.Normal, monster3question, "FindNumberOptimized -> FindNumber", 50, 5));
 
-            normalMonsters.Add(MonsterFactory.CreateNormal("{name}", monster4question, "!=", 50, 5));
+            normalMonsters.Add(new Monster("{name}", MonsterType.Normal, monster4question, "!=", 50, 5));
 
-            hardMonsters.Add(MonsterFactory.CreateHard("ZebC□in", monster5question, "1, 2, 3, 4, 5", 50, 5));
+            hardMonsters.Add(new Monster("ZebC□in", MonsterType.Hard, monster5question, "1, 2, 3, 4, 5", 50, 5));
 
-            hardMonsters.Add(MonsterFactory.CreateHard("{message}", monster6question, " ", 50, 5));
+            hardMonsters.Add(new Monster("{message}", MonsterType.Hard, monster6question, " ", 50, 5));
 
-            hardMonsters.Add(MonsterFactory.CreateHard("FakeCam", monster7question, " ", 50, 5));
+            hardMonsters.Add(new Monster("FakeCam", MonsterType.Hard, monster7question, " ", 50, 5));
 
-            hardMonsters.Add(MonsterFactory.CreateHard("Codebraker", monster8question, " ", 50, 5));
+            hardMonsters.Add(new Monster("Codebraker", MonsterType.Hard, monster8question, " ", 50, 5));
         }
+
+
 
         // 랜덤으로 몬스터를 가져오는 함수
         // count: 가져올 몬스터 수
         // includeHard: true면 하드 몬스터도 포함
 
-        public static List<Monster> GetRandomMonsters(int count, bool includeHard = false)
+        public List<Monster> GetRandomMonsters(int count, bool includeHard = false)
         {
             List<Monster> allMonsters = new List<Monster>(normalMonsters);
 
@@ -140,18 +140,6 @@ TIL 작성은요? 제출은요? 퇴실체크는요? .. .다 안 하셨군요. . 
                 tempList.RemoveAt(index); // 중복 방지를 위해 제거
             }
             return selectedMonsters;
-        }
-        
-        public class MonsterFactory
-        {
-            public Monster CreateNormal(string name, string question, string correctAnswer, int maxHealth, int attackPower)
-            {
-                return new Monster(name, MonsterType.Normal, question, correctAnswer, maxHealth, attackPower);
-            }
-            public Monster CreateHard(string name, string question, string correctAnswer, int maxHealth, int attackPower)
-            {
-                return new Monster(name, MonsterType.Hard, question, correctAnswer, maxHealth, attackPower);
-            }
         }
     }
 }
