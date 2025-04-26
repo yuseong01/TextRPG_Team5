@@ -23,6 +23,12 @@ namespace week3
         int playerDamage = 0; // 보스 피격 대미지 저장용
         int bossDamage = 0; // 플레이어 피격 대미지 저장용
         bool isBossAttackSuccess = true;
+        public bool IsAttackItemUsed { get; private set; } = false;
+
+        public void ToggleIsIsAttackItemUsed()
+        {
+            IsAttackItemUsed = !IsAttackItemUsed;
+        }
 
 
         void PrintStatusBar() // 체력바
@@ -273,7 +279,7 @@ namespace week3
                     if (attackInput == 1)
                     {
                         inventory.ShowInventory();
-                        if (item.IsAttackItemUsed)
+                        if (IsAttackItemUsed)
                         {
                             playerDamage = 25;
                             isBossAttackSuccess = false;
@@ -293,7 +299,7 @@ namespace week3
                     }
                     break;
                 case 2:
-                    bossStatus.ShowBossStatus(bossMonster); //이거 어딧죠...? 제가 지웠나..? 안지운거같은데
+                    bossStatus.ShowBossStatus(bossMonster); 
                     break;
 
                 case 3: Console.WriteLine("도주할 수 없다.");

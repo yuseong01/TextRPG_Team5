@@ -11,6 +11,7 @@ namespace week3
         MapManager mapManager;
         InventoryManager inventoryManager = new InventoryManager();
         Shop shop = new Shop();
+        BossMonster_Battle bossBattle = new BossMonster_Battle();
         
         public GameManager() 
         {

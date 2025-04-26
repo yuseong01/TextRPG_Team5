@@ -6,6 +6,7 @@ namespace week3
     {
         Item item;
         PlayerController playerController;
+        BossMonster_Battle battle;
 
         //여기에 아이템이 있으면 "if 아이템있음?이렇게" 전투에서 사용 
         List<Item> playerItems;
@@ -64,8 +65,8 @@ namespace week3
             }
             else
             {
-                item.ToggleIsAttackItemUsed(item);
                 Console.WriteLine($"{item.Name}을(를) 사용했다.");
+                battle.ToggleIsIsAttackItemUsed();
             }
         }
 
