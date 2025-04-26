@@ -41,5 +41,33 @@ namespace week3.Model
             player.TakeDamage(damage);
         }
 
+        public void ApplyEquipmentStats(Item item)
+        {
+            if(item.Type == "무기")
+            {
+                int value = item.Value;
+                player.AddAttackPower(value);
+            }
+            else if(item.Type == "방어구")
+            {
+                int value = item.Value;
+                player.AddDefensePower(value);
+            }
+        }
+
+        public void RemoveEquipmentStats(Item item)
+        {
+            if (item.Type == "무기")
+            {
+                int value = item.Value;
+                player.RemoveAttackPower(value);
+            }
+            else if (item.Type == "방어구")
+            {
+                int value = item.Value;
+                player.RemoveDefensePower(value);
+            }
+        }
+
     }
 }

@@ -1,20 +1,84 @@
-﻿namespace week3
+﻿using week3.Model;
+
+namespace week3
 {
     public class InventoryManager
     {
+        Item item;
+        PlayerController playerController;
+
         //여기에 아이템이 있으면 "if 아이템있음?이렇게" 전투에서 사용 
-        private List<Item> playerItems = new List<Item>();
-        
+        List<Item> playerItems;
+        List<Item> healingItems;
+        List<Item> equipmentItems;
+
+
+        public InventoryManager()
+        {
+            playerItems = new List<Item>();
+            healingItems = playerItems.Where(item => item.Type == "회복").ToList();
+            equipmentItems = playerItems.Where(item => item.Type != "회복").ToList();
+        }
+
+        public void ShowInventory()
+        {
+            while(true)
+            {
+            AllItemList();
+            int inputNum = InputManager.GetInt(1, playerItems.Count);
+                if (inputNum == 0) break;
+            int itemIndex = inputNum - 1;
+            UseOrEquipItem(itemIndex);
+            }
+        }
+
+        void AllItemList()
+        {
+            for (int i = 0; i < playerItems.Count; i++)
+            {
+                string index = (playerItems[i].IsEquip)? "[E]" : $"{i + 1}.";
+
+                string item = $"{index} {playerItems[i].Name,-10}| {playerItems[i].Description,-30}";
+                Console.WriteLine(item);
+            }
+            Console.WriteLine("장착하거나 사용할 아이템 번호를 선택해주세요. \n나가려면 0을 눌러주세요.");
+        }
+
+        void UseOrEquipItem(int itemIndex)
+        {
+            item = ItemData[itemIndex];
+
+            if (item.Type == "무기" || item.Type == "방어구")
+            {
+                item.ToggleEquipStatus(item);
+                
+                if(item.IsEquip)
+                {
+                    playerController.ApplyEquipmentStats(item);
+                }
+                else
+                {
+                    playerController.RemoveEquipmentStats(item);
+                }
+            }
+            else if(ItemData[itemIndex].Type == "회복")
+            {
+                UseItem(itemIndex);
+            }
+        }
+
         public void AddItem(int itemIndex)
         {
             playerItems.Add(ItemData[itemIndex]);
             Console.WriteLine($"{ItemData[itemIndex].Name}을(를) 인벤토리에 추가했습니다.");
         }
 
-        public void RemoveItem(int itemIndex)
+ 
+
+        void UseItem(int itemIndex)
         {
-            playerItems.Remove(ItemData[itemIndex]);
-            Console.WriteLine($"{ItemData[itemIndex]}을(를) 인벤토리에서 제거했습니다.");
+            playerItems.Remove(playerItems[itemIndex]);
+            Console.WriteLine($"{playerItems[itemIndex]}을(를) 사용했습니다.");
         }
 
         public List<Item> ItemData = new List<Item>() // 아이템 데이터
