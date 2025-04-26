@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers; // 타이머 기능을 사용하기 위한 네임스페이스
-using week3;
+﻿using System.Timers; // 타이머 기능을 사용하기 위한 네임스페이스
 using week3.Model;
 using Timer = System.Timers.Timer; // 이름 충돌 방지용 별칭
 namespace week3
@@ -101,15 +93,6 @@ namespace week3
             int goldReward = random.Next(100, 301);
             player.AddGold(goldReward);
 
-            if (random.Next(100) < 30)
-            {
-                string[] commonItems = { /* 아이템 추가 예정 */ }; // [주석] : 아이템 추가 필요
-                if (commonItems.Length > 0) // [추가] : 예외 방지
-                {
-                    string randomItem = commonItems[random.Next(commonItems.Length)];
-                    player.AddItem(randomItem);
-                }
-            }
         }
 
 
@@ -190,8 +173,6 @@ namespace week3
                 }
             }
         }
-
-        // SelectTarget == AttackMenu ? 확인해야함 몬스터 번호 선택 관련 및 문제 204 - 241 무언가 뒤틀려있음
         private Monster SelectTarget(List<Monster> monsters)
         {
             Console.Write("\n 공격할 몬스터 번호: ");
