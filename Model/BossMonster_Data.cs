@@ -259,8 +259,8 @@ namespace week3
         }
         public void TakeDamageWithChance(int damage, int critRate, int evasionRate)
         {
-            Random randrange = new Random();
-            int rand = randrange.Next(100);
+            Random random = new Random();
+            int rand = random.Next(100);
 
             if (rand < evasionRate)
             {
