@@ -7,10 +7,10 @@ using System.Xml.Linq;
 
 namespace week3.Model
 {
-    internal class PlayerController
+    public class PlayerController
     {
         Player player;
-        Random randrange = new Random();
+        Random random = new Random();
 
         // 몬스터 데미지
         public void TakeDamageWithDefense(int damage)
@@ -25,7 +25,7 @@ namespace week3.Model
         public void TakeDamageWithChance(int damage, int critRate, int evasionRate)
         {
 
-            int rand = randrange.Next(100);
+            int rand = random.Next(100);
 
             if (rand < evasionRate)
             {

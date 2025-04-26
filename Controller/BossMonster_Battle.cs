@@ -14,72 +14,65 @@ namespace week3
     {
         Player player;
         InventoryManager inventory;
-        BossMonster_Data currentBoss;
-        Random randrange = new();
+        BossMonster_Data bossMonster;
+        Random random = new Random();
 
-        static List<BossMonster_Skill> normals = new List<BossMonster_Skill>(); // 일반공격 스킬 리스트화
-        private static int PlayerDamage = 0; // 보스 피격 대미지 저장용
-        private static int BossDamage = 0; // 플레이어 피격 대미지 저장용
-        private static bool isBossAttackSuccess = true;
-        private static bool isAttackItemUsed = false;
+        List<BossMonster_Skill> normals = new List<BossMonster_Skill>(); // 일반공격 스킬 리스트화
+        int playerDamage = 0; // 보스 피격 대미지 저장용
+        int bossDamage = 0; // 플레이어 피격 대미지 저장용
+        bool isBossAttackSuccess = true;
+        bool isAttackItemUsed = false;
 
         void PrintStatusBar() // 체력바
         {
             Console.WriteLine(new string('=', 55));
-            Console.WriteLine($"내 체력 : {player.CurrentHp} / 100\n{currentBoss.Name}의 체력 : {currentBoss.HP} / {currentBoss.MaxHP}");
+            Console.WriteLine($"내 체력 : {player.CurrentHp} / {player.MaxHp}  {bossMonster.BossMonsterName}의 체력 : {bossMonster.HP} / {bossMonster.MaxHP}");
             Console.WriteLine(new string('=', 55));
         }
         // 보스 몬스터 조우
         void BossBattle_Park()
         {
             Console.Clear();
+            bossMonster.CopyFrom(bossMonster.BossMonsterData["관리하는 박찬우 매니저"]);
 
-            BossMonster_Data boss = new BossMonster_Data();
-            boss.CopyFrom(BossMonster_Data.BossMonsterData["관리하는 박찬우 매니저"]);
-            currentBoss = boss;
-
-            Console.WriteLine($"{boss.Name} : 우오오오오오오오!!! 우오오오오오오오오!!");
+            Console.WriteLine($"{bossMonster.BossMonsterName} : 우오오오오오오오!!! 우오오오오오오오오!!");
             Console.WriteLine();
             Console.ReadKey(true);
 
-            PrepareManager_Park(boss);
+            PrepareManager_Park(bossMonster);
             PlayerTurn();
         }
         void BossBattle_Hero()
         {
             Console.Clear();
 
-            BossMonster_Data boss = new BossMonster_Data();
-            boss.CopyFrom(BossMonster_Data.BossMonsterData["메아리치는 나영웅 매니저"]);
-            currentBoss = boss;
+            bossMonster.CopyFrom(BossMonster_Data.BossMonsterData["메아리치는 나영웅 매니저"]);
 
-            Console.WriteLine($"{boss.Name} : 인간적인 감정이 없었다면 어려움도 없었겠죠.\n제가 당신의 감정을 없애드리죠.");
+            Console.WriteLine($"{bossMonster.BossMonsterName} : 인간적인 감정이 없었다면 어려움도 없었겠죠.\n제가 당신의 감정을 없애드리죠.");
             Console.WriteLine();
             Console.ReadKey(true);
 
-            PrepareManager_Hero(boss);
+            PrepareManager_Hero(bossMonster);
             PlayerTurn();
         }
         void BossBattle_Zoom()
         {
             Console.Clear();
 
-            BossMonster_Data boss = new BossMonster_Data();
-            boss.CopyFrom(BossMonster_Data.BossMonsterData["공간 지배의 한효승 매니저"]);
-            currentBoss = boss;
+            bossMonster.CopyFrom(BossMonster_Data.BossMonsterData["공간 지배의 한효승 매니저"]);
 
-            Console.WriteLine($"{boss.Name} : 그렇게 계속 청개구리처럼 행동할겁니까?");
+            Console.WriteLine($"{bossMonster.BossMonsterName} : 그렇게 계속 청개구리처럼 행동할겁니까?");
             Console.WriteLine();
             Console.ReadKey(true);
 
-            PrepareManager_Zoom(boss);
+            PrepareManager_Zoom(bossMonster);
             PlayerTurn();
         }
         BossMonster_Skill FindSkillByName(BossMonster_Data boss, string name) // 스킬 찾는 메서드
         {
             foreach (var s in boss.Skills)
             {
-                if (s.Name == name)
+                if (s.SkillName == name)
                 {
                     return s;
                 }
@@ -133,7 +126,7 @@ namespace week3
                 }
                 if (normals.Count > 0)
                 {
-                    var selected = normals[randrange.Next(normals.Count)];
+                    var selected = normals[random.Next(normals.Count)];
                     boss.NextSkill = selected;
                     boss.IsNextSkill = false;
                     boss.parkCombo++;
@@ -147,8 +140,8 @@ namespace week3
         }
         void PrepareManager_Hero(BossMonster_Data boss)
         {
-            int rand = randrange.Next(1, 101);
-            int rand2 = randrange.Next(1, 101);
+            int rand = random.Next(1, 101);
+            int rand2 = random.Next(1, 101);
 
             var skill1 = FindSkillByName(boss, "데스 노트");
             var skill2 = FindSkillByName(boss, "관통 사격");
@@ -188,7 +181,7 @@ namespace week3
                 }
                 if (normals.Count > 0)
                 {
-                    var selected = normals[randrange.Next(normals.Count)];
+                    var selected = normals[random.Next(normals.Count)];
                     boss.NextSkill = selected;
                     boss.IsNextSkill = false;
                 }
@@ -201,7 +194,7 @@ namespace week3
         }
         void PrepareManager_Zoom(BossMonster_Data boss)
         {
-            int rand = randrange.Next(1, 101);
+            int rand = random.Next(1, 101);
 
             var skill1 = FindSkillByName(boss, "영역전개 : SOOW");
             var skill2 = FindSkillByName(boss, "주방 경험");
@@ -240,7 +233,7 @@ namespace week3
                 }
                 if (normals.Count > 0)
                 {
-                    var selected = normals[randrange.Next(normals.Count)];
+                    var selected = normals[random.Next(normals.Count)];
                     boss.NextSkill = selected;
                     boss.IsNextSkill = false;
                 }
@@ -257,9 +250,9 @@ namespace week3
             Console.Clear();
             isAttackItemUsed = false;
             PrintStatusBar();
-            if (currentBoss.NextSkill != null && currentBoss.NextSkill.HintDialogue.Count > 0)
+            if (bossMonster.NextSkill != null && bossMonster.NextSkill.HintDialogue.Count > 0)
             {
-                string hint = currentBoss.NextSkill.HintDialogue[randrange.Next(currentBoss.NextSkill.HintDialogue.Count)];
+                string hint = bossMonster.NextSkill.HintDialogue[random.Next(bossMonster.NextSkill.HintDialogue.Count)];
                 Console.WriteLine(hint);
             }
             Console.WriteLine("행동을 정해야한다.");
@@ -268,31 +261,31 @@ namespace week3
             Console.WriteLine("3. 매니저 스펙 확인");
             Console.WriteLine("4. 도주\n");
 
-            string input = Console.ReadLine();
+            int input = InputManager.GetInt(1, 4);
 
             switch (input)
             {
-                case "1": Console.WriteLine("대응 방식 선택");
+                case 1: Console.WriteLine("대응 방식 선택");
                     Console.WriteLine("1. 아이템 사용");
                     Console.WriteLine("2. 돌아가기");
-                    string attackInput = Console.ReadLine();
+                    int attackInput = InputManager.GetInt(1, 2);
 
-                    if (attackInput == "1")
+                    if (attackInput == 1)
                     {
                         BossMonster_Inventory.BattleItemMenu(ref isAttackItemUsed);
                         if (isAttackItemUsed)
                         {
-                            PlayerDamage = 25;
+                            playerDamage = 25;
                             isBossAttackSuccess = false;
                         }
                         else
                         {
-                            BossDamage = 55;
+                            bossDamage = 55;
                             isBossAttackSuccess = true;
                         }
                         BossTurn();
                     }
-                    else if (attackInput == "2")
+                    else if (attackInput == 2)
                     {
                         Console.WriteLine("다시 생각했다.");
                         Console.ReadKey(true);
@@ -305,15 +298,15 @@ namespace week3
                         PlayerTurn();
                     }
                     break;
-                case "2": Console.WriteLine("소비 아이템");
+                case 2: Console.WriteLine("소비 아이템");
                     Console.ReadKey(true);
                     BossMonster_Inventory.ConsumableItemMenu();
                     BossTurn();
                     break;
-                case "3":
-                    BossMonster_Status.ShowBossStatus(currentBoss);
+                case 3:
+                    BossMonster_Status.ShowBossStatus(bossMonster);
                     break;
-                case "4": Console.WriteLine("도주할 수 없다.");
+                case 4: Console.WriteLine("도주할 수 없다.");
                     Console.ReadKey(true);
                     PlayerTurn();
                     break;
@@ -329,9 +322,9 @@ namespace week3
             int totalDamage = 0;
 
             Console.Clear();
-            if (currentBoss.NextSkill?.MainDialogue?.Count > 0)
+            if (bossMonster.NextSkill?.MainDialogue?.Count > 0)
             {
-                Console.WriteLine(currentBoss.NextSkill.MainDialogue[randrange.Next(currentBoss.NextSkill.MainDialogue.Count)]);
+                Console.WriteLine(bossMonster.NextSkill.MainDialogue[random.Next(bossMonster.NextSkill.MainDialogue.Count)]);
             }
             else
             {
@@ -348,17 +341,17 @@ namespace week3
                 Console.ReadKey(true);
                 Console.WriteLine("...");
                 Console.ReadKey(true);
-                player.TakeDamage(BossDamage);
-                if (currentBoss.NextSkill != null && currentBoss.NextSkill.SuccessDialogue.Count > 0)
+                player.TakeDamage(bossDamage);
+                if (bossMonster.NextSkill != null && bossMonster.NextSkill.SuccessDialogue.Count > 0)
                 {
-                    Console.WriteLine(currentBoss.NextSkill.SuccessDialogue[randrange.Next(currentBoss.NextSkill.SuccessDialogue.Count)]);
+                    Console.WriteLine(bossMonster.NextSkill.SuccessDialogue[random.Next(bossMonster.NextSkill.SuccessDialogue.Count)]);
                 }
                 else
                 {
                     Console.WriteLine("대미지 계산 버그");
                     Environment.Exit(0);
                 }
-                BossDamage = 0;
+                bossDamage = 0;
             }
             else // 보스가 공격을 실패했다면
             {
@@ -368,23 +361,23 @@ namespace week3
                 Console.ReadKey(true);
                 Console.WriteLine("...");
                 Console.ReadKey(true);
-                currentBoss.HP -= PlayerDamage;
-                if (currentBoss.NextSkill != null && currentBoss.NextSkill.FailDialogue.Count > 0)
+                bossMonster.HP -= playerDamage;
+                if (bossMonster.NextSkill != null && bossMonster.NextSkill.FailDialogue.Count > 0)
                 {
-                    Console.WriteLine(currentBoss.NextSkill.FailDialogue[randrange.Next(currentBoss.NextSkill.FailDialogue.Count)]);
+                    Console.WriteLine(bossMonster.NextSkill.FailDialogue[random.Next(bossMonster.NextSkill.FailDialogue.Count)]);
                 }
                 else
                 {
                     Console.WriteLine("대미지 계산 버그");
                     Environment.Exit(0);
                 }
-                PlayerDamage = 0;
+                playerDamage = 0;
             }
             Console.ReadKey(true);
             Console.Clear();
-            if (currentBoss.HP <= 0)
+            if (bossMonster.HP <= 0)
             {
-                switch (currentBoss.Name)
+                switch (bossMonster.BossMonsterName)
                 {
                     case "관리하는 박찬우 매니저":
                         Console.WriteLine("자유에는... 질서와 통제가... 필요...");
@@ -403,14 +396,14 @@ namespace week3
                 Console.WriteLine("당신은 '제적'입니다.");
                 return;
             }
-            else if (currentBoss.parkPhase == 3)
+            else if (bossMonster.parkPhase == 3)
             {
                 Console.WriteLine("로마에 가면 로마 법을 따르라!!!! 우오오오오오!!!!");
                 Console.ReadKey(true);
                 player.Die();
                 return;
             }
-            else if (currentBoss.heroTime == 3)
+            else if (bossMonster.heroTime == 3)
             {
                 Console.WriteLine("지옥에 가서도 그 곡을 항상 떠올리며 부지런해지길 바랍니다.");
                 Console.ReadKey(true);
@@ -419,59 +412,59 @@ namespace week3
             }
             else
             {
-                switch (currentBoss.Name)
+                switch (bossMonster.BossMonsterName)
                 {
                     case "관리하는 박찬우 매니저":
-                        if (currentBoss.parkPhase == 1)
+                        if (bossMonster.parkPhase == 1)
                         {
                             Console.WriteLine("어디선가 작은 북소리가 들린다...");
                             Console.ReadKey(true);
                         }
-                        else if (currentBoss.parkPhase == 2)
+                        else if (bossMonster.parkPhase == 2)
                         {
                             Console.WriteLine("북소리가 점점 커지고있다...");
                             Console.ReadKey(true);
                         }
-                        PrepareManager_Park(currentBoss);
+                        PrepareManager_Park(bossMonster);
                         break;
                     case "메아리치는 나영웅 매니저":
-                        currentBoss.Def++;
-                        Console.WriteLine($"{currentBoss.Name}는 점점 단단해지고 있다.\n전투가 길어지면 불리할 것 같다.");
+                        bossMonster.Def++;
+                        Console.WriteLine($"{bossMonster.BossMonsterName}는 점점 단단해지고 있다.\n전투가 길어지면 불리할 것 같다.");
                         Console.ReadKey(true);
-                        if (currentBoss.heroTime > 0)
+                        if (bossMonster.heroTime > 0)
                         {
-                            currentBoss.heroTime++;
-                            Console.WriteLine($"{currentBoss.Name}의 장송곡이 끝나기까지 앞으로 {currentBoss.heroTime}번.");
+                            bossMonster.heroTime++;
+                            Console.WriteLine($"{bossMonster.BossMonsterName}의 장송곡이 끝나기까지 앞으로 {bossMonster.heroTime}번.");
                             Console.ReadKey(true);
                         }
-                        PrepareManager_Hero(currentBoss);
+                        PrepareManager_Hero(bossMonster);
                         break;
                     case "공간 지배의 한효승 매니저":
-                        currentBoss.reinforceZoomEva++;
-                        Console.WriteLine($"{currentBoss.Name}는 매우 빠르게 좌우로 움직이고 있다.");
+                        bossMonster.reinforceZoomEva++;
+                        Console.WriteLine($"{bossMonster.BossMonsterName}는 매우 빠르게 좌우로 움직이고 있다.");
                         Console.ReadKey(true);
-                        if (currentBoss.reinforceZoomAtk == 1)
+                        if (bossMonster.reinforceZoomAtk == 1)
                         {
-                            currentBoss.Atk = 25;
+                            bossMonster.Atk = 25;
                         }
-                        if (currentBoss.reinforceZoomCri == 1)
+                        if (bossMonster.reinforceZoomCri == 1)
                         {
-                            currentBoss.Critical = 50;
-                        }
-                        if (currentBoss.reinforceZoomEva != 0)
+                            bossMonster.Critical = 50;
+                        }   
+                        if (bossMonster.reinforceZoomEva != 0)
                         {
-                            currentBoss.Evasion = 50;
+                            bossMonster.Evasion = 50;
                         }
                         else
                         {
-                            currentBoss.Evasion = 10;
+                            bossMonster.Evasion = 10;
                         }
-                        if (currentBoss.reinforceZoomEva == 3)
+                        if (bossMonster.reinforceZoomEva == 3)
                         {
-                            currentBoss.reinforceZoomEva = 0;
-                            Console.WriteLine($"{currentBoss.Name}의 움직임이 원래대로 돌아왔다.");
+                            bossMonster.reinforceZoomEva = 0;
+                            Console.WriteLine($"{bossMonster.BossMonsterName}의 움직임이 원래대로 돌아왔다.");
                         }
-                        PrepareManager_Zoom(currentBoss);
+                        PrepareManager_Zoom(bossMonster);
                         break;
                 }
                 PlayerTurn();
