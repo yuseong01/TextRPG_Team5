@@ -10,7 +10,7 @@ public class MapManager
     {
         this.uiManager = uiManager;
     }
-    private void LoadSelectedMap(mapType mapType) //ManageMap(요기 불러오는거는 나중에 gameManager에서 하는걸로 변경하기) 
+    public void LoadSelectedMap(mapType mapType) //ManageMap(요기 불러오는거는 나중에 gameManager에서 하는걸로 변경하기) 
     {
 
         switch (mapType)
@@ -39,17 +39,6 @@ public class MapManager
 
         }
 
-    }
-
-    public void LoadAllMap()
-    {
-        LoadSelectedMap(MapManager.mapType.GroupFiveMap); //0번째 맵으로 들어감(5조)
-        LoadSelectedMap(MapManager.mapType.PassageMap); //복도
-        LoadSelectedMap(MapManager.mapType.Manager1RoomMap); //매니저1방
-        LoadSelectedMap(MapManager.mapType.PassageMap); //복도
-        LoadSelectedMap(MapManager.mapType.Manager2RoomMap); //매니저2방
-        LoadSelectedMap(MapManager.mapType.PassageMap); //복도
-        LoadSelectedMap(MapManager.mapType.Manager3RoomMap); //매니저3방
     }
 
     public enum mapType
