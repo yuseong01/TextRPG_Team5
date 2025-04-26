@@ -3,13 +3,10 @@
     public class Player
     {
         public string Name { get; private set; }
-        public int BaseAttackPower { get; set; }
-        public int BaseDefense { get; set; }
-        public int additionalAttackPower {get; set;}
-        public int additionalDefensePoser {get; set;}
-        public int AttackPower { get; set; }
-        public int Defense { get; set; }
-
+        public int Attack { get; private set; }
+        public int Defense { get; private set; }
+        public int AdditionalAttackPower {get; private set;}
+        public int AdditionalDefensePower {get; private set;}
         public int CurrentHp { get; private set; }
         public int MaxHp { get; private set; }
         public int Gold { get; private set; }
@@ -20,13 +17,13 @@
 
         public InventoryManager inventory = new InventoryManager();
 
-        // 생성자에서 이름과 직업만 설정
+        //초기 스탯 설정
         public Player()
         {
-            BaseAttackPower = 10;
-            BaseDefense = 5;
-            AttackPower = 0;
-            Defense = 0;
+            Attack = 10 + AdditionalAttackPower;
+            Defense = 5 + AdditionalDefensePower;
+            AdditionalAttackPower = 0;
+            AdditionalDefensePower = 0;
             CurrentHp = 90;
             MaxHp = 100;
             Gold = 1500;
@@ -63,17 +60,26 @@
         }
 
         //스탯 증가 메서드
-        public void Heal(int amount)
+        public void Heal(int value)
         {
-            CurrentHp += amount;
+            CurrentHp += value;
 
             if( CurrentHp > MaxHp ) { CurrentHp = MaxHp; }
         }
 
-        //스탯 감소 메서드
-        public void TakeDamage(int amount)
+        public void AddAttackPower(int value)
         {
-            CurrentHp -= amount;
+            AdditionalAttackPower += value;
+        }
+        public void AddDefensePower(int value)
+        { 
+            AdditionalDefensePower += value;
+        }
+
+        //스탯 감소 메서드
+        public void TakeDamage(int value)
+        {
+            CurrentHp -= value;
 
             if (CurrentHp < 0)
             {
@@ -83,16 +89,16 @@
         }
 
         //정신력 감소 메서드
-        public void ReduceSpirit(int amount)
+        public void ReduceSpirit(int value)
         {
-            Spirit -= amount;
+            Spirit -= value;
             if( Spirit < 0 )
             { 
                 Spirit = 0;
                 Die();
             }
 
-            Console.WriteLine($"[전투] {Name}의 정신력 - {amount} (현재: {Spirit})");
+            Console.WriteLine($"[전투] {Name}의 정신력 - {value} (현재: {Spirit})");
         }
 
 
