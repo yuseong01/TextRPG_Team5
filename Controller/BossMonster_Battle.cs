@@ -249,10 +249,6 @@ namespace week3
         void PlayerTurn()
         {
             Console.Clear();
-            if(item.AttackItemUsed)
-            {
-                item.ToggleAttackItemUsed();
-            }
             PrintStatusBar();
             if (bossMonster.NextSkill != null && bossMonster.NextSkill.HintDialogue.Count > 0)
             {
@@ -276,14 +272,14 @@ namespace week3
                     if (attackInput == 1)
                     {
                         inventory.ShowInventory();
-                        if (isAttackItemUsed)
+                        if (item.IsAttackItemUsed)
                         {
                             playerDamage = 25;
                             isBossAttackSuccess = false;
                         }
                         else
                         {
-                            bossDamage = 55;
+                            bossDamage = 35;
                             isBossAttackSuccess = true;
                         }
                         BossTurn();
@@ -296,7 +292,7 @@ namespace week3
                     }
                     break;
                 case 2: 
-                    BossMonster_Status.ShowBossStatus(bossMonster);
+                    //BossMonster_Status.ShowBossStatus(bossMonster); //이거 어딧죠...? 제가 지웠나..? 안지운거같은데
                     break;
 
                 case 3: Console.WriteLine("도주할 수 없다.");

@@ -9,7 +9,7 @@
         public bool IsEquip {  get; private set; }
         public bool IsSold { get; private set; }
         public int Price { get; private set; }
-        public bool AttackItemUsed { get; private set; }
+        public bool IsAttackItemUsed { get; private set; }
 
 
         //보스 몬스터 전투 전용
@@ -19,7 +19,7 @@
             Description = description;
             Type = type;
             IsSold = false;
-            AttackItemUsed = false;
+            IsAttackItemUsed = false;
             Price = price;
         }
 
@@ -34,9 +34,9 @@
             Price = price;
         }
 
-        public void ToggleAttackItemUsed(Item item)
+        public void ToggleIsAttackItemUsed(Item item)
         {
-            AttackItemUsed = !AttackItemUsed;
+            IsAttackItemUsed = !IsAttackItemUsed;
         }
         public void ToggleEquipStatus(Item item)
         {

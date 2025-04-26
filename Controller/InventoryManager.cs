@@ -64,7 +64,7 @@ namespace week3
             }
             else
             {
-                item.ToggleAttackItemUsed(item);
+                item.ToggleIsAttackItemUsed(item);
                 Console.WriteLine($"{item.Name}을(를) 사용했다.");
             }
         }
