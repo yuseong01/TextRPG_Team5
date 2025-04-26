@@ -60,7 +60,7 @@ namespace week3
         public int reinforceZoomAtk { get; set; } = 0; // 공간 지배의 한효승 매니저 스킬 제어용
         public int reinforceZoomCri { get; set; } = 0; // 공간 지배의 한효승 매니저 스킬 제어용
         public int reinforceZoomEva { get; set; } = 0; // 공간 지배의 한효승 매니저 스킬 제어용
-        public BossMonster_Data() { }
+
         Player player;
         public BossMonster_Data(string name, int atk, int def, int hp, int spi, int crt, int eva, int pointreward) // 보스 몬스터 생성자
         {
@@ -97,14 +97,14 @@ namespace week3
             Skills = new List<BossMonster_Skill>(original.Skills);
         }
 
-        public static Dictionary<string, BossMonster_Data> BossMonsterData = new Dictionary<string, BossMonster_Data>() // 보스 데이터
+        public Dictionary<string, BossMonster_Data> BossMonsterData = new Dictionary<string, BossMonster_Data>() // 보스 데이터
         {
             { "관리하는 박찬우 매니저", new BossMonster_Data ("관리하는 박찬우 매니저", 10, 5, 100, 10, 10, 10, 500) },
             { "메아리치는 나영웅 매니저", new BossMonster_Data ("메아리치는 나영웅 매니저", 15, 5, 120, 15, 10, 15, 1000) },
             { "공간 지배의 한효승 매니저", new BossMonster_Data ("공간 지배의 한효승 매니저", 15, 10, 200, 25, 20, 10, 2000) }
         };
 
-        static BossMonster_Data() // 스킬 정보에 대한 생성자
+         BossMonster_Data() // 스킬 정보에 대한 생성자
         {
             var park = BossMonsterData["관리하는 박찬우 매니저"];
             var hero = BossMonsterData["메아리치는 나영웅 매니저"];
@@ -115,9 +115,9 @@ namespace week3
             normalAtk1.HintDialogue.Add("매니저의 눈이 좌우로 빠르게 움직이며 입술이 일그러진다.");
             normalAtk1.MainDialogue.AddRange(new[]
             {
-                $"\"{player.Name}, 지금 자리에 있으면 '자리에 있습니다.' 라고 반응하세요.\"\n매니저는 당신의 존재를 확인한다.",
-                $"\"{player.Name}, 지금 개인공부중이었다면 '공부중이었습니다.' 라고 반응하세요.\"\n매니저는 당신의 존재를 확인한다.",
-                $"\"{player.Name}, 지금 기기에 문제가 없다면 '캠과 마이크 모두 정상입니다.' 라고 반응하세요.\"\n매니저는 당신의 존재를 확인한다."
+                $"\"{player.Name}님, 지금 자리에 있으면 '자리에 있습니다.' 라고 반응하세요.\"\n매니저는 당신의 존재를 확인한다.",
+                $"\"{player.Name}님, 지금 개인공부중이었다면 '공부중이었습니다.' 라고 반응하세요.\"\n매니저는 당신의 존재를 확인한다.",
+                $"\"{player.Name}님, 지금 기기에 문제가 없다면 '캠과 마이크 모두 정상입니다.' 라고 반응하세요.\"\n매니저는 당신의 존재를 확인한다."
             });
             normalAtk1.SuccessDialogue.AddRange(new[]
             {
