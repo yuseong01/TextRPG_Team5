@@ -10,7 +10,7 @@ namespace week3
         public void ShowStatus(Player player)
         {
             Console.WriteLine($"이름: {player.Name}");
-            Console.WriteLine($"체력 : {player.Hp}");
+            Console.WriteLine($"체력 : {player.CurrentHp}");
             Console.WriteLine($"정신력: {player.Spirit}");
             Console.WriteLine($"공격력 : {player.BaseAttackPower + player.additionalAttackPower} (+{player.additionalAttackPower})");
             Console.WriteLine($"방어력 : {player.BaseDefense + player.additionalDefensePoser} (+{player.additionalDefensePoser})");

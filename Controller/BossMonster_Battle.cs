@@ -26,7 +26,7 @@ namespace week3
         void PrintStatusBar() // 체력바
         {
             Console.WriteLine(new string('=', 55));
-            Console.WriteLine($"내 체력 : {player.Hp} / 100\n{currentBoss.Name}의 체력 : {currentBoss.HP} / {currentBoss.MaxHP}");
+            Console.WriteLine($"내 체력 : {player.CurrentHp} / 100\n{currentBoss.Name}의 체력 : {currentBoss.HP} / {currentBoss.MaxHP}");
             Console.WriteLine(new string('=', 55));
         }
         // 보스 몬스터 조우
@@ -398,7 +398,7 @@ namespace week3
 
                 }
             }
-            else if (player.Hp <= 0)
+            else if (player.CurrentHp <= 0)
             {
                 Console.WriteLine("당신은 '제적'입니다.");
                 return;
