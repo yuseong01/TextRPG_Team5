@@ -78,12 +78,13 @@ namespace week3
         {
             if(item.Type == "회복")
             {
-                playerItems.Remove(item);
+                nomalBattleItemList.Remove(item);
                 Console.WriteLine($"{item.Name}을(를) 사용했습니다.");
             }
             else if(item.Type=="보스")
             {
-                playerItems.Remove(item);
+                bossBattleItemList.Remove(item);
+                //아이템 사용 여부 bool값을 바꿔?주기.
                 Console.WriteLine($"{item.Name}을(를) 사용했습니다.");
             }
         }

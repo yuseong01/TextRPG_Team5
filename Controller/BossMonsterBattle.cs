@@ -156,68 +156,67 @@ namespace week3
                 }
                 else // 예외처리
                 {
-                    boss.IsNextSkill = false;
+                    bossMonster.IsNextSkill = false;
                     Console.WriteLine("일반공격 불가 : 게임 종료");
                 }
             }
         }
-        void PrepareManager_Zoom(BossMonster_Data boss)
+        void PrepareManager_Zoom(BossMonster bossMonster)
         {
             int rand = random.Next(1, 101);
 
-            var skill1 = FindSkillByName(boss, "영역전개 : SOOW");
-            var skill2 = FindSkillByName(boss, "주방 경험");
-            var skill3 = FindSkillByName(boss, "견문색");
+            var skill1 = FindSkillByName(bossMonster, "영역전개 : SOOW");
+            var skill2 = FindSkillByName(bossMonster, "주방 경험");
+            var skill3 = FindSkillByName(bossMonster, "견문색");
 
-            if (boss.HP <= 50 && boss.reinforceZoomEva == 0 && skill3 != null)
+            if (bossMonster.Hp <= 50 && bossMonster.reinforceZoomEva == 0 && skill3 != null)
             {
-                boss.NextSkill = skill3;
-                boss.IsNextSkill = true;
-                boss.reinforceZoomEva = 1;
+                bossMonster.NextSkill = skill3;
+                bossMonster.IsNextSkill = true;
+                bossMonster.reinforceZoomEva = 1;
                 return;
             }
-            if (rand <= 30 && boss.reinforceZoomAtk == 0 && skill1 != null)
+            if (rand <= 30 && bossMonster.reinforceZoomAtk == 0 && skill1 != null)
             {
-                boss.NextSkill = skill1;
-                boss.IsNextSkill = true;
-                boss.reinforceZoomAtk = 1;
+                bossMonster.NextSkill = skill1;
+                bossMonster.IsNextSkill = true;
+                bossMonster.reinforceZoomAtk = 1;
                 return;
             }
-            else if (rand > 30 && boss.reinforceZoomCri == 0 && rand <= 45 && skill2 != null)
+            else if (rand > 30 && bossMonster.reinforceZoomCri == 0 && rand <= 45 && skill2 != null)
             {
-                boss.NextSkill = skill2;
-                boss.IsNextSkill = true;
-                boss.reinforceZoomCri = 1;
+                bossMonster.NextSkill = skill2;
+                bossMonster.IsNextSkill = true;
+                bossMonster.reinforceZoomCri = 1;
                 return;
             }
             else
             {
-                normals = GetNormalSkills(boss);
-                foreach (var s in boss.Skills)
+                bossMonsterSkill = GetNormalSkills(bossMonster);
+                foreach (var s in bossMonster.Skills)
                 {
-                    if (s.Type == BossSkillType.Normal)
+                    if (s.Type == 0)
                     {
-                        normals.Add(s);
+                        bossMonsterSkill.Add(s);
                     }
                 }
-                if (normals.Count > 0)
+                if (bossMonsterSkill.Count > 0)
                 {
-                    var selected = normals[random.Next(normals.Count)];
-                    boss.NextSkill = selected;
-                    boss.IsNextSkill = false;
+                    var selected = bossMonsterSkill[random.Next(bossMonsterSkill.Count)];
+                    bossMonster.NextSkill = selected;
+                    bossMonster.IsNextSkill = false;
                 }
                 else // 예외처리
                 {
-                    boss.IsNextSkill = false;
+                    bossMonster.IsNextSkill = false;
                     Console.WriteLine("일반공격 불가 : 게임 종료");
                 }
             }
         }
         // 플레이어 턴 행동 선택
-        public void PlayerTurn()
+        public void PlayerTurn(BossMonster bossMonster)
         {
             Console.Clear();
-            PrintStatusBar();
             if (bossMonster.NextSkill != null && bossMonster.NextSkill.HintDialogue.Count > 0)
             {
                 string hint = bossMonster.NextSkill.HintDialogue[random.Next(bossMonster.NextSkill.HintDialogue.Count)];
@@ -233,14 +232,15 @@ namespace week3
             switch (input)
             {
                 case 1: Console.WriteLine("대응 방식 선택");
-                    Console.WriteLine("1. 아이템 사용");
-                    Console.WriteLine("2. 돌아가기");
+                    Console.WriteLine("1. 공격");
+                    Console.WriteLine("2. 소비아이템 사용");
+                    Console.WriteLine("3. 돌아가기");
                     int attackInput = InputManager.GetInt(1, 2);
 
                     if (attackInput == 1)
                     {
                         player.inventoryManager.ShowInventory(2);   //보스전투
-                        if (IsAttackItemUsed)
+                        if (true) //
                         {
                             playerDamage = 25;
                             isBossAttackSuccess = false;
