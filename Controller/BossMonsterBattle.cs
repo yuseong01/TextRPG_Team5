@@ -10,7 +10,7 @@ using week3;
 
 namespace week3
 {
-    public class BossMonsterBattle
+    /*public class BossMonsterBattle
     {
         Player player;
         List<BossMonster> bossMonster = new List<BossMonster>();
@@ -427,5 +427,5 @@ namespace week3
                 PlayerTurn();
             }
         }
-    }
+    }*/
 }

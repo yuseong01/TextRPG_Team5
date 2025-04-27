@@ -6,7 +6,7 @@ namespace week3
 {
     public class UIManager
     {
-        BossMonster_Data boss;
+        //BossMonster_Data boss;
         // 플레이어 관련
         public void ShowStatus(Player player)
         {

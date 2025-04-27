@@ -6,19 +6,17 @@ namespace week3
     {
         List<Item> shopItems= new List<Item>();
         Player player;
-        Item item;
+
         int number;
 
         public Shop(Player player)
         {
             this.player = player;
             // 초기 상점 아이템 구성
-            shopItems.Add(ItemData[12]);
-            shopItems.Add(ItemData[13]);
-            shopItems.Add(ItemData[14]);
-            shopItems.Add(ItemData[15]);
-            shopItems.Add(ItemData[16]);
-            shopItems.Add(ItemData[17]);
+            for(int i = 0; i < ItemData.Count; i++)
+            {
+                shopItems.Add(ItemData[i]);
+            }
         }
 
         public void ShowShop() // shop 입장 메서드
@@ -26,7 +24,7 @@ namespace week3
             while(true)
             {
             AllShopItemList();
-            int inputNum = InputManager.GetInt(1, shopItems.Count);
+            int inputNum = InputManager.GetInt(0, shopItems.Count);
             if (inputNum == 0) break;
             BuyItem(inputNum - 1);
             }
@@ -35,15 +33,14 @@ namespace week3
         private void AllShopItemList()
         {
             Console.Clear();
-            number = shopItems.Count;
 
             Console.WriteLine("=== 상점 목록 ===");
             Console.WriteLine($"보유 골드 : {player.Gold}G");
 
-            for (int i = 0; i < number; i++)
+            for (int i = 0; i < shopItems.Count; i++)
             {
                 Item item = shopItems[i];
-                string isSold = (shopItems[number].IsSold) ? "판매 완료" : $"{item.Price,-4}";
+                string isSold = (shopItems[i].IsSold) ? "판매 완료" : $"{item.Price,-4}";
                  
                 Console.WriteLine($"{i + 1}. {item.Name,-10}| {item.Description,-30}|({item.Price,-4}G)");
             }
@@ -70,9 +67,9 @@ namespace week3
             {
                 AddItem(itemIndex);
                 player.SpendGold(selectedItem.Price);
-                if (selectedItem.Type != "회복")
+                if (!(selectedItem.Type == "회복" || selectedItem.Type == "보스"))
                 {
-                    item.ToggleSoldStatus(selectedItem);
+                    ItemData[itemIndex].ToggleSoldStatus(selectedItem);
                 }
 
                 Thread.Sleep(1500);
@@ -99,9 +96,9 @@ namespace week3
         public List<Item> ItemData = new List<Item>() // 아이템 데이터
         {
             // 보스 전투 전용 아이템(0 ~ 7)
-            new Item("캠 수리", "ZEP에서 참여할 때 화면을 보여주는 웹캠이다.\n사용 시 1턴동안 캠을 수리하여 켤 수 있다.","보스",0, 500),
-            new Item("마이크 수리", "ZEP에서 참여할 때 목소리를 송출하는 마이크다.\n사용 시 1턴동안 마이크를 수리하여 켤 수 있다.", "보스",0, 700),
-            new Item("완전 방어", "딱 1번만 적의 공격을 막을 수 있는 ZEb 코인으로 구매 가능한 아이템.\n이런 아이템이 왜 존재하는지 모르겠다.", "보스",0, 1000),
+            new Item("캠 수리", "ZEP에서 참여할 때 화면을 보여주는 웹캠이다. 사용 시 1턴동안 캠을 수리하여 켤 수 있다.","보스",0, 500),
+            new Item("마이크 수리", "ZEP에서 참여할 때 목소리를 송출하는 마이크다. 사용 시 1턴동안 마이크를 수리하여 켤 수 있다.", "보스",0, 700),
+            new Item("완전 방어", "딱 1번만 적의 공격을 막을 수 있는 ZEb 코인으로 구매 가능한 아이템. 이런 아이템이 왜 존재하는지 모르겠다.", "보스",0, 1000),
             new Item("서약서", "ZEP의 법에 복종하기로 한 피의 계약서.", "보스",0, 500),
             new Item("TIL", "이 곳에서 있었던 일을 꼭 남겨야 한다. 같은 처지를 겪을지도 모르는 이를 위해...", "보스",0, 500),
             new Item("구글폼", "그들의 부름에 대답해야만 한다.", "보스", 0, 500),

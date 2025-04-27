@@ -4,7 +4,7 @@ using week3;
 
 namespace week3
 {
-    public class BossMonster
+    /*public class BossMonster
     {
         public string Name { get; set; }
         public string Script {get; set;}
@@ -232,5 +232,5 @@ namespace week3
             Console.WriteLine();
             Console.ReadKey(true);
         }
-    }
+    }*/
 }

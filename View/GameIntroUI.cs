@@ -30,8 +30,8 @@ public class GameIntroUI
     {
         Console.Clear();
         Console.OutputEncoding = System.Text.Encoding.UTF8;
-        //Console.SetBufferSize(120, 40);
-        //Console.SetWindowSize(120, 40);
+        Console.SetBufferSize(120, 40);
+        Console.SetWindowSize(120, 40);
         Console.CursorVisible = false;
         soundManager.PlayLoop("song.wav");
 
@@ -507,6 +507,7 @@ public class GameIntroUI
                 SelectMenuUI(selectedIndex);
                 firstDraw = true;
             }
+            return;
         }
     }
 
@@ -586,7 +587,6 @@ public class GameIntroUI
         soundManager.StopCurrentLoop(); //임시로 horror.wav 2번 재생 방지
         soundManager.StopBirdSound();
         Console.Clear();
-        PrintDarkZEBUI();
     }
 
 

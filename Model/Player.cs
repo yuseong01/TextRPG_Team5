@@ -3,7 +3,7 @@
     public class Player
     {
         UIManager uiManager;
-        public InventoryManager inventoryManager = new InventoryManager();
+        public InventoryManager inventoryManager;
 
         public string Name { get; private set; }
         public int Attack { get; private set; }
@@ -23,6 +23,7 @@
         public Player(UIManager uiManager)
         {
             this.uiManager = uiManager;
+            inventoryManager = new InventoryManager(this);
 
             Attack = 10 + AdditionalAttackPower;
             Defense = 5 + AdditionalDefensePower;
@@ -30,7 +31,7 @@
             AdditionalDefensePower = 0;
             CurrentHp = 90;
             MaxHp = 100;
-            Gold = 1500;
+            Gold = 20000;
             IsPlayerAlive = true;
             ZebCoin = 0;
         }

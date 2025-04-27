@@ -4,15 +4,15 @@ namespace week3
 {
     public class InventoryManager
     {
-        Item item;
+
         Player player;
         public List<Item> playerItems = new List<Item>();   //장착아이템
-        public List<Item> nomalBattleItemList;  //회복아이템
-        public List<Item> bossBattleItemList;   //보스아이템
+        public List<Item> nomalBattleItemList = new List<Item>();  //회복아이템
+        public List<Item> bossBattleItemList = new List<Item>();  //보스아이템
 
-        public InventoryManager()
+        public InventoryManager(Player player)
         {
-
+            this.player = player;
         }
 
         public void ShowInventory(int inventoryType) // inventory 입장 메서드
