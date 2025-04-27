@@ -103,7 +103,12 @@ namespace week3
             for (int i = 0; i < numberOfPicks; i++)
             {
                 int randomIndex = random.Next(isNormalMonster ? normalMonsters.Count : hardMonsters.Count);
-                randomMonsterList.Add(isNormalMonster ? normalMonsters[randomIndex] : hardMonsters[randomIndex]);
+                Monster template = isNormalMonster ? normalMonsters[randomIndex] : hardMonsters[randomIndex];
+
+                Monster newMonster = new Monster(template.Name, template.Type, template.Question, template.CorrectAnswer,
+                                         template.Hp, template.AttackPower, template.Defense, template.ExperienceReward);
+                
+                randomMonsterList.Add(newMonster);
             }
 
             return randomMonsterList;
