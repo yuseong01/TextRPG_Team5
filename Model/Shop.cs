@@ -54,9 +54,9 @@ namespace week3
                     valueText = $"회복 +{shopItems[i].Value}";
                 }
 
-                string isSold = (shopItems[i].IsSold) ? "판매 완료" : $"{item.Price,-4}";
+                string isSold = (shopItems[i].IsSold) ? "판매 완료" : $"{item.Price,-4}G";
 
-                Console.WriteLine($"{i + 1}. {item.Name,-10}|{valueText}| {item.Description,-30}|({item.Price,-4}G)");
+                Console.WriteLine($"{i + 1}. {item.Name,-10}|{valueText}| {item.Description,-30}|({isSold,-4})");
                 Console.WriteLine();
             }
             Console.WriteLine("구매를 원하시는 아이템의 번호를 입력해 주세요.\n나가고 싶으시다면 0을 눌러주세요.");
