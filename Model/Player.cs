@@ -14,7 +14,6 @@
         public int MaxHp { get; private set; }
         public int Gold { get; private set; }
         public int ZebCoin { get; set; }
-        public int Spirit { get; private set; }
         public bool IsPlayerAlive { get; private set; }
 
 
@@ -29,7 +28,7 @@
             Defense = 5 + AdditionalDefensePower;
             AdditionalAttackPower = 0;
             AdditionalDefensePower = 0;
-            CurrentHp = 90;
+            CurrentHp = 100;
             MaxHp = 100;
             Gold = 20000;
             IsPlayerAlive = true;

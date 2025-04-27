@@ -10,12 +10,12 @@ public class MapManager
     Shop shop;
     MonsterBattleManager monsterBattleManager;
 
-    public MapManager(UIManager uiManager, Player player, Shop shop,MonsterBattleManager monsterBattleManager)
+    public MapManager(UIManager uiManager, Player player, Shop shop, MonsterBattleManager monsterBattleManager)
     {
-        this.player=player;
+        this.player = player;
         this.uiManager = uiManager;
-        this.shop=shop;
-        this.monsterBattleManager =monsterBattleManager;
+        this.shop = shop;
+        this.monsterBattleManager = monsterBattleManager;
 
         maps.Add(new Map("5조"));
         maps.Add(new Map("복도"));
@@ -78,9 +78,9 @@ public class MapManager
 
     public void ClearIsOpen()
     {
-        baseMapObject[3].IsOpen=false;
-        baseMapObject[4].IsOpen=false;
-        baseMapObject[5].IsOpen=false;
+        baseMapObject[3].IsOpen = false;
+        baseMapObject[4].IsOpen = false;
+        baseMapObject[5].IsOpen = false;
     }
 
     void ShowPageForSelectedMap(int mapTypeNumber, mapType mapType, List<MapObject> mapObjects, string mapName)
@@ -88,7 +88,7 @@ public class MapManager
         while (true)
         {
             CheckMapClear(maps[mapTypeNumber]);
-            if(maps[mapTypeNumber].isClear)
+            if (maps[mapTypeNumber].isClear)
             {
                 break;
             }
@@ -109,12 +109,11 @@ public class MapManager
 
     public void CheckMapClear(Map map)
     {
-        Console.WriteLine($"현재 맵 이름: {map.mapName}");
         if (map.mapName == "5조")
         {
             if (map.mapObjectList[3].IsOpen)
             {
-                Console.WriteLine("이제 여기서 나갈수 있는 것 같다. 한번 밖으로 나가보자");
+                CanExit();
                 map.isClear = true;
             }
         }
@@ -122,18 +121,66 @@ public class MapManager
         {
             Thread.Sleep(700);
             Console.WriteLine("복도이다");
+            //passageMapFlow(); //이거 하면 복도 시작됨
             map.isClear = true;
         }
         else
         {
             if (map.mapObjectList[3].IsOpen && map.mapObjectList[4].IsOpen)
             {
-                Console.WriteLine("이제 여기서 나갈수 있는 것 같다. 한번 밖으로 나가보자");
+                CanExit();
                 //보스몬스터 등장
                 map.isClear = true;
             }
         }
     }
+    public void CanExit()
+    {
+        Console.WriteLine("\n\n이제 여기서 나갈수 있는 것 같다. 한번 밖으로 나가보자");
+        Console.WriteLine("진행하려면 Enter를 누르세요.");
+        Console.ReadLine();
+    }
+
+    public void passageMapFlow()
+    {
+        Console.WriteLine("복도로 나왔다. 어디로 갈것인가?");
+        Console.WriteLine("1.왼쪽\n2.오른쪽\n3.직진");
+        Console.Write("입력>");
+        int inputNum = InputManager.GetInt(1, 3);
+
+        Random random = new Random();
+        int randomValue = random.Next(0, 3); // 0,1,2 중 랜덤
+
+        if (randomValue == 0)
+        {
+            // 무서운 얼굴 배열 통째로 가져오기
+            Console.WriteLine("어..? 무언가가 보인다");
+            Thread.Sleep(700);
+            Console.Clear();
+            foreach (var face in Constants.SCARED_FACE_STRING)
+            {
+                Console.WriteLine(face);
+            }
+            
+        }
+        else if (randomValue == 1)
+        {
+            Thread.Sleep(700);
+            Console.Clear();
+            Console.WriteLine("반짝이는 Gold를 발견했다!");
+            player.AddGold(1000);
+        }
+        else
+        {
+            Thread.Sleep(700);
+            Console.Clear();
+            Console.WriteLine("아무 일도 일어나지 않았다...");
+        }
+        Console.WriteLine("진행하려면 [Enter]를 입력하세요");
+        Console.ReadLine();
+    }
+
+
 
     public void ActivateObject(MapObject mapObject)
     {

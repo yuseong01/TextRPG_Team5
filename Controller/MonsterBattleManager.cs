@@ -1,92 +1,104 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using week3;
-using System.Timers; // 타이머 기능을 사용하기 위한 네임스페이스
+using System.Timers;
 using Timer = System.Timers.Timer;
-using week3.Model; // 이름 충돌 방지용 별칭
-
-
+using week3.Model;
 
 namespace week3
 {
-    // 몬스터를 관리하는 매니저 클래스
     public class MonsterBattleManager
     {
         Player player;
         PlayerBattleController playerBattleController;
         Random random = new Random();
-        List<Monster> normalMonsters = new List<Monster>(); //-lv.2 lv4 lv10 lv6  <-한전투에 계속 등장할 애들 (랜덤값으로 1-4마리가 나와요)  
+        List<Monster> normalMonsters = new List<Monster>();
         List<Monster> hardMonsters = new List<Monster>();
-        private Timer timer; // 5초 입력 제한 타이머
-        private bool timeOver = false; // 타이머 초과 여부 확인용
-        protected bool lastAnswerCorrect; // 마지막 문제 정답 여부 저장
+        private bool timeOver = false;
+        protected bool lastAnswerCorrect;
+        private List<Monster> currentMonsters; // 현재 전투 몬스터 저장
 
         public MonsterBattleManager(Player player)
         {
-            this.player=player;
+            this.player = player;
             playerBattleController = new PlayerBattleController(player);
-            timer = new Timer();
-            timer.AutoReset = false;
 
-            normalMonsters.Add(new Monster("컴파일에러(CS1002)", MonsterType.Normal, Constants.MONSTER1_QUESTION, ";", 39, 12, 9,10));
-            normalMonsters.Add(new Monster("극한의 대문자 E", MonsterType.Normal, Constants.MONSTER2_QUESTION, "protected", 21, 17, 11,10));
-            normalMonsters.Add(new Monster("※△ㅁ쀓?뚫.뚫/딻?띫", MonsterType.Normal, Constants.MONSTER3_QUESTION, "FindNumberOptimized -> FindNumber", 45, 10, 16,10));
-            normalMonsters.Add(new Monster("{name}", MonsterType.Normal, Constants.MONSTER4_QUESTION, "!=", 12, 13, 6,10));
-
-            hardMonsters.Add(new Monster("ZebC□in", MonsterType.Hard, Constants.MONSTER5_QUESTION, "1, 2, 3, 4, 5", 80, 25, 18,10));
-            hardMonsters.Add(new Monster("{message}", MonsterType.Hard, Constants.MONSTER6_QUESTION, "override", 75, 36, 25,10));
-            hardMonsters.Add(new Monster("FakeCam", MonsterType.Hard, Constants.MONSTER7_QUESTION, "사과 한 개", 80, 24, 35,10));
-            hardMonsters.Add(new Monster("Codebraker", MonsterType.Hard, Constants.MONSTER8_QUESTION, "조건 통과!", 60, 28, 15,10));
-
+            // 몬스터 초기화
+            normalMonsters.Add(new Monster("컴파일에러(CS1002)", MonsterType.Normal, Constants.MONSTER1_QUESTION, ";", 39, 12, 9, 10));
+            normalMonsters.Add(new Monster("극한의 대문자 E", MonsterType.Normal, Constants.MONSTER2_QUESTION, "protected", 21, 17, 11, 10));
+            normalMonsters.Add(new Monster("※△ㅁ쀓?뚫.뚫/딻?띫", MonsterType.Normal, Constants.MONSTER3_QUESTION, "FindNumberOptimized -> FindNumber", 45, 10, 16, 10));
+            normalMonsters.Add(new Monster("{name}", MonsterType.Normal, Constants.MONSTER4_QUESTION, "!=", 12, 13, 6, 10));
+            hardMonsters.Add(new Monster("ZebC□in", MonsterType.Hard, Constants.MONSTER5_QUESTION, "1, 2, 3, 4, 5", 80, 25, 18, 10));
+            hardMonsters.Add(new Monster("{message}", MonsterType.Hard, Constants.MONSTER6_QUESTION, "override", 75, 36, 25, 10));
+            hardMonsters.Add(new Monster("FakeCam", MonsterType.Hard, Constants.MONSTER7_QUESTION, "사과 한 개", 80, 24, 35, 10));
+            hardMonsters.Add(new Monster("Codebraker", MonsterType.Hard, Constants.MONSTER8_QUESTION, "조건 통과!", 60, 28, 15, 10));
         }
 
         public void StartGroupBattle(Player player, bool isNormalMonster)
         {
-            List<Monster> randomMonsters = GetRandomMonsters(isNormalMonster);
+            currentMonsters = GetRandomMonsters(isNormalMonster);
+
             while (true)
             {
                 Thread.Sleep(700);
                 Console.Clear();
                 Console.WriteLine("===== [전투 시작] =====");
 
-                DisplayMonsters(randomMonsters); // 현재 살아있는 몬스터 보여주기
-                Monster target = SelectTarget(randomMonsters); // 유저가 타겟 선택
+                DisplayMonsters(currentMonsters);
+                DisplayPlayerInfo();
 
-                if (AskQuestion(target))
+                if (currentMonsters.All(monster => monster.IsDefeated))
                 {
-                    Attack(target);
-                }
-                else
-                {
-                    Console.WriteLine("[공격 실패] 데미지 0!");
-                }
-                // 살아있는 모든 몬스터가 순서대로 플레이어 공격
-                foreach (var monster in randomMonsters.Where(m => !m.IsDefeated))
-                {
-                    MonsterAttack(player, monster);
-                    if (!player.IsPlayerAlive)
-                    {
-                        player.Die();
-                    }
-
-                }
-                if (randomMonsters.Any(monster => !monster.IsDefeated) && player.IsPlayerAlive)
-                {
-                    Console.WriteLine("전투 승리!");
+                    Console.WriteLine("\nBattle!! - Result");
+                    Console.WriteLine("Victory");
                     RewardPlayer(player);
                     break;
                 }
+
+                if (!player.IsPlayerAlive)
+                {
+                    Console.WriteLine("\nBattle!! - Result");
+                    Console.WriteLine("You Lose");
+                    player.Die();
+                    break;
+                }
+
+                Console.WriteLine("1. 공격");
+                Console.WriteLine("2. 아이템 사용");
+
+                int choice = InputManager.GetInt(1, 2);
+
+                if (choice == 1)
+                {
+                    Monster target = SelectTarget(currentMonsters);
+
+                    if (AskQuestion(target))
+                    {
+                        Attack(target);
+                    }
+                    else
+                    {
+                        Console.WriteLine("\n[공격 실패] 데미지 없음!");
+                    }
+                }
+                else if (choice == 2)
+                {
+                    UseBattleItem();
+                }
+
+                Console.WriteLine("\n[Enter]를 입력하세요");
+                Console.ReadLine();
+                Console.Clear();
+                EnemyPhase(currentMonsters);
             }
         }
 
-        // 랜덤으로 몬스터를 randomMonsterList에 넣어주는 함수
         public List<Monster> GetRandomMonsters(bool isNormalMonster)
         {
             List<Monster> randomMonsterList = new List<Monster>();
-            int numberOfPicks = 4;
+            int numberOfPicks = random.Next(1, 5); // 1~4 랜덤
 
             for (int i = 0; i < numberOfPicks; i++)
             {
@@ -96,25 +108,66 @@ namespace week3
 
             return randomMonsterList;
         }
+
+        private void EnemyPhase(List<Monster> monsters)
+        {
+            Console.WriteLine("\n===== [Enemy Phase] =====");
+
+            foreach (var monster in monsters.Where(m => !m.IsDefeated))
+            {
+                Console.Clear();
+
+                DisplayMonsters(monsters);
+                DisplayPlayerInfo();
+
+                Console.ForegroundColor = GetMonsterColor(monster.Name); // ★ 몬스터 이름 색 적용
+                Console.Write($"{monster.Name}");
+                Console.ResetColor();
+                Console.WriteLine("의 공격!");
+
+                int damage = MonsterAttack(player, monster);
+
+                if (!player.IsPlayerAlive)
+                {
+                    Console.WriteLine("\n플레이어가 쓰러졌습니다...");
+                    break;
+                }
+
+                Console.WriteLine("\n0. 다음");
+                Console.Write(">> ");
+                Console.ReadLine();
+            }
+        }
+
         private void DisplayMonsters(List<Monster> monsters)
         {
             Console.WriteLine("\n ===== 몬스터 목록 =====");
 
-            // 1. 몬스터 목록 표시 (사망 시 회색)
             for (int i = 0; i < monsters.Count; i++)
             {
                 var monster = monsters[i];
+
                 if (monster.IsDefeated)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine($"[X] {monsters[i].Name}(사망)");
+                    Console.WriteLine($"[X] {monster.Name} (Dead)");
                     Console.ResetColor();
                 }
                 else
                 {
-                    Console.WriteLine($"[{i + 1}] {monsters[i].Name}(HP: {monsters[i].Hp})");
+                    Console.ForegroundColor = GetMonsterColor(monster.Name);
+                    Console.WriteLine($"[{i + 1}] {monster.Name} (HP: {monster.Hp})");
+                    Console.ResetColor();
                 }
             }
+        }
+
+        private void DisplayPlayerInfo()
+        {
+            Console.WriteLine("\n===== 내 정보 =====");
+            Console.WriteLine($"Name:{player.Name}");
+            Console.WriteLine($"HP: {player.CurrentHp}/{player.MaxHp}");
+            Console.WriteLine("===================");
         }
 
         private Monster SelectTarget(List<Monster> monsters)
@@ -140,30 +193,70 @@ namespace week3
         private bool AskQuestion(Monster monster)
         {
             Console.WriteLine($"\n{monster.Name}의 문제: {monster.Question}");
-            Console.Write("정답 입력:");
-            
+            Console.Write("정답 입력: ");
             string input = Console.ReadLine();
-
             return input == monster.CorrectAnswer;
         }
 
         public void Attack(Monster monster)
         {
-            double errorRange = player.Attack * 0.1;
-            int error = (int)Math.Ceiling(errorRange); // 소수점은 무조건 올림
+            Console.Clear();
 
+            DisplayMonsters(currentMonsters);
+            DisplayPlayerInfo();
+
+            double errorRange = player.Attack * 0.1;
+            int error = (int)Math.Ceiling(errorRange);
             Random random = new Random();
-            int finalAttack = random.Next(player.Attack - error, player.Attack + error + 1); 
+            int finalAttack = random.Next(player.Attack - error, player.Attack + error + 1);
 
             monster.Hp -= finalAttack;
 
-            if (monster.Hp <= 0){
-                monster.Hp = 0; 
-                monster.Defeat(); // 맞췄으면 몬스터 처치
+            if (monster.Hp <= 0)
+            {
+                monster.Hp = 0;
+                monster.Defeat();
             }
 
-            Console.WriteLine($"플레이어가 {monster.Name}에게 {finalAttack}의 데미지를 입혔습니다!");
-            Console.WriteLine($"{monster.Name}몬스터의 남은 체력: {monster.Hp}");
+            Console.WriteLine();
+            Console.Write("플레이어가 ");
+            Console.ForegroundColor = GetMonsterColor(monster.Name);
+            Console.Write($"{monster.Name}");
+            Console.ResetColor();
+            Console.WriteLine($" 에게 {finalAttack}의 데미지를 입혔습니다!");
+
+            DisplayMonsters(new List<Monster> { monster });
+        }
+
+        private void UseBattleItem()
+        {
+            Console.Clear();
+            Console.WriteLine("===== 아이템 사용 =====");
+
+            if (player.inventoryManager.healItemList.Count == 0)
+            {
+                Console.WriteLine("사용할 수 있는 아이템이 없습니다!");
+                return;
+            }
+
+            for (int i = 0; i < player.inventoryManager.healItemList.Count; i++)
+            {
+                var item = player.inventoryManager.healItemList[i];
+                Console.WriteLine($"{i + 1}. {item.Name} - {item.Description}");
+            }
+
+            Console.Write("사용할 아이템 번호를 입력하세요 (0. 취소) : ");
+            int input = InputManager.GetInt(0, player.inventoryManager.healItemList.Count);
+
+            if (input == 0)
+            {
+                Console.WriteLine("아이템 사용을 취소했습니다.");
+                return;
+            }
+
+            Item selectedItem = player.inventoryManager.healItemList[input - 1];
+
+            player.inventoryManager.UseItem(selectedItem);
         }
 
         private void RewardPlayer(Player player)
@@ -175,22 +268,51 @@ namespace week3
             player.AddGold(goldReward);
         }
 
-        private void MonsterAttack(Player player, Monster monster)
+        private int MonsterAttack(Player player, Monster monster)
         {
+            int damage = 0;
             switch (monster.Type)
             {
                 case MonsterType.Normal:
                     Console.WriteLine("[노말 몬스터] 기본 공격!");
-                    playerBattleController.TakeDamageWithDefense(monster.AttackPower);
+                    damage = monster.AttackPower;
+                    playerBattleController.TakeDamageWithDefense(damage);
                     break;
                 case MonsterType.Hard:
                     Console.WriteLine("[하드 몬스터] 강한 정신 공격!");
-                    playerBattleController.TakeDamageWithDefense(monster.AttackPower * 2);
+                    damage = monster.AttackPower * 2;
+                    playerBattleController.TakeDamageWithDefense(damage);
                     break;
                 default:
                     Console.WriteLine("[에러] 알 수 없는 몬스터 타입");
                     break;
             }
+            return damage;
         }
+        private ConsoleColor GetMonsterColor(string monsterName)
+        {
+            switch (monsterName)
+            {
+                case "컴파일에러(CS1002)":
+                    return ConsoleColor.Cyan;
+                case "극한의 대문자 E":
+                    return ConsoleColor.Magenta;
+                case "※△ㅁ쀓?뚫.뚫/딻?띫":
+                    return ConsoleColor.Yellow;
+                case "{name}":
+                    return ConsoleColor.Green;
+                case "ZebC□in":
+                    return ConsoleColor.Red;
+                case "{message}":
+                    return ConsoleColor.Blue;
+                case "FakeCam":
+                    return ConsoleColor.DarkYellow;
+                case "Codebraker":
+                    return ConsoleColor.DarkCyan;
+                default:
+                    return ConsoleColor.White;
+            }
+        }
+
     }
 }

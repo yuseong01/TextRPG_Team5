@@ -23,7 +23,9 @@ namespace week3.Model
             int damaged = damage - player.Defense;
             int reducedDamage = Math.Max(1, damaged); //최소 1 데미지
             player.TakeDamage(reducedDamage);
-            Console.WriteLine($"[전투] {player.Name}이(가) {reducedDamage} 데미지 입음 (HP: {player.CurrentHp})");
+            Console.WriteLine($"[전투] {player.Name}이(가) {reducedDamage} 데미지 입음");
+            Console.WriteLine($"현재 체력: {player.CurrentHp}/{player.MaxHp}");
+
         }
 
         // 보스 대미지 계산 메서드

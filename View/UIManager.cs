@@ -12,7 +12,6 @@ namespace week3
         {
             Console.WriteLine($"이름: {player.Name}");
             Console.WriteLine($"체력 : {player.CurrentHp}");
-            Console.WriteLine($"정신력: {player.Spirit}");
             Console.WriteLine($"공격력 : {player.Attack} (+{player.AdditionalAttackPower})");
             Console.WriteLine($"방어력 : {player.Defense} (+{player.AdditionalDefensePower})");
             Console.WriteLine($"ZEB 코인: {player.ZebCoin}");
