@@ -10,190 +10,149 @@ using week3;
 
 namespace week3
 {
-    public class BossMonster_Battle
+    public class BossMonsterBattle
     {
         Player player;
-        BossMonster_Data bossMonster = new BossMonster_Data();
-        BossMonster_Status bossStatus = new BossMonster_Status();
+        List<BossMonster> bossMonster = new List<BossMonster>();
+        List<BossMonsterSkill> bossMonsterSkill = new List<BossMonsterSkill>(); 
         Random random = new Random();
-
-        List<BossMonster_Skill> normals = new List<BossMonster_Skill>(); // 일반공격 스킬 리스트화
         int playerDamage = 0; // 보스 피격 대미지 저장용
         int bossDamage = 0; // 플레이어 피격 대미지 저장용
         bool isBossAttackSuccess = true;
-        public bool IsAttackItemUsed { get; private set; } = false;
 
-        public BossMonster_Battle(Player player)
+        public BossMonsterBattle(Player player)
         {
-            this.player = player;
-        }
-        public void ToggleIsIsAttackItemUsed()
-        {
-            IsAttackItemUsed = !IsAttackItemUsed;
+            this.player = player;   
+
+            bossMonster.Add(new BossMonster("관리하는 박찬우 매니저", "나는 T들이 싫어", 10, 5, 100, 100, 10,10));
+            bossMonster.Add(new BossMonster("메아리치는 나영웅 매니저", "인간적인 감정이 없었다면 어려움도 없었겠죠.\n제가 당신의 감정을 없애드리죠.",15, 5, 120,120, 10,10));
+            bossMonster.Add(new BossMonster("공간 지배의 한효승 매니저", "그렇게 계속 청개구리처럼 행동할겁니까?",15, 10, 200, 200,25,10));
         }
 
-
-        void PrintStatusBar() // 체력바
+        void PrintStatusBar(BossMonster bossMonster) 
         {
             Console.WriteLine(new string('=', 55));
-            Console.WriteLine($"내 체력 : {player.CurrentHp} / {player.MaxHp}  {bossMonster.BossMonsterName}의 체력 : {bossMonster.HP} / {bossMonster.MaxHP}");
+            Console.WriteLine($"내 체력 : {player.CurrentHp} / {player.MaxHp}  {bossMonster.Name}의 체력 : {bossMonster.Hp} / {bossMonster.MaxHP}");
             Console.WriteLine(new string('=', 55));
         }
-        // 보스 몬스터 조우
-        void BossBattle_Park()
+
+        List<BossMonsterSkill> GetNormalSkills(BossMonster bossMonster)
         {
-            Console.Clear();
-            bossMonster.CopyFrom(bossMonster.BossMonsterData["관리하는 박찬우 매니저"]);
-
-            Console.WriteLine($"{bossMonster.BossMonsterName} : 우오오오오오오오!!! 우오오오오오오오오!!");
-            Console.WriteLine();
-            Console.ReadKey(true);
-
-            PrepareManager_Park(bossMonster);
-            PlayerTurn();
+            return bossMonster.Skills.Where(s => s.Type == 0).ToList();
         }
-        void BossBattle_Hero()
+
+        BossMonsterSkill FindSkillByName(BossMonster bossMonster, string name) // 스킬 찾는 메서드
         {
-            Console.Clear();
-
-            bossMonster.CopyFrom(bossMonster.BossMonsterData["메아리치는 나영웅 매니저"]);
-
-            Console.WriteLine($"{bossMonster.BossMonsterName} : 인간적인 감정이 없었다면 어려움도 없었겠죠.\n제가 당신의 감정을 없애드리죠.");
-            Console.WriteLine();
-            Console.ReadKey(true);
-
-            PrepareManager_Hero(bossMonster);
-            PlayerTurn();
-        }
-        void BossBattle_Zoom()
-        {
-            Console.Clear();
-
-            bossMonster.CopyFrom(bossMonster.BossMonsterData["공간 지배의 한효승 매니저"]);
-
-            Console.WriteLine($"{bossMonster.BossMonsterName} : 그렇게 계속 청개구리처럼 행동할겁니까?");
-            Console.WriteLine();
-            Console.ReadKey(true);
-
-            PrepareManager_Zoom(bossMonster);
-            PlayerTurn();
-        }
-        BossMonster_Skill FindSkillByName(BossMonster_Data boss, string name) // 스킬 찾는 메서드
-        {
-            foreach (var s in boss.Skills)
+            foreach (var s in bossMonster.Skills)
             {
                 if (s.SkillName == name)
                 {
                     return s;
                 }
             }
-            return null;
+            return null;        
         }
-        // 플레이어턴 들어가기 전 각 보스별 행동계산 메서드
-        List<BossMonster_Skill> GetNormalSkills(BossMonster_Data boss)
-        {
-            return boss.Skills.Where(s => s.Type == BossSkillType.Normal).ToList();
-        }
-        void PrepareManager_Park(BossMonster_Data boss)
+
+        void PrepareManager_Park(BossMonster bossMonster)
         {            
-            var skill1 = FindSkillByName(boss, "자유의 함성");
-            var skill2 = FindSkillByName(boss, "질서의 함성");
-            var skill3 = FindSkillByName(boss, "통제의 함성");
+            var skill1 = FindSkillByName(bossMonster, "자유의 함성");
+            var skill2 = FindSkillByName(bossMonster, "질서의 함성");
+            var skill3 = FindSkillByName(bossMonster, "통제의 함성");
             
-            if (boss.HP <= 40 && boss.parkPhase == 0 && skill1 != null)
+            if (bossMonster.Hp <= 40 && bossMonster.parkPhase == 0 && skill1 != null)
             {
-                boss.NextSkill = skill1;
-                boss.IsNextSkill = true;
-                boss.parkPhase = 1;
-                boss.parkCombo = 0;
+                bossMonster.NextSkill = skill1;
+                bossMonster.IsNextSkill = true;
+                bossMonster.parkPhase = 1;
+                bossMonster.parkCombo = 0;
                 return;
             }
-            else if (boss.parkPhase == 1 && boss.parkCombo >= 3 && skill2 != null)
+            else if (bossMonster.parkPhase == 1 && bossMonster.parkCombo >= 3 && skill2 != null)
             {
-                boss.NextSkill = skill2;
-                boss.IsNextSkill = true;
-                boss.parkPhase = 2;
-                boss.parkCombo = 0;
+                bossMonster.NextSkill = skill2;
+                bossMonster.IsNextSkill = true;
+                bossMonster.parkPhase = 2;
+                bossMonster.parkCombo = 0;
                 return;
             }
-            else if (boss.parkPhase == 2 && boss.parkCombo >= 2 && skill3 != null)
+            else if (bossMonster.parkPhase == 2 && bossMonster.parkCombo >= 2 && skill3 != null)
             {
-                boss.NextSkill = skill3;
-                boss.IsNextSkill = true;
-                boss.parkPhase = 3;
-                boss.parkCombo = 0;
+                bossMonster.NextSkill = skill3;
+                bossMonster.IsNextSkill = true;
+                bossMonster.parkPhase = 3;
+                bossMonster.parkCombo = 0;
                 return;
             }
             else
             {
-                normals = GetNormalSkills(boss);
-                foreach (var s in boss.Skills)
+                bossMonsterSkill = GetNormalSkills(bossMonster);
+                foreach (var s in bossMonster.Skills)
                 {
-                    if (s.Type == BossSkillType.Normal)
+                    if (s.Type == 0)
                     {
-                        normals.Add(s);
+                        bossMonsterSkill.Add(s);
                     }
                 }
-                if (normals.Count > 0)
+                if (bossMonsterSkill.Count > 0)
                 {
-                    var selected = normals[random.Next(normals.Count)];
-                    boss.NextSkill = selected;
-                    boss.IsNextSkill = false;
-                    boss.parkCombo++;
+                    var selected = bossMonsterSkill[random.Next(bossMonsterSkill.Count)];
+                    bossMonster.NextSkill = selected;
+                    bossMonster.IsNextSkill = false;
+                    bossMonster.parkCombo++;
                 }
                 else // 예외처리
                 {
-                    boss.IsNextSkill = false;
+                    bossMonster.IsNextSkill = false;
                     Console.WriteLine("일반공격 불가 : 게임 종료");
                 }
             }
         }
-        void PrepareManager_Hero(BossMonster_Data boss)
+        void PrepareManager_Hero(BossMonster bossMonster)
         {
             int rand = random.Next(1, 101);
             int rand2 = random.Next(1, 101);
 
-            var skill1 = FindSkillByName(boss, "데스 노트");
-            var skill2 = FindSkillByName(boss, "관통 사격");
-            var skill3 = FindSkillByName(boss, "장송곡");
+            var skill1 = FindSkillByName(bossMonster, "데스 노트");
+            var skill2 = FindSkillByName(bossMonster, "관통 사격");
+            var skill3 = FindSkillByName(bossMonster, "장송곡");
 
-            if (boss.HP <= 25 && boss.heroTime == 0 && skill3 != null)
+            if (bossMonster.Hp <= 25 && bossMonster.heroTime == 0 && skill3 != null)
             {
-                boss.NextSkill = skill3;
-                boss.IsNextSkill = true;
-                boss.heroTime = 1;
+                bossMonster.NextSkill = skill3;
+                bossMonster.IsNextSkill = true;
+                bossMonster.heroTime = 1;
                 return;
             }
             if ( rand <= 15)
             {
                 if (rand2 <= 65 && skill1 != null)
                 {
-                    boss.NextSkill = skill1;
-                    boss.IsNextSkill = true;
+                    bossMonster.NextSkill = skill1;
+                    bossMonster.IsNextSkill = true;
                     return;
                 }
                 else if (rand2 > 65 && skill2 != null)
                 {
-                    boss.NextSkill = skill2;
-                    boss.IsNextSkill = true;
+                    bossMonster.NextSkill = skill2;
+                    bossMonster.IsNextSkill = true;
                     return;
                 }
             }
             else
             {
-                normals = GetNormalSkills(boss);
-                foreach (var s in boss.Skills)
+                bossMonsterSkill = GetNormalSkills(bossMonster);
+                foreach (var s in bossMonster.Skills)
                 {
-                    if (s.Type == BossSkillType.Normal)
+                    if (s.Type == 0)
                     {
-                        normals.Add(s);
+                        bossMonsterSkill.Add(s);
                     }
                 }
-                if (normals.Count > 0)
+                if (bossMonsterSkill.Count > 0)
                 {
-                    var selected = normals[random.Next(normals.Count)];
-                    boss.NextSkill = selected;
-                    boss.IsNextSkill = false;
+                    var selected = bossMonsterSkill[random.Next(bossMonsterSkill.Count)];
+                    bossMonster.NextSkill = selected;
+                    bossMonster.IsNextSkill = false;
                 }
                 else // 예외처리
                 {
@@ -301,7 +260,7 @@ namespace week3
                     }
                     break;
                 case 2:
-                    bossStatus.ShowBossStatus(bossMonster); 
+                    bossMa.ShowBossStatus(bossMonster); 
                     break;
 
                 case 3: Console.WriteLine("도주할 수 없다.");
@@ -359,7 +318,7 @@ namespace week3
                 Console.ReadKey(true);
                 Console.WriteLine("...");
                 Console.ReadKey(true);
-                bossMonster.HP -= playerDamage;
+                bossMonster.Hp -= playerDamage;
                 if (bossMonster.NextSkill != null && bossMonster.NextSkill.FailDialogue.Count > 0)
                 {
                     Console.WriteLine(bossMonster.NextSkill.FailDialogue[random.Next(bossMonster.NextSkill.FailDialogue.Count)]);

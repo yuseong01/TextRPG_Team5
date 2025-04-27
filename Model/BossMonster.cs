@@ -4,56 +4,24 @@ using week3;
 
 namespace week3
 {
-    public class BossMonster_Skill
+    public class BossMonster
     {
-        public string SkillName { get; set; }
-        public int SkillDamage { get; set; }
-        public BossSkillType Type { get; set; }
-        public List<string> HintDialogue { get; set; } = new List<string>();
-        public List<string> MainDialogue { get; set; } = new List<string>();
-        public List<string> SuccessDialogue { get; set; } = new List<string>();
-        public List<string> FailDialogue { get; set; } = new List<string>();
-    }
-    public enum BossSkillType
-    {
-        Normal,
-        Skill
-    }
-    public class BossMonster_Data
-    {
-        public string BossMonsterName { get; set; }
+        public string Name { get; set; }
+        public string Script {get; set;}
         public int Atk { get; set; }
         public int Def { get; set; }
         public int MaxHP { get; set; }
-        private int _hp; // 내부 HP 처리용
-        public int HP
-        {
-            get => _hp;
-            set
-            {
-                if (value < 0)
-                {
-                    _hp = 0;
-                }
-                else if (value > MaxHP)
-                {
-                    _hp = MaxHP;
-                }
-                else
-                {
-                    _hp = value;
-                }
-            }
-        }
-        public int Spirit { get; set; }
-        public int MaxSpirit { get; set; }
+        public int Hp{ get; set; }
+
+        //각각 1마리씩 총 3마리
+        //총 3마리는 각각 스킬셋을 가지고 있음
+    
         public int Critical { get; set; }
         public int Evasion { get; set; }
-        public int PointReward { get; set; }
         public bool IsBossDead { get; set; }
         public bool IsNextSkill { get; set; }
-        public BossMonster_Skill? NextSkill { get; set; }
-        public List<BossMonster_Skill> Skills { get; set; } = new List<BossMonster_Skill>();
+        public BossMonsterSkill NextSkill { get; set; }
+        public List<BossMonsterSkill> Skills { get; set; } = new List<BossMonsterSkill>();
         public int parkPhase { get; set; } = 0; // 관리하는 박찬우 매니저 스킬 제어용
         public int parkCombo { get; set; } = 0; // 관리하는 박찬우 매니저 스킬 제어용
         public int heroTime { get; set; } = 0; // 메아리치는 나영웅 매니저 스킬 제어용
@@ -62,47 +30,19 @@ namespace week3
         public int reinforceZoomEva { get; set; } = 0; // 공간 지배의 한효승 매니저 스킬 제어용
 
         Player player;
-        public BossMonster_Data(string name, int atk, int def, int hp, int spi, int crt, int eva, int pointreward) // 보스 몬스터 생성자
+        public BossMonster(string name, string script, int atk, int def, int hp, int maxHp, int crt, int evasion) // 보스 몬스터 생성자
         {
-            BossMonsterName = name;
+            Name = name;
+            Script = script;
             Atk = atk;
             Def = def;
-            MaxHP = hp;
-            HP = hp;
-            MaxSpirit = spi;
-            Spirit = spi;
+            Hp = hp;
+            MaxHP=maxHp;
             Critical = crt;
-            Evasion = eva;
-            PointReward = pointreward;
-        }
-        public BossMonster_Data(BossMonster_Data original) 
-        {
-            CopyFrom(original);
-        }
-        public void CopyFrom(BossMonster_Data original) // 데이터 복사용 생성자
-        {
-            BossMonsterName = original.BossMonsterName;
-            Atk = original.Atk;
-            Def = original.Def;
-            MaxHP = original.MaxHP;
-            HP = original.HP;
-            MaxSpirit = original.MaxSpirit;
-            Spirit = original.Spirit;
-            Critical = original.Critical;
-            Evasion = original.Evasion;
-            PointReward = original.PointReward;
-            IsBossDead = original.IsBossDead;
-            IsNextSkill = original.IsNextSkill;
-            NextSkill = original.NextSkill;
-            Skills = new List<BossMonster_Skill>(original.Skills);
+            Evasion = evasion;
         }
 
-        public Dictionary<string, BossMonster_Data> BossMonsterData = new Dictionary<string, BossMonster_Data>() // 보스 데이터
-        {
-            { "관리하는 박찬우 매니저", new BossMonster_Data ("관리하는 박찬우 매니저", 10, 5, 100, 10, 10, 10, 500) },
-            { "메아리치는 나영웅 매니저", new BossMonster_Data ("메아리치는 나영웅 매니저", 15, 5, 120, 15, 10, 15, 1000) },
-            { "공간 지배의 한효승 매니저", new BossMonster_Data ("공간 지배의 한효승 매니저", 15, 10, 200, 25, 20, 10, 2000) }
-        };
+        
 
         public BossMonster_Data() // 스킬 정보에 대한 생성자
         {
@@ -274,6 +214,23 @@ namespace week3
                 Console.WriteLine("회심의 공격!");
             }
             this.HP -= damage;
+        }
+
+        public void ShowBossStatus(BossMonster_Data boss)
+        {
+            Console.Clear();
+            Console.WriteLine($"<매니저 스펙>");
+            Console.WriteLine(new string('=', 35));
+            Console.WriteLine($"{boss.BossMonsterName}");
+            Console.WriteLine($"공격력: {boss.Atk}");
+            Console.WriteLine($"방어력: {boss.Def}");
+            Console.WriteLine($"체력: {boss.MaxHP}");
+            Console.WriteLine($"정신력: {boss.MaxSpirit}");
+            Console.WriteLine($"치명타율: {boss.Critical}%");
+            Console.WriteLine($"회피율: {boss.Evasion}%");
+            Console.WriteLine(new string('=', 35));
+            Console.WriteLine();
+            Console.ReadKey(true);
         }
     }
 }
