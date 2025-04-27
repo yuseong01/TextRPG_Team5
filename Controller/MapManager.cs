@@ -57,7 +57,8 @@ public class MapManager
                 ShowPageForSelectedMap(0, mapType, maps[0].mapObjectList, maps[0].mapName);
                 break;
             case mapType.PassageMap:
-                ShowPageForSelectedMap(1, mapType, maps[1].mapObjectList, maps[1].mapName);
+                uiManager.ShowMap(mapType.PassageMap);
+                passageMapFlow();
                 break;
             case mapType.Manager1RoomMap:
                 ClearIsOpen();
@@ -129,9 +130,6 @@ public class MapManager
         else if (map.mapName == "복도")
         {
             Thread.Sleep(700);
-            Console.WriteLine("복도로 나왔다... 어디로 가야하는 걸까.");
-            passageMapFlow(); //이거 하면 복도 시작됨
-            map.isClear = true;
         }
         else
         {
@@ -169,6 +167,7 @@ public class MapManager
             foreach (var face in Constants.SCARED_FACE_STRING)
             {
                 Console.WriteLine(face);
+                Thread.Sleep(700);
             }
             Thread.Sleep(700);
         }
@@ -180,6 +179,8 @@ public class MapManager
             player.AddGold(1000);
             Console.WriteLine("진행하려면 [Enter]를 입력하세요");
             Console.ReadLine();
+            Console.WriteLine("진행하려면 [Enter]를 입력하세요");
+            Console.ReadLine();
         }
         else
         {
@@ -189,6 +190,7 @@ public class MapManager
             Console.WriteLine("진행하려면 [Enter]를 입력하세요");
             Console.ReadLine();
         }
+        
     }
 
 
