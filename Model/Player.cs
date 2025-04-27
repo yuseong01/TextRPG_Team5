@@ -133,6 +133,7 @@
             Console.WriteLine("... 몸이 점점 무거워지고 눈 앞이 흐려진다... 출석... 해야하는데...");
             Console.WriteLine("GAME OVER");
             IsPlayerAlive = false;
+            return;
             // 시작화면? 호출? 적절한 메서드 호출하기.
         }
     }

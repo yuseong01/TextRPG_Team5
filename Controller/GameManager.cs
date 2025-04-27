@@ -13,6 +13,7 @@ namespace week3
         Shop shop = new Shop();
         BossMonster_Battle bossBattle = new BossMonster_Battle();
         
+        
         public GameManager() 
         {
             //gameIntroUI = new GameIntroUI(soundManager);

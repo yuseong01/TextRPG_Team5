@@ -153,7 +153,6 @@ public class MapManager
                 player.AddGold(500);
                 break;
             case ObjectType.Monster:
-                //몬스터 전투 함수 호출
                 Console.WriteLine("일반몬스터");
                 break;
             case ObjectType.HardMonster:

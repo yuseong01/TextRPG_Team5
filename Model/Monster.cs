@@ -28,7 +28,6 @@ namespace week3
         public void Defeat() => IsDefeated = true;
 
 
-        
         public Monster(string name, MonsterType type , string question, string correctAnswer, int maxHealth= 100, int attackPower = 10, int defense = 5, int expReward = 20 ) //수정중
         {
             Name = name;
