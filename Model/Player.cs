@@ -125,7 +125,7 @@
             Console.WriteLine("GAME OVER");
             Thread.Sleep(700);
             IsPlayerAlive = false;
-            return;
+            Environment.Exit(0);
         }
 
         public void ApplyEquipmentStats(Item item)
