@@ -1,4 +1,5 @@
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Channels;
 using week3;
 
 public class MapManager
@@ -76,6 +77,7 @@ public class MapManager
         }
     }
 
+
     public void ClearIsOpen()
     {
         baseMapObject[3].IsOpen = false;
@@ -102,8 +104,15 @@ public class MapManager
 
             int choose = InputManager.GetInt(1, mapObjects.Count) - 1;
 
-            ActivateObject(mapObjects[choose]);
-            mapObjects[choose].IsOpen = true;
+            if (mapObjects[choose].IsOpen)
+            {
+                Console.WriteLine("더이상 조사할 필요는 없을 것 같다.");
+            }
+            else
+            {
+                ActivateObject(mapObjects[choose]);
+                mapObjects[choose].IsOpen = true;
+            }
         }
     }
 
@@ -120,7 +129,7 @@ public class MapManager
         else if (map.mapName == "복도")
         {
             Thread.Sleep(700);
-            Console.WriteLine("복도이다");
+            Console.WriteLine("복도로 나왔다... 어디로 가야하는 걸까.");
             passageMapFlow(); //이거 하면 복도 시작됨
             map.isClear = true;
         }
@@ -161,7 +170,7 @@ public class MapManager
             {
                 Console.WriteLine(face);
             }
-            
+            Thread.Sleep(700);
         }
         else if (randomValue == 1)
         {
@@ -169,15 +178,17 @@ public class MapManager
             Console.Clear();
             Console.WriteLine("반짝이는 Gold를 발견했다!");
             player.AddGold(1000);
+            Console.WriteLine("진행하려면 [Enter]를 입력하세요");
+            Console.ReadLine();
         }
         else
         {
             Thread.Sleep(700);
             Console.Clear();
             Console.WriteLine("아무 일도 일어나지 않았다...");
+            Console.WriteLine("진행하려면 [Enter]를 입력하세요");
+            Console.ReadLine();
         }
-        Console.WriteLine("진행하려면 [Enter]를 입력하세요");
-        Console.ReadLine();
     }
 
 
