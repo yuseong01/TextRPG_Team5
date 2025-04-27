@@ -111,6 +111,8 @@ public class MapManager
             }
             else
             {
+                Console.WriteLine(mapObjects[choose].Description);
+                Thread.Sleep(1000);
                 ActivateObject(mapObjects[choose]);
                 mapObjects[choose].IsOpen = true;
             }
