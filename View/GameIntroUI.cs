@@ -273,7 +273,7 @@ public class GameIntroUI
             Console.SetCursorPosition(0, yBottom);
             Console.Write(new string(' ', width));
 
-            int ledCount = width / 4; // 전체 너비의 1/4만큼만 출력 (버퍼 터짐 해결)
+            int ledCount = width / 5; // 전체 너비의 1/4만큼만 출력 (버퍼 터짐 해결)
 
             for (int j = 0; j < ledCount; j++)
             {
@@ -506,8 +506,8 @@ public class GameIntroUI
                 Console.Clear();
                 SelectMenuUI(selectedIndex);
                 firstDraw = true;
+                break;
             }
-            return; //수정해야하는부분
         }
     }
 
