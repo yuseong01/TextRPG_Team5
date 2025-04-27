@@ -50,7 +50,7 @@
         //이름 들고오는 함수
         public void GetPlayerName()
         {
-            Console.Write("당신의 이름은? :");
+            Console.Write("당신의 이름은? : ");
             string name = Console.ReadLine();
             Name = name;
         }
@@ -87,10 +87,12 @@
 
         public void AddAttackPower(int value)
         {
+            Attack += value;
             AdditionalAttackPower += value;
         }
         public void AddDefensePower(int value)
         {
+            Defense += value;
             AdditionalDefensePower += value;
         }
 
@@ -107,11 +109,13 @@
 
         public void RemoveAttackPower(int value)
         {
+            Attack -= value;
             AdditionalAttackPower -= value;
         }
 
         public void RemoveDefensePower(int value)
         {
+            Defense -= value;
             AdditionalDefensePower -= value;
         }
 
