@@ -15,7 +15,6 @@ namespace week3
         BossMonster_Battle bossBattle = new BossMonster_Battle();
         MonsterBattleManager monsterBattleManager;
         
-        
         public GameManager() 
         {
             //gameIntroUI = new GameIntroUI(soundManager);

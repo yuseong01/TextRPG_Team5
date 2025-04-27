@@ -4,7 +4,7 @@ namespace week3
 {
     public class Shop
     {
-        List<Item> shopItems;
+        List<Item> shopItems= new List<Item>();
         InventoryManager inventory;
         Player player;
         Item item;
@@ -13,8 +13,6 @@ namespace week3
 
         public Shop()
         {
-            shopItems = new List<Item>();
-
             // 초기 상점 아이템 구성
             shopItems.Add(inventory.ItemData[12]);
             shopItems.Add(inventory.ItemData[13]);
