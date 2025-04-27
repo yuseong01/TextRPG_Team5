@@ -75,7 +75,7 @@ namespace week3
             {
                 AddItem(itemIndex);
                 player.SpendGold(selectedItem.Price);
-                if (selectedItem.Type == "회복") // 아이템 타입을 확인하고 회복 아이템이면 판매완료 문구 띄우지 않음.
+                if (selectedItem.Type == "회복" || selectedItem.Type == "보스") // 아이템 타입을 확인하고 회복 아이템이면 판매완료 문구 띄우지 않음.
                 {
 
                 }
@@ -88,14 +88,11 @@ namespace week3
             }
         }
 
-        //이거 보스아이템이면 보스아이템 리스트에 추가 나머지도 구분해서 추가 해야댐!
-        public void AddItem(int itemIndex, string type)
+
+        public void AddItem(int itemIndex)
         {
-            if(type=="보스")
-            {
-                player.inventoryManager.bossBattleItem.Add(ItemData[itemIndex]);
-            }
-            Console.WriteLine($"{ItemData[itemIndex].Name}을(를) 인벤토리에 추가했습니다.");
+                player.inventoryManager.playerItems.Add(ItemData[itemIndex]);
+                Console.WriteLine($"{ItemData[itemIndex].Name}을(를) 인벤토리에 추가했습니다.");
         }
 
         public List<Item> ItemData = new List<Item>() // 아이템 데이터
