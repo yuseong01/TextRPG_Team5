@@ -273,11 +273,11 @@ public class GameIntroUI
             Console.SetCursorPosition(0, yBottom);
             Console.Write(new string(' ', width));
 
-            int ledCount = width / 3; // 전체 너비의 1/3만큼만 출력
+            int ledCount = width / 4; // 전체 너비의 1/4만큼만 출력 (버퍼 터짐 해결)
 
             for (int j = 0; j < ledCount; j++)
             {
-                int x = rand.Next(width); // 랜덤한 x 위치
+                int x = rand.Next(width - 1); // 랜덤한 x 위치
 
                 Console.SetCursorPosition(x, yTop);
                 Console.ForegroundColor = colors[rand.Next(colors.Length)];
@@ -507,7 +507,7 @@ public class GameIntroUI
                 SelectMenuUI(selectedIndex);
                 firstDraw = true;
             }
-            return;
+            return; //수정해야하는부분
         }
     }
 
@@ -549,6 +549,8 @@ public class GameIntroUI
         stopFlicker = true;
         Thread.Sleep(150);
         Console.Clear();
+
+        Console.SetCursorPosition(0, 12);
 
         textEffect.BeginTextSet();
         soundManager.PlayBirdLoopFadeIn(); // 🐦 새소리 페이드 인
