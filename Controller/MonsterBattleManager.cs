@@ -125,7 +125,7 @@ namespace week3
                 DisplayMonsters(monsters);
                 DisplayPlayerInfo();
 
-                Console.ForegroundColor = GetMonsterColor(monster.Name); // ★ 몬스터 이름 색 적용
+                Console.ForegroundColor = GetMonsterColor(monster.Name); 
                 Console.Write($"{monster.Name}");
                 Console.ResetColor();
                 Console.WriteLine("의 공격!");

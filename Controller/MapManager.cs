@@ -216,7 +216,7 @@ public class MapManager
                 monsterBattleManager.StartGroupBattle(player, true);
                 break;
             case ObjectType.HardMonster:
-                monsterBattleManager.StartGroupBattle(player, true);
+                monsterBattleManager.StartGroupBattle(player, false);
                 break;
 
         }
