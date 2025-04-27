@@ -6,89 +6,86 @@ namespace week3
     {
         Item item;
         Player player;
-        public List<Item> playerItems = new List<Item>();
-        public List<Item> battleItemList;
-        public List<Item> nonBattleItemList;
+        public List<Item> playerItems = new List<Item>();   //장착아이템
+        public List<Item> nomalBattleItemList;  //회복아이템
+        public List<Item> bossBattleItemList;   //보스아이템
 
         public InventoryManager()
         {
-            
+
         }
 
-        public void ShowInventory(bool isBattle) // inventory 입장 메서드
+        public void ShowInventory(int inventoryType) // inventory 입장 메서드
         {
             while (true)
             {
-                AllItemList(isBattle);
-                int inputNum = InputManager.GetInt(0, playerItems.Count);
-                if (inputNum == 0) break;
-                int itemIndex = inputNum - 1;
-                UseOrEquipItem(itemIndex);
+                Console.Clear();
+                if(inventoryType==0)    //비전투
+                {
+                    for (int i = 0; i < playerItems.Count; i++)
+                        {
+                            string index = (playerItems[i].IsEquip) ? $"[E]{i + 1}." : $"{i + 1}.";
+                            Console.WriteLine($"{index} {playerItems[i].Name,-10}| {playerItems[i].Description,-30}");
+                        }
+                        Console.Write("장착할 아이템 번호를 선택해주세요. \n나가려면 0을 눌러주세요.>");
+
+                        int inputNum = InputManager.GetInt(0, playerItems.Count);
+                        if (inputNum == 0) break;
+                        EquipItem(playerItems[inputNum-1]);
+                }
+                else if(inventoryType==1)   //일반전투
+                {
+                    for (int i = 0; i < nomalBattleItemList.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1} {playerItems[i].Name,-10}| {playerItems[i].Description,-30}");
+                    }
+                    Console.Write("사용할 아이템 번호를 선택해주세요. \n나가려면 0을 눌러주세요.>");
+                    int inputNum = InputManager.GetInt(0, playerItems.Count);
+                    if (inputNum == 0) break;
+                    UseItem(nomalBattleItemList[inputNum-1]);
+                    break;
+                }
+                else if(inventoryType==2)   //보스전투
+                {
+                    for (int i = 0; i < bossBattleItemList.Count; i++)
+                        {
+                            Console.WriteLine($"{i + 1} {bossBattleItemList[i].Name,-10}| {bossBattleItemList[i].Description,-30}");
+                        }
+                        Console.Write("사용할 아이템 번호를 선택해주세요. \n나가려면 0을 눌러주세요.>");
+                        int inputNum = InputManager.GetInt(0, playerItems.Count);
+                        if (inputNum == 0) break;
+                        UseItem(bossBattleItemList[inputNum-1]);
+                        break;
+                }
             }
         }
 
-        void AllItemList(bool isBattle)
+        void EquipItem(Item item)
         {
-            Console.Clear();
-            if(isBattle)
+            item.ToggleEquipStatus(item);
+
+            if (item.IsEquip)
             {
-                battleItemList = playerItems.Where(item => item.Type == "보스" || item.Type == "회복").ToList();
-                for (int i = 0; i < battleItemList.Count; i++)
-                {
-                    string item = $"{i + 1} {battleItemList[i].Name,-10}| {battleItemList[i].Description,-30}";
-                    Console.WriteLine(item);
-                }
-                Console.WriteLine("사용할 아이템 번호를 선택해주세요. \n나가려면 0을 눌러주세요.");
+                player.ApplyEquipmentStats(item);
             }
             else
             {
-                nonBattleItemList = playerItems.Where(item => item.Type == "회복" || item.Type == "방어구" || item.Type == "무기").ToList();
-                for (int i = 0; i < nonBattleItemList.Count; i++)
-                {
-                    string index = (nonBattleItemList[i].IsEquip) ? "[E]" : $"{i + 1}.";
-
-                    string item = $"{index} {nonBattleItemList[i].Name,-10}| {nonBattleItemList[i].Description,-30}";
-                    Console.WriteLine(item);
-                }
-                Console.WriteLine("장착하거나 사용할 아이템 번호를 선택해주세요. \n나가려면 0을 눌러주세요.");
+                player.RemoveEquipmentStats(item);
             }
-                
         }
 
-        void UseOrEquipItem(int itemIndex)
+        void UseItem(Item item)
         {
-            item = playerItems[itemIndex];
-
-            if (item.Type == "무기" || item.Type == "방어구")
+            if(item.Type == "회복")
             {
-                item.ToggleEquipStatus(item);
-
-                if (item.IsEquip)
-                {
-                    player.ApplyEquipmentStats(item);
-                }
-                else
-                {
-                    player.RemoveEquipmentStats(item);
-                }
+                playerItems.Remove(item);
+                Console.WriteLine($"{item.Name}을(를) 사용했습니다.");
             }
-            else if (playerItems[itemIndex].Type == "회복"|| playerItems[itemIndex].Type =="보스")
+            else if(item.Type=="보스")
             {
-                UseItem(itemIndex);
-            }
-            else
-            {
-                Console.WriteLine($"{item.Name}을(를) 사용했다.");
-                bossBattle.ToggleIsIsAttackItemUsed();
+                playerItems.Remove(item);
+                Console.WriteLine($"{item.Name}을(를) 사용했습니다.");
             }
         }
-
-        void UseItem(int itemIndex)
-        {
-            playerItems.Remove(playerItems[itemIndex]);
-            Console.WriteLine($"{playerItems[itemIndex]}을(를) 사용했습니다.");
-        }
-
-
     }
 }

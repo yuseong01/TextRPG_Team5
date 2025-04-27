@@ -5,14 +5,12 @@ namespace week3
     public class Shop
     {
         List<Item> shopItems= new List<Item>();
-        InventoryManager inventoryManager;
         Player player;
         Item item;
         int number;
 
-        public Shop(InventoryManager inventoryManager, Player player)
+        public Shop(Player player)
         {
-            this.inventoryManager = inventoryManager;
             this.player = player;
             // 초기 상점 아이템 구성
             shopItems.Add(ItemData[12]);
@@ -30,8 +28,7 @@ namespace week3
             AllShopItemList();
             int inputNum = InputManager.GetInt(1, shopItems.Count);
             if (inputNum == 0) break;
-            int itemIndex = inputNum - 1;
-            BuyItem(itemIndex);
+            BuyItem(inputNum - 1);
             }
         }
 
@@ -48,12 +45,10 @@ namespace week3
                 Item item = shopItems[i];
                 string isSold = (shopItems[number].IsSold) ? "판매 완료" : $"{item.Price,-4}";
                  
-
                 Console.WriteLine($"{i + 1}. {item.Name,-10}| {item.Description,-30}|({item.Price,-4}G)");
             }
             Console.WriteLine("구매를 원하시는 아이템의 번호를 입력해 주세요.\n나가고 싶으시다면 0을 눌러주세요.");
         }
-
 
         private void BuyItem(int itemIndex)
         {
@@ -75,11 +70,7 @@ namespace week3
             {
                 AddItem(itemIndex);
                 player.SpendGold(selectedItem.Price);
-                if (selectedItem.Type == "회복" || selectedItem.Type == "보스") // 아이템 타입을 확인하고 회복 아이템이면 판매완료 문구 띄우지 않음.
-                {
-
-                }
-                else
+                if (selectedItem.Type != "회복")
                 {
                     item.ToggleSoldStatus(selectedItem);
                 }
@@ -88,11 +79,21 @@ namespace week3
             }
         }
 
-
         public void AddItem(int itemIndex)
         {
+            if(ItemData[itemIndex].Type=="보스")
+            {
+                player.inventoryManager.bossBattleItemList.Add(ItemData[itemIndex]);
+            }
+            else if(ItemData[itemIndex].Type=="회복")
+            {
+                player.inventoryManager.nomalBattleItemList.Add(ItemData[itemIndex]);
+            }
+            else
+            {
                 player.inventoryManager.playerItems.Add(ItemData[itemIndex]);
-                Console.WriteLine($"{ItemData[itemIndex].Name}을(를) 인벤토리에 추가했습니다.");
+            }
+            Console.WriteLine($"{ItemData[itemIndex].Name}을(를) 인벤토리에 추가했습니다.");
         }
 
         public List<Item> ItemData = new List<Item>() // 아이템 데이터

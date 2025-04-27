@@ -104,7 +104,7 @@ namespace week3
             { "공간 지배의 한효승 매니저", new BossMonster_Data ("공간 지배의 한효승 매니저", 15, 10, 200, 25, 20, 10, 2000) }
         };
 
-         BossMonster_Data() // 스킬 정보에 대한 생성자
+        public BossMonster_Data() // 스킬 정보에 대한 생성자
         {
             var park = BossMonsterData["관리하는 박찬우 매니저"];
             var hero = BossMonsterData["메아리치는 나영웅 매니저"];

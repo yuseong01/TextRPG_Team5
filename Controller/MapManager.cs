@@ -7,15 +7,13 @@ public class MapManager
     public List<Map> maps = new List<Map>();
     public List<MapObject> baseMapObject = new List<MapObject>();
     Player player;
-    InventoryManager inventoryManager;
     Shop shop;
     MonsterBattleManager monsterBattleManager;
 
-    public MapManager(UIManager uiManager, Player player, InventoryManager inventoryManager, Shop shop,MonsterBattleManager monsterBattleManager)
+    public MapManager(UIManager uiManager, Player player, Shop shop,MonsterBattleManager monsterBattleManager)
     {
         this.player=player;
         this.uiManager = uiManager;
-        this.inventoryManager = inventoryManager;
         this.shop=shop;
         this.monsterBattleManager =monsterBattleManager;
 
@@ -146,7 +144,7 @@ public class MapManager
                 player.ShowPlayerStat();
                 break;
             case ObjectType.Inventory:
-                inventoryManager.ShowInventory();
+                player.inventoryManager.ShowInventory(0);  //0은 비전투
                 break;
             case ObjectType.Store:
                 shop.ShowShop();

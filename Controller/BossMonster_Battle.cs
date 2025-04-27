@@ -13,9 +13,7 @@ namespace week3
     public class BossMonster_Battle
     {
         Player player;
-        Item item;
-        InventoryManager inventory;
-        BossMonster_Data bossMonster;
+        BossMonster_Data bossMonster = new BossMonster_Data();
         BossMonster_Status bossStatus = new BossMonster_Status();
         Random random = new Random();
 
@@ -25,6 +23,10 @@ namespace week3
         bool isBossAttackSuccess = true;
         public bool IsAttackItemUsed { get; private set; } = false;
 
+        public BossMonster_Battle(Player player)
+        {
+            this.player = player;
+        }
         public void ToggleIsIsAttackItemUsed()
         {
             IsAttackItemUsed = !IsAttackItemUsed;
@@ -278,7 +280,7 @@ namespace week3
 
                     if (attackInput == 1)
                     {
-                        inventory.ShowInventory();
+                        player.inventoryManager.ShowInventory(2);   //보스전투
                         if (IsAttackItemUsed)
                         {
                             playerDamage = 25;
