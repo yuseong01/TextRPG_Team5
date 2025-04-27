@@ -232,15 +232,15 @@ namespace week3
             switch (input)
             {
                 case 1: Console.WriteLine("대응 방식 선택");
-                    Console.WriteLine("1. 공격");
-                    Console.WriteLine("2. 소비아이템 사용");
-                    Console.WriteLine("3. 돌아가기");
-                    int attackInput = InputManager.GetInt(1, 2);
+                    Console.WriteLine("1. 보스몬스터 전용 공격아이템 확인");
+                    Console.WriteLine("2. 회복아이템 사용");
+                    Console.WriteLine("0. 돌아가기");
+                    int attackInput = InputManager.GetInt(0, 2);
 
                     if (attackInput == 1)
                     {
                         player.inventoryManager.ShowInventory(2);   //보스전투
-                        if (true) //
+                        if (true)
                         {
                             playerDamage = 25;
                             isBossAttackSuccess = false;

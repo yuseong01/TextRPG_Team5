@@ -9,7 +9,7 @@
         public int Value { get; private set; }
         public bool IsEquip {  get; private set; }
         public bool IsSold { get; private set; }
-        public bool IsUsed { get; private set; }
+        public bool IsUsed { get; set; }
         public int Price { get; private set; }
 
         public Item(string name, string description, string type, int value, int price)
@@ -31,10 +31,6 @@
         public void ToggleSoldStatus(Item item)
         {
             IsSold = !IsSold;
-        }
-        public void ToggleIsUsedStatus(Item item)
-        {
-            IsUsed = !IsUsed;
         }
     }
 
