@@ -15,6 +15,7 @@ namespace week3
             this.player = player;
         }
 
+
         public void ShowInventory(int inventoryType) // inventory 입장 메서드
         {
             while (true)
@@ -24,13 +25,21 @@ namespace week3
                 {
                     for (int i = 0; i < playerItems.Count; i++)
                     {
-
+                        string valueText = "";
                         if (playerItems[i].Type == "무기")
                         {
-
+                            valueText = $"공격력 +{playerItems[i].Value}";
+                        }
+                        else if (playerItems[i].Type == "방어구")
+                        {
+                            valueText = $"방어력 +{playerItems[i].Value}";
+                        }
+                        else if (playerItems[i].Type == "회복")
+                        {
+                            valueText = $"회복 +{playerItems[i].Value}";
                         }
                         string index = (playerItems[i].IsEquip) ? $"[E]{i + 1}." : $"{i + 1}.";
-                        Console.WriteLine($"{index} {playerItems[i].Name,-10}| {playerItems[i].Description,-30}");
+                        Console.WriteLine($"{index} {playerItems[i].Name,-10}|{valueText}|{playerItems[i].Description,-30}");
                     }
                     Console.Write("장착할 아이템 번호를 선택해주세요. \n나가려면 0을 눌러주세요.>");
 
@@ -40,9 +49,15 @@ namespace week3
                 }
                 else if (inventoryType == 1)   //일반전투
                 {
+
                     for (int i = 0; i < nomalBattleItemList.Count; i++)
                     {
-                        Console.WriteLine($"{i + 1} {playerItems[i].Name,-10}| {playerItems[i].Description,-30}");
+                        string valueText = "";
+                       if (playerItems[i].Type == "회복")
+                        {
+                            valueText = $"회복 +{playerItems[i].Value}";
+                        }
+                        Console.WriteLine($"{i + 1} {playerItems[i].Name,-10}|{valueText}|{playerItems[i].Description,-30}");
                     }
                     Console.Write("사용할 아이템 번호를 선택해주세요. \n나가려면 0을 눌러주세요.>");
                     int inputNum = InputManager.GetInt(0, playerItems.Count);
@@ -54,7 +69,12 @@ namespace week3
                 {
                     for (int i = 0; i < bossBattleItemList.Count; i++)
                     {
-                        Console.WriteLine($"{i + 1} {bossBattleItemList[i].Name,-10}| {bossBattleItemList[i].Description,-30}");
+                        string valueText = "";
+                        if (playerItems[i].Type == "회복")
+                        {
+                            valueText = $"회복 +{playerItems[i].Value}";
+                        }
+                        Console.WriteLine($"{i + 1} {bossBattleItemList[i].Name,-10}|{valueText}|{bossBattleItemList[i].Description,-30}");
                     }
                     Console.Write("사용할 아이템 번호를 선택해주세요. \n나가려면 0을 눌러주세요.>");
                     int inputNum = InputManager.GetInt(0, playerItems.Count);
