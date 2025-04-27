@@ -169,7 +169,6 @@ public class MapManager
             foreach (var face in Constants.SCARED_FACE_STRING)
             {
                 Console.WriteLine(face);
-                Thread.Sleep(700);
             }
             Thread.Sleep(700);
         }
