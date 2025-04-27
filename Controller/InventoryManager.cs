@@ -90,15 +90,14 @@ namespace week3
                     }
                     else if (inputNum == 1)
                     {
-                        while(true)
-                        {
+
                         ShowBossBattleItemList();
                         Console.WriteLine("사용할 아이템 번호를 선택해주세요. \n나가려면 0을 눌러주세요.>");
                         inputNum = InputManager.GetInt(0, bossBattleItemList.Count);
                         if (inputNum == 0) break;
                         bossBattleItemList[inputNum - 1].IsUsed = true;
                         UseItem(bossBattleItemList[inputNum - 1]);
-                        }
+
                     }
                     else
                     {
