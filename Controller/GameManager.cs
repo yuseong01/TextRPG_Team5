@@ -20,8 +20,8 @@ namespace week3
         {
             //gameIntroUI = new GameIntroUI(soundManager);
             player = new Player();
-            mapManager = new MapManager(uiManager,player, inventoryManager, shop);
             monsterBattleManager = new MonsterBattleManager(player);
+            mapManager = new MapManager(uiManager,player, inventoryManager, shop, monsterBattleManager);
         }
         public void GameStart() 
         {

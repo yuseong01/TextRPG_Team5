@@ -9,13 +9,15 @@ public class MapManager
     Player player;
     InventoryManager inventoryManager;
     Shop shop;
+    MonsterBattleManager monsterBattleManager;
 
-    public MapManager(UIManager uiManager, Player player, InventoryManager inventoryManager, Shop shop)
+    public MapManager(UIManager uiManager, Player player, InventoryManager inventoryManager, Shop shop,MonsterBattleManager monsterBattleManager)
     {
         this.player=player;
         this.uiManager = uiManager;
         this.inventoryManager = inventoryManager;
         this.shop=shop;
+        this.monsterBattleManager =monsterBattleManager;
 
         maps.Add(new Map("5조"));
         maps.Add(new Map("복도"));
@@ -153,11 +155,10 @@ public class MapManager
                 player.AddGold(500);
                 break;
             case ObjectType.Monster:
-                Console.WriteLine("일반몬스터");
+                monsterBattleManager.StartGroupBattle(player, true);
                 break;
             case ObjectType.HardMonster:
-                //몬스터 전투 함수 호출
-                Console.WriteLine("하드몬스터");
+                monsterBattleManager.StartGroupBattle(player, true);
                 break;
 
         }
