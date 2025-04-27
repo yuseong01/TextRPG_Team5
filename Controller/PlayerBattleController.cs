@@ -44,35 +44,6 @@ namespace week3.Model
                 Console.WriteLine("매니저의 눈이 번뜩이며 평소보다 강한 공격이 들어온다!");
             }
             player.TakeDamage(damage);
-        }
-
-        public void ApplyEquipmentStats(Item item)
-        {
-            if(item.Type == "무기")
-            {
-                int value = item.Value;
-                player.AddAttackPower(value);
-            }
-            else if(item.Type == "방어구")
-            {
-                int value = item.Value;
-                player.AddDefensePower(value);
-            }
-        }
-
-        public void RemoveEquipmentStats(Item item)
-        {
-            if (item.Type == "무기")
-            {
-                int value = item.Value;
-                player.RemoveAttackPower(value);
-            }
-            else if (item.Type == "방어구")
-            {
-                int value = item.Value;
-                player.RemoveDefensePower(value);
-            }
-        }
-
+        }        
     }
 }

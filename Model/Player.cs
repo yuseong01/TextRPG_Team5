@@ -2,8 +2,8 @@
 {
     public class Player
     {
-        InventoryManager inventory;
-        UIManager ui;
+        UIManager uiManager;
+        public InventoryManager inventoryManager = new InventoryManager();
 
         public string Name { get; private set; }
         public int Attack { get; private set; }
@@ -20,8 +20,10 @@
 
 
         //초기 스탯 설정
-        public Player()
+        public Player(UIManager uiManager)
         {
+            this.uiManager = uiManager;
+
             Attack = 10 + AdditionalAttackPower;
             Defense = 5 + AdditionalDefensePower;
             AdditionalAttackPower = 0;
@@ -38,7 +40,7 @@
             while (true)
             {
                 Console.Clear();
-                ui.ShowStatus();
+                uiManager.ShowStatus(this);
                 int inputNum = InputManager.GetInt(0, 0);
                 break;
             }
@@ -135,6 +137,34 @@
             IsPlayerAlive = false;
             return;
             // 시작화면? 호출? 적절한 메서드 호출하기.
+        }
+
+        public void ApplyEquipmentStats(Item item)
+        {
+            if(item.Type == "무기")
+            {
+                int value = item.Value;
+                AddAttackPower(value);
+            }
+            else if(item.Type == "방어구")
+            {
+                int value = item.Value;
+                AddDefensePower(value);
+            }
+        }
+
+        public void RemoveEquipmentStats(Item item)
+        {
+            if (item.Type == "무기")
+            {
+                int value = item.Value;
+                RemoveAttackPower(value);
+            }
+            else if (item.Type == "방어구")
+            {
+                int value = item.Value;
+                RemoveDefensePower(value);
+            }
         }
     }
 }

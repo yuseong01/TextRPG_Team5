@@ -10,8 +10,7 @@ namespace week3
         UIManager uiManager= new UIManager();
         Player player;
         MapManager mapManager;
-        InventoryManager inventoryManager = new InventoryManager();
-        Shop shop = new Shop();
+        Shop shop;
         BossMonster_Battle bossBattle = new BossMonster_Battle();
         MonsterBattleManager monsterBattleManager;
         
@@ -19,6 +18,7 @@ namespace week3
         {
             //gameIntroUI = new GameIntroUI(soundManager);
             player = new Player();
+            shop = new Shop(player);
             monsterBattleManager = new MonsterBattleManager(player);
             mapManager = new MapManager(uiManager,player, inventoryManager, shop, monsterBattleManager);
         }

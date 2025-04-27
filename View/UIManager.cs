@@ -6,10 +6,9 @@ namespace week3
 {
     public class UIManager
     {
-        Player player;
         BossMonster_Data boss;
         // 플레이어 관련
-        public void ShowStatus()
+        public void ShowStatus(Player player)
         {
             Console.WriteLine($"이름: {player.Name}");
             Console.WriteLine($"체력 : {player.CurrentHp}");
