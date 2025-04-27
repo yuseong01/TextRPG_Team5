@@ -18,8 +18,7 @@ namespace week3
         public string Question { get; private set; }
         public string CorrectAnswer { get; private set; } 
 
-        public int MaxHealth { get; private set; } 
-        public int CurrentHealth { get; private set; } 
+        public int Hp { get; set; } 
         public int AttackPower { get; private set; } 
         public int Defense { get; private set; } 
         public int ExperienceReward { get; private set; } 
@@ -28,13 +27,12 @@ namespace week3
         public void Defeat() => IsDefeated = true;
 
 
-        public Monster(string name, MonsterType type , string question, string correctAnswer, int maxHealth= 100, int attackPower = 10, int defense = 5, int expReward = 20 ) //수정중
+        public Monster(string name, MonsterType type , string question, string correctAnswer, int hp, int attackPower, int defense, int expReward) 
         {
             Name = name;
             Type = type;
             Question = question;
-            MaxHealth = maxHealth;
-            CurrentHealth = maxHealth;
+            Hp = hp;
             AttackPower = attackPower;
             Defense = defense;
             ExperienceReward = expReward;

@@ -15,6 +15,7 @@ namespace week3
     // 몬스터를 관리하는 매니저 클래스
     public class MonsterBattleManager
     {
+        Player player;
         PlayerBattleController playerBattleController;
         Random random = new Random();
         List<Monster> normalMonsters = new List<Monster>(); //-lv.2 lv4 lv10 lv6  <-한전투에 계속 등장할 애들 (랜덤값으로 1-4마리가 나와요)  
@@ -25,28 +26,30 @@ namespace week3
 
         public MonsterBattleManager(Player player)
         {
+            this.player=player;
             playerBattleController = new PlayerBattleController(player);
             timer = new Timer();
-            timer.AutoReset = false; 
+            timer.AutoReset = false;
 
-            normalMonsters.Add(new Monster("컴파일에러(CS1002)", MonsterType.Normal, Constants.MONSTER1_QUESTION, ";", 39, 12, 9));
-            normalMonsters.Add(new Monster("극한의 대문자 E", MonsterType.Normal, Constants.MONSTER2_QUESTION, "protected", 21, 17, 11));
-            normalMonsters.Add(new Monster("※△ㅁ쀓?뚫.뚫/딻?띫", MonsterType.Normal, Constants.MONSTER3_QUESTION, "FindNumberOptimized -> FindNumber", 45, 10, 16));
-            normalMonsters.Add(new Monster("{name}", MonsterType.Normal, Constants.MONSTER4_QUESTION, "!=", 12, 13, 6));
+            normalMonsters.Add(new Monster("컴파일에러(CS1002)", MonsterType.Normal, Constants.MONSTER1_QUESTION, ";", 39, 12, 9,10));
+            normalMonsters.Add(new Monster("극한의 대문자 E", MonsterType.Normal, Constants.MONSTER2_QUESTION, "protected", 21, 17, 11,10));
+            normalMonsters.Add(new Monster("※△ㅁ쀓?뚫.뚫/딻?띫", MonsterType.Normal, Constants.MONSTER3_QUESTION, "FindNumberOptimized -> FindNumber", 45, 10, 16,10));
+            normalMonsters.Add(new Monster("{name}", MonsterType.Normal, Constants.MONSTER4_QUESTION, "!=", 12, 13, 6,10));
 
-            hardMonsters.Add(new Monster("ZebC□in", MonsterType.Hard, Constants.MONSTER5_QUESTION, "1, 2, 3, 4, 5", 80, 25, 18));
-            hardMonsters.Add(new Monster("{message}", MonsterType.Hard, Constants.MONSTER6_QUESTION, "override", 75, 36, 25));
-            hardMonsters.Add(new Monster("FakeCam", MonsterType.Hard, Constants.MONSTER7_QUESTION, "사과 한 개", 80, 24, 35));
-            hardMonsters.Add(new Monster("Codebraker", MonsterType.Hard, Constants.MONSTER8_QUESTION, "조건 통과!", 60, 28, 15));
+            hardMonsters.Add(new Monster("ZebC□in", MonsterType.Hard, Constants.MONSTER5_QUESTION, "1, 2, 3, 4, 5", 80, 25, 18,10));
+            hardMonsters.Add(new Monster("{message}", MonsterType.Hard, Constants.MONSTER6_QUESTION, "override", 75, 36, 25,10));
+            hardMonsters.Add(new Monster("FakeCam", MonsterType.Hard, Constants.MONSTER7_QUESTION, "사과 한 개", 80, 24, 35,10));
+            hardMonsters.Add(new Monster("Codebraker", MonsterType.Hard, Constants.MONSTER8_QUESTION, "조건 통과!", 60, 28, 15,10));
 
         }
 
-        // 다수 몬스터와 그룹 배틀 시작
         public void StartGroupBattle(Player player, bool isNormalMonster)
         {
             List<Monster> randomMonsters = GetRandomMonsters(isNormalMonster);
             while (true)
             {
+                Thread.Sleep(700);
+                Console.Clear();
                 Console.WriteLine("===== [전투 시작] =====");
 
                 DisplayMonsters(randomMonsters); // 현재 살아있는 몬스터 보여주기
@@ -54,8 +57,7 @@ namespace week3
 
                 if (AskQuestion(target))
                 {
-                    Console.WriteLine($"[공격] {target.Name}에게 데미지!");
-                    target.Defeat(); // 맞췄으면 몬스터 처치
+                    Attack(target);
                 }
                 else
                 {
@@ -64,18 +66,17 @@ namespace week3
                 // 살아있는 모든 몬스터가 순서대로 플레이어 공격
                 foreach (var monster in randomMonsters.Where(m => !m.IsDefeated))
                 {
-                    MonsterAttack(player, monster); 
-                    if (!player.IsPlayerAlive) 
+                    MonsterAttack(player, monster);
+                    if (!player.IsPlayerAlive)
                     {
-                        Console.WriteLine("===== [패배....] =====");
-                        Console.WriteLine("안타깝게도 당신은 영원히 Zeb세상에 살게되었습니다..."); //이거 나중에 UI함수 호출해서 출력하면 좋을듯
-                        return; // 플레이어 사망 시 게임종료
+                        player.Die();
                     }
-                    
+
                 }
-                if(randomMonsters.Any(monster => !monster.IsDefeated) && player.IsPlayerAlive)
+                if (randomMonsters.Any(monster => !monster.IsDefeated) && player.IsPlayerAlive)
                 {
                     Console.WriteLine("전투 승리!");
+                    RewardPlayer(player);
                     break;
                 }
             }
@@ -111,7 +112,7 @@ namespace week3
                 }
                 else
                 {
-                    Console.WriteLine($"[{i + 1}] {monsters[i].Name}(HP: {monsters[i].CurrentHealth})");
+                    Console.WriteLine($"[{i + 1}] {monsters[i].Name}(HP: {monsters[i].Hp})");
                 }
             }
         }
@@ -139,62 +140,30 @@ namespace week3
         private bool AskQuestion(Monster monster)
         {
             Console.WriteLine($"\n{monster.Name}의 문제: {monster.Question}");
-            Console.Write("정답 입력(5초 제한):");
-
-            timeOver = false;
-            timer = new Timer(5000);
-            timer.Elapsed += OnTimedEvent;
-            timer.AutoReset = false; // 반복 호출 금지 (한 번만)
-            timer.Start();
-
+            Console.Write("정답 입력:");
+            
             string input = Console.ReadLine();
-            timer.Stop();
-
-            if (timeOver)
-            {
-                Console.WriteLine("\n 시간 초과! 자동으로 오답 처리됩니다.");
-                return false;
-            }
 
             return input == monster.CorrectAnswer;
-
         }
 
-        private void OnTimedEvent(object source, ElapsedEventArgs eventArgs)
+        public void Attack(Monster monster)
         {
-            timeOver = true;
-        }
+            double errorRange = player.Attack * 0.1;
+            int error = (int)Math.Ceiling(errorRange); // 소수점은 무조건 올림
 
-        // 플레이어가 공격하는 메인 함수
-        public void PlayerAttack(Player player, Monster monster)
-        {
-            Console.WriteLine($"{monster.Name}의 질문: {monster.Question}");
-            Console.Write("당신의 답변 (5초 제한): ");
+            Random random = new Random();
+            int finalAttack = random.Next(player.Attack - error, player.Attack + error + 1); 
 
-            timeOver = false;
-            timer.Start();
-            string input = Console.ReadLine();
-            timer.Stop();
+            monster.Hp -= finalAttack;
 
-            if (timeOver)
-                input = "";
-
-            lastAnswerCorrect = (input == monster.CorrectAnswer);
-
-            if (lastAnswerCorrect)
-            {
-                Console.WriteLine("[정답] 몬스터를 물리쳤습니다!");
-                RewardPlayer(player); // [추가] : 보상 지급 함수 분리
-
-                monster.Defeat();
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine($"[] {monster.Name} 처치 완료!");
-                Console.ResetColor();
+            if (monster.Hp <= 0){
+                monster.Hp = 0; 
+                monster.Defeat(); // 맞췄으면 몬스터 처치
             }
-            else
-            {
-                Console.WriteLine("[오답] 공격을 실패했습니다");
-            }
+
+            Console.WriteLine($"플레이어가 {monster.Name}에게 {finalAttack}의 데미지를 입혔습니다!");
+            Console.WriteLine($"{monster.Name}몬스터의 남은 체력: {monster.Hp}");
         }
 
         private void RewardPlayer(Player player)

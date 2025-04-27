@@ -94,7 +94,6 @@
             AdditionalDefensePower += value;
         }
 
-        //스탯 감소 메서드
         public void TakeDamage(int value)
         {
             CurrentHp -= value;
@@ -116,28 +115,14 @@
             AdditionalDefensePower -= value;
         }
 
-        //정신력 감소 메서드
-        public void ReduceSpirit(int value)
-        {
-            Spirit -= value;
-            if (Spirit < 0)
-            {
-                Spirit = 0;
-                Die();
-            }
-
-            Console.WriteLine($"[전투] {Name}의 정신력 - {value} (현재: {Spirit})");
-        }
-
-
-        //사망 판정
         public void Die()
         {
             Console.WriteLine("... 몸이 점점 무거워지고 눈 앞이 흐려진다... 출석... 해야하는데...");
+            Console.WriteLine("안타깝게도 당신은 영원히 Zeb세상에 살게되었습니다..."); //이거 나중에 UI함수 호출해서 출력하면 좋을듯
             Console.WriteLine("GAME OVER");
+            Thread.Sleep(700);
             IsPlayerAlive = false;
             return;
-            // 시작화면? 호출? 적절한 메서드 호출하기.
         }
 
         public void ApplyEquipmentStats(Item item)
