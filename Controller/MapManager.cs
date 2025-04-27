@@ -114,7 +114,9 @@ public class MapManager
                 Console.WriteLine(mapObjects[choose].Description);
                 Thread.Sleep(1000);
                 ActivateObject(mapObjects[choose]);
-                mapObjects[choose].IsOpen = true;
+
+                if (mapObjects[choose] == mapObjects[3] || mapObjects[choose] == mapObjects[4] || mapObjects[choose] == mapObjects[5])
+                    mapObjects[choose].IsOpen = true;
             }
         }
     }
@@ -135,6 +137,7 @@ public class MapManager
         }
         else
         {
+
             if (map.mapObjectList[3].IsOpen && map.mapObjectList[4].IsOpen)
             {
                 CanExit();
