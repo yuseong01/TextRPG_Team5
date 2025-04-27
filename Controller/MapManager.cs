@@ -111,13 +111,12 @@ public class MapManager
             }
             else
             {
-                Console.WriteLine(mapObjects[choose].Description);
-                Thread.Sleep(1000);
                 ActivateObject(mapObjects[choose]);
-
-                if (mapObjects[choose] == mapObjects[3] || mapObjects[choose] == mapObjects[4] || mapObjects[choose] == mapObjects[5])
-                    mapObjects[choose].IsOpen = true;
+                mapObjects[choose].IsOpen = true;
             }
+
+            if ((mapObjects[choose] == mapObjects[0]) || (mapObjects[choose] == mapObjects[1]) || (mapObjects[choose] == mapObjects[2]))
+                mapObjects[choose].IsOpen = false;
         }
     }
 
@@ -194,14 +193,15 @@ public class MapManager
             Console.WriteLine("진행하려면 [Enter]를 입력하세요");
             Console.ReadLine();
         }
-        
+
     }
 
 
 
     public void ActivateObject(MapObject mapObject)
     {
-        Console.WriteLine(mapObject.Description);
+                Console.WriteLine(mapObject.Description);
+                Thread.Sleep(1000);
         switch (mapObject.ObjectType)
         {
             case ObjectType.PlayerStat:
