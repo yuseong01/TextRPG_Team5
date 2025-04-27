@@ -5,7 +5,7 @@ namespace week3
     public class InventoryManager
     {
         Item item;
-        PlayerController playerController;
+        PlayerBattleController playerBattleController;
         BossMonster_Battle battle;
 
         //여기에 아이템이 있으면 "if 아이템있음?이렇게" 전투에서 사용 
@@ -52,11 +52,11 @@ namespace week3
                 
                 if(item.IsEquip)
                 {
-                    playerController.ApplyEquipmentStats(item);
+                    playerBattleController.ApplyEquipmentStats(item);
                 }
                 else
                 {
-                    playerController.RemoveEquipmentStats(item);
+                    playerBattleController.RemoveEquipmentStats(item);
                 }
             }
             else if(ItemData[itemIndex].Type == "회복")
