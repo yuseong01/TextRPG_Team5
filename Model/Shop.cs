@@ -4,7 +4,7 @@ namespace week3
 {
     public class Shop
     {
-        List<Item> shopItems= new List<Item>();
+        List<Item> shopItems = new List<Item>();
         Player player;
 
         int number;
@@ -13,7 +13,7 @@ namespace week3
         {
             this.player = player;
             // 초기 상점 아이템 구성
-            for(int i = 0; i < ItemData.Count; i++)
+            for (int i = 0; i < ItemData.Count; i++)
             {
                 shopItems.Add(ItemData[i]);
             }
@@ -21,12 +21,12 @@ namespace week3
 
         public void ShowShop() // shop 입장 메서드
         {
-            while(true)
+            while (true)
             {
-            AllShopItemList();
-            int inputNum = InputManager.GetInt(0, shopItems.Count);
-            if (inputNum == 0) break;
-            BuyItem(inputNum - 1);
+                AllShopItemList();
+                int inputNum = InputManager.GetInt(0, shopItems.Count);
+                if (inputNum == 0) break;
+                BuyItem(inputNum - 1);
             }
         }
 
@@ -39,10 +39,25 @@ namespace week3
 
             for (int i = 0; i < shopItems.Count; i++)
             {
+                string valueText = "";
                 Item item = shopItems[i];
+                if (shopItems[i].Type == "무기")
+                {
+                    valueText = $"공격력 +{shopItems[i].Value}";
+                }
+                else if (shopItems[i].Type == "방어구")
+                {
+                    valueText = $"방어력 +{shopItems[i].Value}";
+                }
+                else if (shopItems[i].Type == "회복")
+                {
+                    valueText = $"회복 +{shopItems[i].Value}";
+                }
+
                 string isSold = (shopItems[i].IsSold) ? "판매 완료" : $"{item.Price,-4}";
-                 
-                Console.WriteLine($"{i + 1}. {item.Name,-10}| {item.Description,-30}|({item.Price,-4}G)");
+
+                Console.WriteLine($"{i + 1}. {item.Name,-10}|{valueText}| {item.Description,-30}|({item.Price,-4}G)");
+                Console.WriteLine();
             }
             Console.WriteLine("구매를 원하시는 아이템의 번호를 입력해 주세요.\n나가고 싶으시다면 0을 눌러주세요.");
         }
@@ -78,17 +93,17 @@ namespace week3
 
         public void AddItem(int itemIndex)
         {
-            if(ItemData[itemIndex].Type=="보스")
+            if (ItemData[itemIndex].Type == "보스")
             {
                 player.inventoryManager.bossBattleItemList.Add(ItemData[itemIndex]);
             }
-            else if(ItemData[itemIndex].Type=="회복")
+            else if (ItemData[itemIndex].Type == "회복")
             {
-                player.inventoryManager.nomalBattleItemList.Add(ItemData[itemIndex]);
+                player.inventoryManager.healItemList.Add(ItemData[itemIndex]);
             }
             else
             {
-                player.inventoryManager.playerItems.Add(ItemData[itemIndex]);
+                player.inventoryManager.epuipItemList.Add(ItemData[itemIndex]);
             }
             Console.WriteLine($"{ItemData[itemIndex].Name}을(를) 인벤토리에 추가했습니다.");
         }
