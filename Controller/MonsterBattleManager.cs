@@ -13,9 +13,9 @@ using week3.Model; // 이름 충돌 방지용 별칭
 namespace week3
 {
     // 몬스터를 관리하는 매니저 클래스
-    public class MonsterManager
+    public class MonsterBattleManager
     {
-        private PlayerBattleController playerBattleController = new PlayerBattleController(); // 플레이어 행동(방어 등)을 조작하기 위한 컨트롤러 (현재 연결이 안 돼 있음)
+        PlayerBattleController playerBattleController;
         Random random = new Random();
         List<Monster> normalMonsters = new List<Monster>(); //-lv.2 lv4 lv10 lv6  <-한전투에 계속 등장할 애들 (랜덤값으로 1-4마리가 나와요)  
         List<Monster> hardMonsters = new List<Monster>();
@@ -23,8 +23,12 @@ namespace week3
         private bool timeOver = false; // 타이머 초과 여부 확인용
         protected bool lastAnswerCorrect; // 마지막 문제 정답 여부 저장
 
-        public MonsterManager()
+        public MonsterBattleManager(Player player)
         {
+            playerBattleController = new PlayerBattleController(player);
+            timer = new Timer();
+            timer.AutoReset = false; 
+
             normalMonsters.Add(new Monster("컴파일에러(CS1002)", MonsterType.Normal, Constants.MONSTER1_QUESTION, ";", 39, 12, 9));
             normalMonsters.Add(new Monster("극한의 대문자 E", MonsterType.Normal, Constants.MONSTER2_QUESTION, "protected", 21, 17, 11));
             normalMonsters.Add(new Monster("※△ㅁ쀓?뚫.뚫/딻?띫", MonsterType.Normal, Constants.MONSTER3_QUESTION, "FindNumberOptimized -> FindNumber", 45, 10, 16));

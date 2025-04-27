@@ -12,6 +12,11 @@ namespace week3.Model
         Player player;
         Random random = new Random();
 
+        public PlayerBattleController(Player player)
+        {
+            this.player=player;
+        }
+        
         // 몬스터 데미지
         public void TakeDamageWithDefense(int damage)
         {

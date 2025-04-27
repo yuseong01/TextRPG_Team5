@@ -1,4 +1,5 @@
-﻿using static week3.UIManager;
+﻿using week3.Model;
+using static week3.UIManager;
 
 namespace week3
 {
@@ -12,6 +13,7 @@ namespace week3
         InventoryManager inventoryManager = new InventoryManager();
         Shop shop = new Shop();
         BossMonster_Battle bossBattle = new BossMonster_Battle();
+        MonsterBattleManager monsterBattleManager;
         
         
         public GameManager() 
@@ -19,6 +21,7 @@ namespace week3
             //gameIntroUI = new GameIntroUI(soundManager);
             player = new Player();
             mapManager = new MapManager(uiManager,player, inventoryManager, shop);
+            monsterBattleManager = new MonsterBattleManager(player);
         }
         public void GameStart() 
         {
