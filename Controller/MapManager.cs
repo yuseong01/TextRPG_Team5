@@ -121,7 +121,7 @@ public class MapManager
         {
             Thread.Sleep(700);
             Console.WriteLine("복도이다");
-            //passageMapFlow(); //이거 하면 복도 시작됨
+            passageMapFlow(); //이거 하면 복도 시작됨
             map.isClear = true;
         }
         else
