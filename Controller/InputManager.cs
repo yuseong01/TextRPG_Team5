@@ -15,6 +15,7 @@ namespace week3
                 Thread.Sleep(700);
 
                 Console.Write("\n번호를 선택해주세요. >");
+                Console.ResetColor();
                 string input = Console.ReadLine();
                 bool isNumber = int.TryParse(input, out int value);
 
