@@ -165,7 +165,7 @@
         {
             CurrentHp -= value;
 
-            if (CurrentHp < 0)
+            if (CurrentHp <= 0)
             {
                 CurrentHp = 0;
                 Die();

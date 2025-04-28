@@ -242,23 +242,22 @@ namespace week3
 
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("번호를 선택해주세요. >");
             Console.ResetColor();
 
-            // ✅ 입력 받을 때마다 효과음 재생
-            while (true)
-            {
-                var keyInfo = Console.ReadKey(true);
-                soundManager.PlayOnceForce("enterKey.wav");
+           //// ✅ 입력 받을 때마다 효과음 재생
+           //while (true)
+           //{
+           //    var keyInfo;
+           //    soundManager.PlayOnceForce("enterKey.wav");
 
-                if (keyInfo.Key == ConsoleKey.D1 || keyInfo.Key == ConsoleKey.NumPad1 ||
-                    keyInfo.Key == ConsoleKey.D2 || keyInfo.Key == ConsoleKey.NumPad2 ||
-                    keyInfo.Key == ConsoleKey.D3 || keyInfo.Key == ConsoleKey.NumPad3 ||
-                    keyInfo.Key == ConsoleKey.D4 || keyInfo.Key == ConsoleKey.NumPad4)
-                {
-                    break;
-                }
-            }
+           //    if (keyInfo.Key == ConsoleKey.D1 || keyInfo.Key == ConsoleKey.NumPad1 ||
+           //        keyInfo.Key == ConsoleKey.D2 || keyInfo.Key == ConsoleKey.NumPad2 ||
+           //        keyInfo.Key == ConsoleKey.D3 || keyInfo.Key == ConsoleKey.NumPad3 ||
+           //        keyInfo.Key == ConsoleKey.D4 || keyInfo.Key == ConsoleKey.NumPad4)
+           //    {
+           //        break;
+           //    }
+           //}
         }
     }
 }
