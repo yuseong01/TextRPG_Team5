@@ -242,7 +242,6 @@ namespace week3
 
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.White;
-            Console.ResetColor();
 
            //// ✅ 입력 받을 때마다 효과음 재생
            //while (true)
