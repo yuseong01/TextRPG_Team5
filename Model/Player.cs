@@ -4,6 +4,14 @@
     {
         UIManager uiManager;
         public InventoryManager inventoryManager;
+        public static volatile bool stopFlicker = false;
+        public static volatile bool stopLED = false;
+        public SoundManager soundManager;
+        public Thread? flickerThread;
+        public bool isFlickering = false;
+        public TextEffect textEffect = new TextEffect();
+
+        
 
         public string Name { get; private set; }
         public int Attack { get; private set; }
@@ -15,8 +23,6 @@
         public int Gold { get; private set; }
         public int ZebCoin { get; set; }
         public bool IsPlayerAlive { get; private set; }
-
-
 
         //초기 스탯 설정
         public Player(UIManager uiManager)
@@ -49,10 +55,70 @@
         //이름 들고오는 함수
         public void GetPlayerName()
         {
-            Console.Write("당신의 이름은? : ");
-            string name = Console.ReadLine();
-            Name = name;
+            TextEffect textEffect = new TextEffect();
+            SoundManager soundManager = new SoundManager();
+
+            Console.Clear();
+            Console.SetWindowSize(120, 40);
+            Console.SetBufferSize(120, 40);
+            Console.CursorVisible = true;
+
+            textEffect.BeginTextSet();
+
+            soundManager.PlayLoopExWithCut("musicbox", "musicbox.wav", 7.2, 0.6f); // ✅ 7.2초 루프 배경음
+
+            string prompt = "당신의 이름은?";
+            int promptX = (Console.WindowWidth - textEffect.GetVisualWidth(prompt)) / 2;
+            int promptY = Console.WindowHeight / 2 - 1;
+
+            Console.SetCursorPosition(promptX, promptY);
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(prompt);
+            Console.ResetColor();
+
+            string nameInput = "";
+            int inputY = promptY + 2;
+
+            while (true)
+            {
+                int inputX = (Console.WindowWidth - textEffect.GetVisualWidth(nameInput)) / 2;
+                Console.SetCursorPosition(inputX, inputY);
+
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                soundManager.PlayOnce("enterKey.wav"); // ✅ 키 누를 때마다 효과음
+
+                if (keyInfo.Key == ConsoleKey.Enter)
+                {
+                    if (!string.IsNullOrWhiteSpace(nameInput))
+                    {
+                        break; // 입력 완료
+                    }
+                }
+                else if (keyInfo.Key == ConsoleKey.Backspace && nameInput.Length > 0)
+                {
+                    nameInput = nameInput[..^1];
+                }
+                else if (!char.IsControl(keyInfo.KeyChar))
+                {
+                    nameInput += keyInfo.KeyChar;
+                }
+
+                // 입력창 다시 그리기 (이름 재중앙정렬)
+                int clearLineX = (Console.WindowWidth - textEffect.GetVisualWidth(new string(' ', 30))) / 2;
+                Console.SetCursorPosition(clearLineX, inputY);
+                Console.Write(new string(' ', 30)); // 최대 30칸 클리어
+
+                inputX = (Console.WindowWidth - textEffect.GetVisualWidth(nameInput)) / 2;
+                Console.SetCursorPosition(inputX, inputY);
+                Console.Write(nameInput);
+            }
+
+            soundManager.StopAllLoopEx(); // ✅ 배경음 끄기
+            Name = nameInput.Trim();
+
+            Console.Clear();
         }
+
 
 
         // 보상 시스템
@@ -99,7 +165,7 @@
         {
             CurrentHp -= value;
 
-            if (CurrentHp < 0)
+            if (CurrentHp <= 0)
             {
                 CurrentHp = 0;
                 Die();

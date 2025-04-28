@@ -81,6 +81,42 @@ namespace week3
         }
 
         // ========================================
+        // 🎶 키 입력 전용 - 빠른 단발성 사운드 (PlayOnceForce)
+        // ========================================
+        public void PlayOnceForce(string fileName)
+        {
+            try
+            {
+                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sounds", fileName);
+
+                if (!File.Exists(path))
+                {
+                    Console.WriteLine($"[사운드 오류] 파일 없음: {fileName}");
+                    return;
+                }
+
+                var audio = new AudioFileReader(path);
+                var player = new WaveOutEvent();
+
+                player.Init(audio);
+                player.Play();
+
+                // 🔥 별도 관리 - 0.5초 후 리소스 강제 해제
+                Task.Run(async () =>
+                {
+                    await Task.Delay(500); // (enterKey.wav 같은 짧은 소리용)
+                    audio.Dispose();
+                    player.Dispose();
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[사운드 재생 에러] " + ex.Message);
+            }
+        }
+
+
+        // ========================================
         // 🐦 사운드 - 루프 재생 (페이드 인 포함)
         // ========================================
         private IWavePlayer? birdPlayer;
@@ -294,17 +330,43 @@ namespace week3
             }
             multiLoops.Clear();
         }
+
+        // 🟣 추가 - "7.2초 루프" 버전
+        public void PlayLoopExWithCut(string key, string fileName, double loopSeconds, float volume = 1.0f)
+        {
+            StopLoopEx(key);
+
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Sounds", fileName);
+            if (!File.Exists(path))
+            {
+                Console.WriteLine($"[사운드 오류] 파일 없음: {fileName}");
+                return;
+            }
+
+            var fileReader = new AudioFileReader(path);
+            fileReader.Volume = volume;
+
+            var stream = new LoopStream(fileReader, loopSeconds); // 💬 여기에 7.2초 지정
+            var player = new WaveOutEvent();
+            player.Init(stream);
+            player.Play();
+
+            multiLoops[key] = (player, stream);
+        }
     }
 
     // 🔁 반복 재생을 위한 래퍼 클래스
+    // 수정된 LoopStream
     public class LoopStream : WaveStream
     {
         private readonly WaveStream sourceStream;
+        private readonly TimeSpan loopPoint;
 
-        public LoopStream(WaveStream sourceStream)
+        public LoopStream(WaveStream sourceStream, double loopSeconds = 0)
         {
             this.sourceStream = sourceStream;
             this.EnableLooping = true;
+            this.loopPoint = loopSeconds > 0 ? TimeSpan.FromSeconds(loopSeconds) : TimeSpan.Zero;
         }
 
         public bool EnableLooping { get; set; } = true;
@@ -324,17 +386,21 @@ namespace week3
             while (totalBytesRead < count)
             {
                 int bytesRead = sourceStream.Read(buffer, offset + totalBytesRead, count - totalBytesRead);
-                if (bytesRead == 0)
+
+                if (bytesRead == 0 || (loopPoint != TimeSpan.Zero && sourceStream.CurrentTime >= loopPoint))
                 {
-                    if (sourceStream.Position == 0 || !EnableLooping)
+                    if (!EnableLooping)
                         break;
 
-                    sourceStream.Position = 0;
+                    sourceStream.Position = 0; // 🔁 루프
                 }
+
                 totalBytesRead += bytesRead;
             }
 
             return totalBytesRead;
         }
     }
+
+
 }

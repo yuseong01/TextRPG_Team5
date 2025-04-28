@@ -3,23 +3,25 @@ using static week3.UIManager;
 
 namespace week3
 {
-    public  class GameManager
+    public class GameManager
     {
         SoundManager soundManager = new SoundManager();
         GameIntroUI gameIntroUI;
-        UIManager uiManager= new UIManager();
+        UIManager uiManager = new UIManager();
+
         Player player;
         MapManager mapManager;
         Shop shop;
         MonsterBattleManager monsterBattleManager;
-        
-        public GameManager() 
+
+        public GameManager()
         {
+            uiManager.soundManager = soundManager;
             gameIntroUI = new GameIntroUI(soundManager);
             player = new Player(uiManager);
             shop = new Shop(player);
             monsterBattleManager = new MonsterBattleManager(player);
-            mapManager = new MapManager(uiManager,player, shop, monsterBattleManager);
+            mapManager = new MapManager(uiManager, player, shop, monsterBattleManager);
         }
         public void GameStart() 
         {
