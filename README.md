@@ -4,6 +4,7 @@ TextRPG_Team5
 ![TextRPGIntro](https://github.com/user-attachments/assets/95198989-cee2-42ba-b654-0410887d3da0)
 
 🌟 개요
+
 C#에서 MVC 구조를 적용하여 구현한 TextRPG 프로젝트입니다.
 <img width="843" alt="스크린샷 2025-04-29 오후 7 23 26" src="https://github.com/user-attachments/assets/777af8a9-a8fa-421a-858b-06b7d4e29fac" />
 
